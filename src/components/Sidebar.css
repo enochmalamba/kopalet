@@ -1,0 +1,30 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 300px;
+  height: calc(100vh - var(--header-height));
+  padding: var(--space-md);
+  position: sticky;
+  top: var(--header-height);
+}
+
+.sidebar .sidebar-ad {
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  /* padding: var(--space-md); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-md);
+  overflow: hidden;
+}
+
+.sidebar .sidebar-ad img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

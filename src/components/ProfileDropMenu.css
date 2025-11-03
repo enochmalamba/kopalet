@@ -1,0 +1,101 @@
+.profile-menu-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  position: absolute;
+  top: 110%;
+  right: 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  z-index: 20;
+  width: 200px;
+  height: fit-content;
+  background: var(--surface-alt);
+  transform: scale(0);
+  transform-origin: top right;
+  transition: transform 0.2s ease-in-out;
+}
+.profile-menu-dropdown.visible {
+  transform: scale(1) !important;
+}
+.profile-menu-dropdown .divider {
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-menu-dropdown ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xs);
+  list-style: none;
+  align-items: left;
+  width: 100%;
+}
+
+.profile-menu-dropdown li {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.profile-menu-dropdown .nav-link {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--fs-base);
+  color: var(--text);
+  width: 100%;
+  padding: var(--space-xs) var(--space-xs);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.profile-menu-dropdown .nav-link:hover {
+  background: var(--surface);
+}
+
+.profile-menu-dropdown span {
+  font-size: var(--fs-xl);
+}
+
+.profile-menu-dropdown .ui-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: var(--fs-base);
+  color: var(--text);
+  width: 100%;
+  padding: var(--space-xs) var(--space-2xs);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.profile-menu-dropdown input {
+  display: none;
+}
+
+.ui-select label {
+  cursor: pointer;
+  display: flex;
+  width: 30%;
+  align-items: center;
+  justify-content: space-around;
+  font-size: var(--fs-base);
+  color: var(--text);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.ui-select label:hover {
+  background: var(--surface);
+}
+
+.ui-select label:has(input:checked) {
+  background: var(--primary-bg);
+  color: var(--primary-hover);
+}

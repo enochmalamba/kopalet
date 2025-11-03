@@ -1,0 +1,131 @@
+.job-post {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: min(550px, 100%);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+}
+.job-post-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.job-post-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+.jpa-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.jpa-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.jpa-details .jpa-time {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.jpa-time div {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  color: var(--primary);
+}
+.jpa-time div span {
+  font-size: var(--fs-lg);
+}
+
+.jpa-action {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.jpa-action:hover {
+  background: var(--surface-alt);
+}
+
+.job-post-container {
+  display: flex;
+  align-items: start;
+  gap: var(--space-md);
+  transition: all 0.2s ease-in-out;
+}
+
+.job-post-details {
+  display: flex;
+  align-items: start;
+  gap: var(--space-md);
+}
+.job-post-container .company-logo {
+  width: 70px;
+  height: 70px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.job-post-container .company-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.job-post .job-highlights h2 {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+}
+
+.job-post-actions {
+  display: grid;
+  grid-template-columns: 60% 20% 20%;
+  gap: var(--space-2xs);
+}
+.job-post-actions button,
+.job-post-actions .job-detail-link {
+  all: unset;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.job-post-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  transition: all 0.2s ease-in-out;
+}
+.job-post-actions button:hover {
+  background: var(--surface-alt);
+}
+.job-post-actions .job-detail-link {
+  text-align: center;
+  background: var(--text);
+  color: var(--surface);
+  font-weight: var(--fw-semibold);
+}
+
+.job-post-actions .material-symbols-outlined {
+  font-size: var(--fs-lg);
+}

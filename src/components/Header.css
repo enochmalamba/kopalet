@@ -1,0 +1,74 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  height: var(--header-height);
+  /* overflow: hidden; */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+header .logo img {
+  height: 50px;
+  border-radius: var(--radius-md);
+}
+
+header .actions {
+  gap: var(--space-sm);
+  padding: 0 var(--space-md);
+}
+
+header .actions button {
+  all: unset;
+  border-radius: var(--radius-md);
+  padding: var(--space-2xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  cursor: pointer;
+}
+
+header .actions button:has(div) {
+  padding: var(--space-2xs) var(--space-xs);
+}
+
+header .actions button div {
+  font-weight: var(--fw-semibold);
+}
+
+header .actions button:hover {
+  background: var(--surface);
+}
+header .actions button:active {
+  background: var(--surface-alt);
+}
+
+header .actions button span {
+  font-size: var(--fs-xl);
+}
+
+.header-avatar {
+  cursor: pointer;
+  border-radius: 50%;
+  height: 100%;
+  border: 1px solid var(--border);
+}
+
+.header-avatar img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}

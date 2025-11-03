@@ -1,0 +1,139 @@
+.post {
+  width: 100%;
+  background: var(--surface);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  border-radius: var(--radius-md);
+}
+.post-content {
+  display: flex;
+  align-items: start;
+  gap: var(--space-md);
+}
+.post-author-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.post-author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.post-text {
+  width: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.post-header p.muted-text {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+.post-header p.muted-text span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  color: var(--primary);
+}
+
+.post-header p.muted-text span.post-time {
+  color: var(--muted);
+}
+.post button {
+  all: unset;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.2s ease-in-out;
+}
+.post .post-header-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xs);
+  border-radius: 50%;
+  transition: background 0.2s ease-in-out;
+}
+
+.post .post-header-action:hover {
+  background: var(--surface-alt);
+}
+.post-image {
+  width: 100%;
+}
+
+.post-image img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  object-position: left;
+  border-radius: var(--radius-md);
+}
+.post-actions {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: var(--space-xs) 0;
+  border-radius: var(--radius-md);
+  gap: var(--space-sm);
+}
+.post .post-actions button {
+  all: unset;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+  background: var(--surface-alt);
+}
+
+.post .post-actions button:hover {
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+/* upvote btn states */
+.post button.upvote-btn:hover,
+.post button.upvote-btn.active {
+  background: var(--primary-bg);
+}
+.post button.upvote-btn.active {
+  color: var(--primary-hover);
+}
+
+/* downvote btn states */
+.post button.downvote-btn:hover,
+.post button.downvote-btn.active {
+  background: var(--danger-bg);
+}
+
+.post .vote-actions {
+  display: flex;
+  align-items: center;
+  background: var(--surface-alt);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.post .vote-actions button {
+  border-radius: 0;
+}

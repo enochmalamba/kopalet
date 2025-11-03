@@ -1,0 +1,64 @@
+.input-box-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.input-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-box .input-field {
+  width: 100%;
+  height: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: var(--radius-sm);
+  outline: none;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-normal);
+  background: transparent;
+  color: var(--text);
+  border: 1.4px solid var(--border);
+}
+.input-box .input-field:focus {
+  border: 2px solid var(--border);
+}
+
+.input-box .input-field.error {
+  border-color: var(--danger-hover);
+}
+.input-box .input-field.error label {
+  color: var(--danger) !important;
+}
+
+.input-box label {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  transition: all 0.2s ease-in-out;
+}
+
+.input-box .input-field:focus + label,
+.input-box .input-field:not(:placeholder-shown) + label {
+  top: -13px;
+  font-size: var(--fs-base);
+  padding: 0 var(--space-sm);
+  background: var(--bg);
+}
+
+.form-warning-text {
+  color: var(--accent);
+  font-size: calc(var(--fs-sm) - 2px);
+  font-weight: var(--fw-semibold);
+  display: flex;
+  align-items: center;
+  margin-top: var(--space-sm);
+}
+
+.form-warning-text .lucide {
+  height: 14px;
+  width: 14px;
+  margin-right: 5px;
+}
