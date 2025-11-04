@@ -1,15 +1,20 @@
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 import Header from "../components/Header";
 import Nav from "../components/Nav";
 import "./MainLayout.css";
 import Sidebar from "../components/Sidebar";
 
 function MainLayout() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const handleNavClick = () => {
+    setIsNavOpen(!isNavOpen);
+  };
   return (
     <>
-      <Header />
+      <Header handleNavClick={handleNavClick} />
       <main>
-        <Nav />
+        <Nav isNavOpen={isNavOpen} />
         <section>
           <Outlet />
         </section>

@@ -50,3 +50,55 @@ nav .nav-link span {
 nav .advertise-link .nav-link {
   color: var(--primary);
 }
+
+.nav-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.nav-footer div {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.nav-footer-link {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-footer-link:hover {
+  color: var(--primary);
+}
+
+.nav-footer-link span {
+  font-size: 0.9rem;
+}
+
+.nav-footer p {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+@media (max-width: 1000px) {
+  nav {
+    transform: translateX(-140%);
+    transform-origin: top left;
+    position: fixed;
+    z-index: 20;
+    height: calc(100vh - var(--header-height));
+    top: var(--header-height);
+    left: 0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  nav.visible {
+    transform: translate(0);
+  }
+}

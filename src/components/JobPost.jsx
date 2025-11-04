@@ -16,9 +16,9 @@ function JobPost() {
             <p className="jpa-name">Hamed Henderson</p>
             <p className="jpa-time muted-text">
               <span>3h</span> &bull;{" "}
-              <div>
+              <small>
                 <Icon>campaign</Icon> Vacancy
-              </div>
+              </small>
             </p>
           </div>
         </div>{" "}
@@ -35,18 +35,24 @@ function JobPost() {
             />
           </div>
           <div className="job-highlights">
-            <h2>UX/UI Designer </h2>
+            <h2>UX/UI Designer with 5y+ experience </h2>
             <p>Telekom Networks Malawi (TNM)</p>
             <p className="muted-text">
               <span>Full Time</span> | <span>Malawi</span>
             </p>
           </div>
-        </div>
-      </div>
+        </div>{" "}
+      </div>{" "}
+      {/* <div className="job-post-image">
+        <img
+          src="https://www.escom.mw/wp-content/uploads/2025/02/IMG-20250212-WA0025-1-776x1024.jpg"
+          alt=""
+        />
+      </div> */}
       <div className="job-post-actions">
         <Link className="job-detail-link">Details</Link>
         <button>
-          <Icon>bookmark</Icon> Save
+          <Icon>bookmark</Icon>
         </button>
         <button>
           <Icon>share</Icon>

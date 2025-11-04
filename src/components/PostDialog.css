@@ -1,0 +1,98 @@
+.post-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.post-dialog {
+  width: min(400px, 90%);
+  border-radius: var(--radius-md);
+  background: var(--surface-alt);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.post-dialog h3 {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-normal);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.post-dialog button {
+  all: unset;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2xs);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.post-dialog button:hover {
+  background: var(--surface);
+}
+
+.post-dialog button span {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+}
+
+.post-dialog label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.post-dialog label:hover {
+  background: var(--surface);
+}
+
+.post-dialog label div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.post-dialog input {
+  accent-color: var(--primary);
+}
+
+.post-dialog label:has(input:checked) {
+  border: 1px solid var(--primary);
+  background: var(--primary-bg);
+}
+
+.post-dialog-btns {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-md);
+}
+
+.post-dialog-btns button {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-sm);
+}
+
+.post-dialog-btns button.start-post {
+  background: var(--primary);
+  border-radius: var(--radius-md);
+}

@@ -4,7 +4,7 @@
   gap: var(--space-xs);
   position: absolute;
   top: 110%;
-  right: 0;
+  right: -5px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   z-index: 20;

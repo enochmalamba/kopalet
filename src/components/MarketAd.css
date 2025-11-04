@@ -1,0 +1,61 @@
+.market-ad {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--primary-bg);
+  border-radius: var(--radius-md);
+  width: min(550px, 100%);
+  height: 170px;
+}
+
+.market-ad-details {
+  padding: var(--space-md);
+  width: calc(100% - 170px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.market-ad-details h3 {
+  font-size: var(--fs-xl);
+}
+.market-ad-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md);
+  background: white;
+  color: black;
+  width: fit-content;
+}
+
+.market-ad-img {
+  width: 170px;
+  height: 100%;
+}
+
+.market-ad-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+@media screen and (max-width: 786px) {
+  .market-ad {
+    height: fit-content;
+  }
+  .market-ad-details {
+    width: calc(100% - 120px);
+    padding: var(--space-sm) var(--space-xs);
+  }
+  .market-ad-details h3 {
+    font-size: var(--fs-base);
+  }
+  .market-ad-img {
+    width: 120px;
+  }
+}

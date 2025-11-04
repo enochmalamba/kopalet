@@ -18,6 +18,31 @@ header div {
   justify-content: center;
   height: 100%;
 }
+.header-left {
+  gap: var(--space-xs);
+}
+
+.header-left .menu-button {
+  display: none !important;
+  all: unset;
+  padding: var(--space-2xs);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.header-left .menu-button:hover {
+  background: var(--surface);
+}
+.header-left .menu-button:active {
+  background: var(--surface-alt);
+}
+
+.menu-button span {
+  font-size: var(--fs-xl);
+  font-variation-settings: "FILL" 0, "wght" 800, "GRAD" 0, "opsz" 60;
+  transform: scale(1.2);
+}
 
 header .logo img {
   height: 50px;
@@ -56,7 +81,7 @@ header .actions button:active {
 }
 
 header .actions button span {
-  font-size: var(--fs-xl);
+  font-size: 30px;
 }
 
 .header-avatar {
@@ -71,4 +96,23 @@ header .actions button span {
   width: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+
+@media screen and (max-width: 1000px) {
+  .header-left .menu-button {
+    display: flex !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  :root {
+    --header-height: 60px;
+  }
+  header {
+    padding: var(--space-sm);
+  }
+
+  header button div {
+    display: none;
+  }
 }

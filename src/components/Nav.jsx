@@ -1,60 +1,78 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Icon from "./Icon";
 import "./Nav.css";
 
-function Nav() {
+function Nav({ isNavOpen }) {
   return (
-    <nav>
+    <nav className={`nav ${isNavOpen ? "visible" : ""}`}>
       <ul>
         <li>
-          <Link className="nav-link">
+          <NavLink className="nav-link">
             <Icon>home</Icon>
             Home
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link className="nav-link">
+          <NavLink className="nav-link">
             <Icon>bubble_chart</Icon>
             Communities
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link className="nav-link">
+          <NavLink className="nav-link">
             <Icon>cases</Icon>
             Job Market
-          </Link>
+          </NavLink>
         </li>{" "}
         <li>
-          <Link className="nav-link">
+          <NavLink className="nav-link">
             <Icon>store</Icon>
             Marketplace
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <div className="divider"></div>
       <ul>
         <li>
-          <Link className="nav-link">
+          <NavLink className="nav-link">
             <Icon>bookmark</Icon>
             Saved
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link className="nav-link">
+          <NavLink className="nav-link">
             <Icon>folder_open</Icon>
             Resources
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <div className="divider"></div>
       <ul>
         <li className="advertise-link">
-          <Link className="nav-link">
+          <NavLink className="nav-link">
             <Icon>campaign</Icon>
             Advertise
-          </Link>
+          </NavLink>
         </li>
       </ul>
+      <div className="divider"></div>
+      <div className="nav-footer">
+        <div>
+          <a href="/" className="nav-footer-link">
+            Privacy <Icon>open_in_new</Icon>
+          </a>
+          <a href="/" className="nav-footer-link" target="blank">
+            Terms <Icon>open_in_new</Icon>
+          </a>
+          <a href="/" className="nav-footer-link">
+            About <Icon>open_in_new</Icon>
+          </a>
+          <a href="/" className="nav-footer-link">
+            Help <Icon>open_in_new</Icon>
+          </a>
+        </div>
+        <p>&copy; 2025 Kopalet</p>
+      </div>
     </nav>
   );
 }

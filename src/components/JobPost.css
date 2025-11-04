@@ -37,11 +37,12 @@
   gap: var(--space-2xs);
 }
 
-.jpa-time div {
+.jpa-time small {
   display: flex;
   align-items: center;
   gap: var(--space-2xs);
   color: var(--primary);
+  font-size: var(--fs-md);
 }
 .jpa-time div span {
   font-size: var(--fs-lg);
@@ -92,10 +93,25 @@
 }
 
 .job-post .job-highlights h2 {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-base);
   font-weight: var(--fw-semibold);
 }
 
+.job-post .job-highlights p {
+  font-size: var(--base-font-size);
+  color: var(--muted);
+}
+
+.job-post .job-highlights .job-post-image {
+  width: 100%;
+}
+.job-post-image img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  object-position: left;
+  border-radius: var(--radius-md);
+}
 .job-post-actions {
   display: grid;
   grid-template-columns: 60% 20% 20%;
