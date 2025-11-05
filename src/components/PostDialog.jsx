@@ -1,12 +1,16 @@
 import "./PostDialog.css";
 import Icon from "./Icon";
-function PostDialog() {
+function PostDialog({ isPostDialogOpen, setIsPostDialogOpen }) {
+  const closeDialog = () => setIsPostDialogOpen(false);
   return (
-    <div className="post-dialog-overlay">
+    <div
+      className={`post-dialog-overlay ${isPostDialogOpen && "opened"}`}
+      onClick={closeDialog}
+    >
       {" "}
-      <div className="post-dialog">
+      <div className={`post-dialog ${isPostDialogOpen && "opened"}`}>
         {" "}
-        <button>
+        <button onClick={closeDialog}>
           <Icon>close</Icon>
         </button>
         <h3>What do you want to post?</h3>
@@ -34,7 +38,7 @@ function PostDialog() {
           <input type="radio" name="post_type" id="social_post" />
         </label>
         <div className="post-dialog-btns">
-          <button>Cancel</button>
+          <button onClick={closeDialog}>Cancel</button>
           <button className="start-post">Start</button>
         </div>
       </div>

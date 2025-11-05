@@ -6,14 +6,22 @@ import "./Header.css";
 import ProfileDropMenu from "./ProfileDropMenu";
 function Header({ handleNavClick }) {
   const [isDropDownOpen, setIsdropDownOpen] = useState(false);
+  const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
+
   // const avatarRef = useRef(null);
   const handleProfileClick = () => {
     setIsdropDownOpen(!isDropDownOpen);
   };
+  const handleCreateClick = () => {
+    setIsPostDialogOpen(true);
+  };
 
   return (
     <>
-      <PostDialog />
+      <PostDialog
+        isPostDialogOpen={isPostDialogOpen}
+        setIsPostDialogOpen={setIsPostDialogOpen}
+      />
       <header>
         <div className="header-left">
           <button className="menu-button" onClick={handleNavClick}>
@@ -30,7 +38,7 @@ function Header({ handleNavClick }) {
           <button>
             <Icon>mail</Icon>
           </button>
-          <button>
+          <button onClick={handleCreateClick}>
             <Icon>add_box</Icon>
             <div>Create</div>
           </button>
