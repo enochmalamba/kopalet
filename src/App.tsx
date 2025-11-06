@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import CreateHandle from "./pages/CreateHandle";
 import "./App.css";
 import "./assets/style/auth.css";
 import "./assets/style/formelements.css";
@@ -15,8 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Landing />} />
-            <Route path="home" element={<Home />} />
-
+            <Route path="/home" element={<Home />} />
+            <Route path="/create" element={<CreateHandle />} />
             <Route path="signup" element={<Signup />} />
           </Route>
           <Route path="login" element={<Login />} />
