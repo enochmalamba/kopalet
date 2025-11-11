@@ -33,7 +33,7 @@ function ProfileDropMenu({ isDropDownOpen }) {
           </div> */}
           <div className="ui-select">
             <label htmlFor="device-ui-mode">
-              <Icon>computer</Icon>
+              <Icon>devices</Icon> System mode
               <input
                 type="radio"
                 name="ui-mode"
@@ -43,7 +43,7 @@ function ProfileDropMenu({ isDropDownOpen }) {
               />
             </label>
             <label htmlFor="light-ui-mode">
-              <Icon>wb_sunny</Icon>
+              <Icon>wb_sunny</Icon> Light mode
               <input
                 type="radio"
                 name="ui-mode"
@@ -52,7 +52,7 @@ function ProfileDropMenu({ isDropDownOpen }) {
               />
             </label>
             <label htmlFor="dark-ui-mode">
-              <Icon>dark_mode</Icon>
+              <Icon>dark_mode</Icon> Dark mode
               <input
                 type="radio"
                 name="ui-mode"

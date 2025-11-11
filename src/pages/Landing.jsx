@@ -4,7 +4,6 @@ import MarketAd from "../components/MarketAd";
 function Landing() {
   return (
     <>
-      <MarketAd />
       <Post />
       <JobPost />
       <Post />
@@ -15,6 +14,8 @@ function Landing() {
       <Post />
       <MarketAd />
       <JobPost />
+      <JobPost />
+      <MarketAd />
       <JobPost />
     </>
   );
