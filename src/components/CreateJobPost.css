@@ -1,15 +1,26 @@
-.create-form .mui-input {
+.job-details-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+.job-details-container .mui-input {
   width: 100%;
 }
 
-.create-form .deadline-input-container {
+.job-details-container .deadline-input-container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-xs);
 }
-.create-form .deadline-inputs {
+.job-details-container .deadline-inputs {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-sm);
+}
+
+.job-details-container .mui-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
