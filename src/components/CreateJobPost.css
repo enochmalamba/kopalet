@@ -1,0 +1,15 @@
+.create-form .mui-input {
+  width: 100%;
+}
+
+.create-form .deadline-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+.create-form .deadline-inputs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
