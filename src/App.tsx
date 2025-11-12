@@ -18,9 +18,9 @@ function App() {
             <Route index element={<Landing />} />
             <Route path="/home" element={<Home />} />
             <Route path="/create" element={<CreateHandle />} />
-            <Route path="signup" element={<Signup />} />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
         </Routes>
       </Router>
     </>
