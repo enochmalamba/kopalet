@@ -1,14 +1,14 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 
-const sessionContext = createContext();
+const SessionContext = createContext();
 
 const API_BASE_URL = "https://api.localsketch.xyz";
 
-export const useSession = () => useContext(sessionContext);
+export const useSession = () => useContext(SessionContext);
 
-export const SesssionProvider = ({ children }) => {
+const SessionProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAuthnticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
 
@@ -52,6 +52,54 @@ export const SesssionProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    se;
+    setAuthError(null);
+    try {
+      const data = await apiFetch("/login.php", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      const userData = data.user;
+      setUser(userData);
+      setIsAuthenticated(true);
+    } catch (err) {
+      setAuthError(err.message);
+      console.error(err);
+    }
   };
+  const logout = async () => {
+    setIsLoading(true);
+    try {
+      await apiFetch("/logout", { method: "POST" });
+    } catch (error) {
+      console.warn(
+        "Logout failed on server, but clearing local session.",
+        error
+      );
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkSession();
+  }, []);
+  const contextValues = {
+    user,
+    isAuthenticated,
+    isLoading,
+    authError,
+    login,
+    logout,
+    checkSession,
+  };
+
+  return (
+    <SessionContext.Provider value={contextValues}>
+      {isLoading ? <div>session manager is loading</div> : children}
+    </SessionContext.Provider>
+  );
 };
+
+export default SessionProvider;
