@@ -87,7 +87,7 @@ header .actions button span {
 .header-avatar {
   cursor: pointer;
   border-radius: 50%;
-  height: 100%;
+  height: 35px;
   border: 1px solid var(--border);
 }
 

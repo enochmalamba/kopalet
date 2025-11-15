@@ -1,0 +1,6 @@
+.skeleton-post-top,
+.skeleton-post-reactions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}

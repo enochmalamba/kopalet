@@ -1,8 +1,15 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { createTheme } from "@mui/material";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+} from "react";
+import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const ThemeContext = createContext(null);
-export const useTheme = () => useContext(ThemeContext); // Fixed: was useSession
+export const useTheme = () => useContext(ThemeContext);
 
 const ThemeProvider = ({ children }) => {
   const getStoredTheme = () => {
@@ -46,7 +53,7 @@ const ThemeProvider = ({ children }) => {
 
     const systemListener = () => {
       if (theme === "system") {
-        applyTheme("system"); // Fixed: was passing string "theme"
+        applyTheme("system");
       }
     };
 
@@ -54,9 +61,35 @@ const ThemeProvider = ({ children }) => {
     return () => media.removeEventListener("change", systemListener);
   }, [theme]);
 
+  // Create MUI theme based on resolvedTheme
+  const muiTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: resolvedTheme, // 'light' or 'dark'
+          // Optional: Add custom colors for each mode
+          ...(resolvedTheme === "light"
+            ? {
+                // Light mode customization
+                primary: { main: "#1976d2" },
+                background: { default: "#ffffff", paper: "#f5f5f5" },
+              }
+            : {
+                // Dark mode customization
+                primary: { main: "#90caf9" },
+                background: { default: "#121212", paper: "#1e1e1e" },
+              }),
+        },
+      }),
+    [resolvedTheme]
+  );
+
   return (
     <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
-      {children}
+      <MuiThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };

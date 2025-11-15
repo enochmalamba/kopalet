@@ -12,7 +12,7 @@ function MainLayout() {
   };
   return (
     <>
-      <Header handleNavClick={handleNavClick} />
+      <Header handleNavClick={handleNavClick} isNavOpen={isNavOpen} />
       <main>
         <Nav isNavOpen={isNavOpen} />
         <section>

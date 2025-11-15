@@ -114,6 +114,7 @@
 }
 
 .post-dialog-btns button.start-post {
-  background: var(--primary);
-  border-radius: var(--radius-md);
+  background: var(--text);
+  color: var(--bg);
+  border-radius: var(--radius-sm);
 }

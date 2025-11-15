@@ -35,7 +35,7 @@ const SessionProvider = ({ children }) => {
   const checkSession = async () => {
     setIsLoading(true);
     try {
-      const data = await apiFetch("/me.php", { method: "GET" });
+      const data = await apiFetch("/auth/me.php", { method: "GET" });
       if (data && data.user) {
         setUser(data.user);
         setIsAuthenticated(true);
