@@ -5,10 +5,11 @@
   position: absolute;
   top: 110%;
   right: -5px;
+  border: var(--border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   z-index: 20;
-  width: 220px;
+  width: 250px;
   height: fit-content;
   background: var(--surface-alt);
   transform: scale(0);

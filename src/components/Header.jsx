@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import Icon from "./Icon";
 import PostDialog from "./PostDialog";
@@ -8,7 +9,7 @@ import ProfileDropMenu from "./ProfileDropMenu";
 function Header({ handleNavClick, isNavOpen }) {
   const [isDropDownOpen, setIsdropDownOpen] = useState(false);
   const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
-
+  const navigate = useNavigate();
   // const avatarRef = useRef(null);
   const handleProfileClick = () => {
     setIsdropDownOpen(!isDropDownOpen);
@@ -16,6 +17,8 @@ function Header({ handleNavClick, isNavOpen }) {
   const handleCreateClick = () => {
     setIsPostDialogOpen(true);
   };
+  // navigation clicks
+  const goToMailBox = () => navigate("/mailbox");
 
   return (
     <>
@@ -35,10 +38,7 @@ function Header({ handleNavClick, isNavOpen }) {
           </div>
         </div>
         <div className="actions">
-          {/* <button>
-          <Icon>search</Icon>
-        </button> */}
-          <Tooltip title="Mailbox">
+          <Tooltip title="Mailbox" onClick={goToMailBox}>
             <button>
               <Icon>mail</Icon>
             </button>

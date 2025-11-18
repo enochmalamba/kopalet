@@ -3,6 +3,8 @@ main {
   flex-direction: row;
   gap: var(--space-md);
   justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 section {
   width: min(550px, 100%);

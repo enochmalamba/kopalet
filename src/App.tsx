@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import CreateHandle from "./pages/CreateHandle";
+import MailBox from "./pages/MailBox";
 import "./App.css";
 import "./assets/style/auth.css";
 import "./assets/style/formelements.css";
@@ -18,6 +19,7 @@ function App() {
             <Route index element={<Landing />} />
             <Route path="/home" element={<Home />} />
             <Route path="/create" element={<CreateHandle />} />
+            <Route path="/mailbox" element={<MailBox />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
