@@ -16,3 +16,113 @@ const SocialMeta = ({ title, description, image, url }) => (
     <meta name="twitter:image" content={image} />
   </Helmet>
 );
+
+<?php
+    require '../config.php';
+    require 'auth_library.php';
+    require '../functions/get_logged_user.php';
+
+    $reg_data = json_decode(file_get_contents("php://input"));
+    // If no JSON and running via CLI, parse $argv
+    if (php_sapi_name() === 'cli' && empty($reg_data)) {
+        parse_str(implode('&', array_slice($argv, 1)), $cli_input);
+        $reg_data = (object) $cli_input;
+    }
+
+    $name        = $reg_data->name ?? null;
+    $email       = $reg_data->email ?? null;
+    $password    = $reg_data->password ?? null;
+    $is_verified = 0;
+
+    // default profile data
+    $bio         = "Hey there, I'm using Kopalet!";
+    $avatar      = "default-avatar.png";
+    $cover_photo = "default-cover.jpg";
+
+    if (empty($name)) {
+        $name = explode('@', $email)[0]; // Use part before @ as username
+    }
+
+    if (empty($email) || empty($password)) {
+        http_response_code(400);
+        echo json_encode(["success" => false, "message" => "All fields are required."]);
+        return;
+    }
+
+    try {
+
+        // start transaction
+        $conn->beginTransaction();
+
+        // check if email already exists
+        $check_stmt = $conn->prepare("SELECT * FROM app_users WHERE email = ?");
+        $check_stmt->execute([$email]);
+        if ($check_stmt->fetch()) {
+            $conn->rollBack();
+            http_response_code(409);
+            echo json_encode([
+                "success" => false,
+                "message" => "Email already registered.",
+            ]);
+            return;
+        }
+        // hash password for security
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $register_stmt = $conn->prepare("INSERT INTO app_users (username, email, password_hash, is_verified) VALUES (:username, :email, :password, :is_verified)");
+        $result        = $register_stmt->execute([
+            "username"    => $name,
+            "email"       => $email,
+            "password"    => $hashedPassword,
+            "is_verified" => $is_verified,
+        ]);
+
+        if ($result) {
+            $user_id = $conn->lastInsertId();
+            //if registration is successful, create a profile with default details
+            $profile_stmt   = $conn->prepare("INSERT INTO user_profiles (user_id, bio, avatar, cover_photo) VALUES (:user_id, :bio, :avatar, :cover_photo)");
+            $profile_result = $profile_stmt->execute([
+                "user_id"     => $user_id,
+                "bio"         => $bio,
+                "avatar"      => $avatar,
+                "cover_photo" => $cover_photo,
+            ]);
+            if ($profile_result) {
+                $conn->commit();
+                // fetch the newly created user with profile data
+                $_SESSION['user_id'] = $user_id;
+                create_login_cookie($user_id, $conn);
+                http_response_code(201);
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Account created successfully. Redirecting...",
+                    "user"    => get_logged_user($conn),
+                ]);
+                return;
+            } else {
+                $conn->rollBack();
+                http_response_code(400);
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Something went wrong, please try again.",
+                ]);
+                return;
+            }
+        } else {
+            $conn->rollBack();
+            http_response_code(400);
+            echo json_encode([
+                "success" => false,
+                "message" => "Something went wrong, please try again.",
+            ]);
+            return;
+        }
+
+    } catch (Exception $e) {
+        $conn->rollBack();
+        http_response_code(500);
+        echo json_encode([
+            "success" => false,
+            "message" => "Internal server error: " . $e->getMessage(),
+    ]);
+}

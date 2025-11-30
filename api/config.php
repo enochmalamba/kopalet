@@ -41,10 +41,7 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
     ]);
-    if ($conn) {
-        http_response_code(200);
-        echo json_encode(["success" => true]);
-    }
+
 } catch (PDOException $e) {
     error_log("Database connection failed: " . $e->getMessage());
     http_response_code(500);
@@ -53,4 +50,5 @@ try {
 }
 
 // defining auth things
-define('SESS_COOKIE', 'hell');
+define('SESS_COOKIE', 'sac');
+define('COOKIE_LIFETIME', 86400 * 30);
