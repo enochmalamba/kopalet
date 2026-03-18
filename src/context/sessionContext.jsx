@@ -1,8 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import axiosInstance from "../api/axios";
 
 const SessionContext = createContext();
-
-const API_BASE_URL = "https://api.localsketch.xyz";
 
 export const useSession = () => useContext(SessionContext);
 
@@ -10,53 +9,61 @@ const SessionProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [registeringError, setRegisteringError] = useState(null);
   const [authError, setAuthError] = useState(null);
 
-  const apiFetch = async (endpoint, options = {}) => {
-    const responce = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
-    });
-
-    const data = await responce
-      .json()
-      .catch(() => ({ message: "Server error: Invalid JSON responce" }));
-    if (!responce.ok) {
-      throw new Error(data.message || `HTTP error: Status: ${responce.status}`);
-    }
-
-    return data;
-  };
-
   const checkSession = async () => {
+    console.log("Loading data from server");
     setIsLoading(true);
+
     try {
-      const data = await apiFetch("/auth/me.php", { method: "GET" });
+      const { data } = await axiosInstance.get("/auth/me.php");
       if (data && data.user) {
         setUser(data.user);
+
+        console.log(data);
         setIsAuthenticated(true);
       } else {
+        console.log("not expected but heres the data: ", data);
         setUser(null);
         setIsAuthenticated(false);
       }
     } catch (err) {
+      console.log("something went wrong coz of this:", err);
       setIsAuthenticated(false);
       setUser(null);
     } finally {
       setIsLoading(false);
+      console.log("this is the end of session check");
+    }
+  };
+
+  const createAccount = async (email, password) => {
+    setIsRegistering(true);
+    try {
+      const { data } = await axiosInstance.post("/auth/register.php", {
+        email,
+        password,
+      });
+      console.log(data);
+      setRegisteringError(null);
+    } catch (err) {
+      console.error(err);
+      setRegisteringError(err);
+    } finally {
+      setIsRegistering(false);
     }
   };
 
   const login = async (email, password) => {
     setAuthError(null);
+    setIsLoggingIn(true);
     try {
-      const data = await apiFetch("/login.php", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
+      const { data } = await axiosInstance.post("/auth/login.php", {
+        email,
+        password,
       });
       const userData = data.user;
       setUser(userData);
@@ -64,22 +71,28 @@ const SessionProvider = ({ children }) => {
     } catch (err) {
       setAuthError(err.message);
       console.error(err);
+    } finally {
+      setIsLoggingIn(false);
     }
   };
   const logout = async () => {
     setIsLoading(true);
+
     try {
-      await apiFetch("/logout", { method: "POST" });
+      await axiosInstance.post("/auth/logout.php");
     } catch (error) {
       console.warn(
         "Logout failed on server, but clearing local session.",
-        error
+        error,
       );
-    } finally {
-      setUser(null);
-      setIsAuthenticated(false);
-      setIsLoading(false);
     }
+
+    setUser(null);
+    setIsAuthenticated(false);
+    setIsLoading(false);
+
+    // Optional reload
+    // window.location.reload();
   };
 
   useEffect(() => {
@@ -90,9 +103,13 @@ const SessionProvider = ({ children }) => {
     isAuthenticated,
     isLoading,
     authError,
+    registeringError,
+    isRegistering,
+    isLoggingIn,
+    setIsLoggingIn,
     login,
     logout,
-    checkSession,
+    createAccount,
   };
 
   return (

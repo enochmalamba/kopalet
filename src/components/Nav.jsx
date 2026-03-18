@@ -7,25 +7,25 @@ function Nav({ isNavOpen }) {
     <nav className={`nav ${isNavOpen ? "visible" : ""}`}>
       <ul>
         <li>
-          <NavLink className="nav-link">
+          <NavLink to="/home" className="nav-link">
             <Icon>home</Icon>
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-link">
+          <NavLink to="/communities" className="nav-link">
             <Icon>bubble_chart</Icon>
             Communities
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-link">
+          <NavLink to="/vacancies" className="nav-link">
             <Icon>cases</Icon>
-            Job Market
+            Job Vacancies
           </NavLink>
         </li>{" "}
         <li>
-          <NavLink className="nav-link">
+          <NavLink to="/marketplace" className="nav-link">
             <Icon>store</Icon>
             Marketplace
           </NavLink>
@@ -34,13 +34,13 @@ function Nav({ isNavOpen }) {
       <div className="divider"></div>
       <ul>
         <li>
-          <NavLink className="nav-link">
+          <NavLink to="/saved-items" className="nav-link">
             <Icon>bookmark</Icon>
             Saved
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-link">
+          <NavLink to="/resources" className="nav-link">
             <Icon>folder_open</Icon>
             Resources
           </NavLink>
@@ -49,7 +49,7 @@ function Nav({ isNavOpen }) {
       <div className="divider"></div>
       <ul>
         <li className="advertise-link">
-          <NavLink className="nav-link">
+          <NavLink to="/advertise" className="nav-link">
             <Icon>campaign</Icon>
             Advertise
           </NavLink>

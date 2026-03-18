@@ -1,31 +1,29 @@
-import { useState, useRef } from "react";
+import { useSession } from "../context/sessionContext";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
+import Avatar from "@mui/material/Avatar";
 import Icon from "./Icon";
-import PostDialog from "./PostDialog";
 import "./Header.css";
-import ProfileDropMenu from "./ProfileDropMenu";
+import AvatarMenu from "./AvatarMenu";
 
 function Header({ handleNavClick, isNavOpen }) {
-  const [isDropDownOpen, setIsdropDownOpen] = useState(false);
-  const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
+  const [anchorMenu, setAnchorMenu] = useState(null);
+  const menuOpen = Boolean(anchorMenu);
+
+  const { isAuthenticated, user } = useSession();
   const navigate = useNavigate();
-  // const avatarRef = useRef(null);
-  const handleProfileClick = () => {
-    setIsdropDownOpen(!isDropDownOpen);
-  };
-  const handleCreateClick = () => {
-    setIsPostDialogOpen(true);
+
+  const handleAvatarClick = (e) => {
+    setAnchorMenu(e.currentTarget);
   };
   // navigation clicks
+  const goToCreatePage = () => navigate("/create");
+
   const goToMailBox = () => navigate("/mailbox");
 
   return (
     <>
-      <PostDialog
-        isPostDialogOpen={isPostDialogOpen}
-        setIsPostDialogOpen={setIsPostDialogOpen}
-      />
       <header>
         <div className="header-left">
           <Tooltip title="Toggle Navigation">
@@ -44,24 +42,23 @@ function Header({ handleNavClick, isNavOpen }) {
             </button>
           </Tooltip>
           <Tooltip title="Create post">
-            <button onClick={handleCreateClick}>
+            <button onClick={goToCreatePage}>
               <Icon>add_box</Icon>
               <div>Create</div>
             </button>
           </Tooltip>
           <div className="header-avatar">
-            <Tooltip title="You">
-              <img
-                src="https://ulavi.online/uploads/profiles/enochmalamba.png"
-                alt="User avatar"
-                // ref={avatarRef}
-                onClick={handleProfileClick}
-              />
-            </Tooltip>
-            <ProfileDropMenu
-              isDropDownOpen={isDropDownOpen}
-              // triggerRef={avatarRef}
-              // onClose={() => setIsdropDownOpen(false)}
+            <Avatar
+              src={isAuthenticated ? user.avatar : "/src/assets/user.jpeg"}
+              alt={isAuthenticated ? user.username : "Profile"}
+              onClick={handleAvatarClick}
+              sx={{ width: 30, height: 30 }}
+            />
+
+            <AvatarMenu
+              anchorMenu={anchorMenu}
+              menuOpen={menuOpen}
+              setAnchorMenu={setAnchorMenu}
             />
           </div>
         </div>

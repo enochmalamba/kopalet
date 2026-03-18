@@ -84,19 +84,7 @@ header .actions button span {
   font-size: 30px;
 }
 
-.header-avatar {
-  cursor: pointer;
-  border-radius: 50%;
-  height: 35px;
-  border: 1px solid var(--border);
-}
-
-.header-avatar img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
+ 
 
 @media screen and (max-width: 1000px) {
   .header-left .menu-button {

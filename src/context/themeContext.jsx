@@ -80,8 +80,17 @@ const ThemeProvider = ({ children }) => {
                 background: { default: "#121212", paper: "#1e1e1e" },
               }),
         },
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: "none", // This removes uppercase from all buttons
+              },
+            },
+          },
+        },
       }),
-    [resolvedTheme]
+    [resolvedTheme],
   );
 
   return (

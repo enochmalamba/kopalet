@@ -16,15 +16,18 @@ nav ul {
   flex-direction: column;
   gap: var(--space-sm);
 }
+
 nav .divider {
   width: 100%;
   border-bottom: 1px solid var(--border);
 }
+
 nav ul li {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -35,6 +38,12 @@ nav ul li:hover {
   color: var(--primary);
 }
 
+nav ul li:has(.nav-link.active) {
+  /* border: 1px solid var(--primary-bg); */
+  background: var(--primary-bg);
+}
+
+
 nav .nav-link {
   display: flex;
   align-items: center;
@@ -43,6 +52,7 @@ nav .nav-link {
   font-size: var(--fs-base);
   color: var(--text);
 }
+
 nav .nav-link span {
   font-size: var(--fs-xl);
 }

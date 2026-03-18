@@ -94,7 +94,7 @@
 
 .job-post .job-highlights h2 {
   font-size: var(--fs-base);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-regular);
 }
 
 .job-post .job-highlights p {

@@ -1,116 +1,91 @@
-import TextField from "@mui/material/TextField";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
+import { useSession } from "../context/sessionContext";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Icon from "../components/Icon";
+import { Link, useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const navigate = useNavigate();
+  const { isLoggingIn, isAuthenticated, login, authError } = useSession();
+
+  if (isAuthenticated) {
+    navigate("/home");
+  }
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(email, password);
   };
+
   return (
     <>
-      {/* <div className="auth-container">
-        <form className="auth-form">
-          {" "}
-          <img src="/logo.png" alt="Kopalet wordmark" className="auth-logo" />
-          <h1>Welcome back</h1>
-          <p>Log into your account</p>
-          <TextField
-            label="Enter your email"
-            required
-            variant="outlined"
-            helperText="Enter the email you used to create account"
-          />
-          <button type="submit" className="auth-action-btn">
-            Continue
-          </button>{" "}
-          <p>
-            Don't have an account?{" "}
-            <Link to={"/signup"} className="auth-switch-link">
-              Create
-            </Link>
-          </p>
-        </form>
-        <div className="auth-form-links">
-          <a href="/" target="_blank" className="auth-form-link">
-            Privacy Policy<Icon>open_in_new</Icon>
-          </a>
-          <a href="/" target="_blank" className="auth-form-link">
-            Terms<Icon>open_in_new</Icon>
-          </a>
-          <a href="/" target="_blank" className="auth-form-link">
-            Help<Icon>open_in_new</Icon>
-          </a>
-        </div>
-      </div> */}
       <div className="auth-container">
-        <form className="auth-form">
-          {" "}
-          <img src="/logo.png" alt="Kopalet wordmark" className="auth-logo" />
-          <h1>Log in</h1>
-          <p>To confirm it's you, enter your password</p>
-          <div className="auth-email-preview">
-            <p>
-              <Icon>account_circle</Icon>xml@kopalet.com
-            </p>{" "}
-            <Icon>edit_square</Icon>
-          </div>
-          {/* <TextField label="Enter password" required variant="outlined" /> */}
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? (
-                      <Icon>visibility</Icon>
-                    ) : (
-                      <Icon>visibility_off</Icon>
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
+        {authError ? (
+          <Snackbar
+            autoHideDuration={5000}
+            open={authError}
+            anchorOrigin={{ vertical: "top", horizontal: "centre" }}
+          >
+            <Alert variant="outlined" severity="error">
+              {authError}
+            </Alert>
+          </Snackbar>
+        ) : (
+          ""
+        )}
+        <form onSubmit={handleLogin}>
+          <img src="/wordmark_light.png" alt="Kopalet Wordmark" />
+          <TextField
+            label="Enter email"
+            required
+            disabled={isLoggingIn}
+            variant="outlined"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+          />
+
+          <TextField
+            label="Enter password"
+            required
+            disabled={isLoggingIn}
+            variant="outlined"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+          />
           <p>
-            <Link to={"/"} className="auth-switch-link">
-              Forgot password?
-            </Link>
+            By registering or logging in, you consent to Kopalet's Terms of use
+            and Privacy Policy
           </p>
-          <button type="submit" className="auth-action-btn">
-            Log in
-          </button>{" "}
+          <div className="auth-action-text">
+            <span>
+              <Link color="inherit">Forgot password</Link>
+            </span>
+            <span>
+              <Link to="/signup" color="inherit">
+                Create account
+              </Link>
+            </span>
+          </div>
+          <Button
+            type="submit"
+            variant="contained"
+            loadingPosition="end"
+            loading={isLoggingIn}
+            fullWidth
+          >
+            {isLoggingIn ? "Logging in.." : "Log In"}
+          </Button>
         </form>
-        <div className="auth-form-links">
-          <a href="/" target="_blank" className="auth-form-link">
-            Privacy Policy<Icon>open_in_new</Icon>
-          </a>
-          <a href="/" target="_blank" className="auth-form-link">
-            Terms<Icon>open_in_new</Icon>
-          </a>
-          <a href="/" target="_blank" className="auth-form-link">
-            Help<Icon>open_in_new</Icon>
-          </a>
-        </div>
       </div>
     </>
   );

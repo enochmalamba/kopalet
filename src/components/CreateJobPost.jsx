@@ -157,11 +157,11 @@ const EmployerInformation = () => {
       <div className="company-details-container">
         <h3>2. Company Overview</h3>
         <div>
-          <FormLabel>Company name</FormLabel>
+          <FormLabel>Employer name</FormLabel>
           <TextField variant="outlined" className="mui-input" />
         </div>
         <div>
-          <FormLabel>Company mission/vison</FormLabel>
+          <FormLabel>About the Employer</FormLabel>
           <TextField
             variant="outlined"
             className="mui-input"
@@ -170,16 +170,6 @@ const EmployerInformation = () => {
             maxRows={6}
           />
         </div>{" "}
-        <div>
-          <FormLabel>Company culture</FormLabel>
-          <TextField
-            variant="outlined"
-            className="mui-input"
-            multiline
-            minRows={2}
-            maxRows={6}
-          />
-        </div>
       </div>
     </>
   );
@@ -195,7 +185,7 @@ const CreateJobPost = () => {
 
   return (
     <div className="create-job-post">
-      {/* <JobInformation /> */}
+      <JobInformation />
       <EmployerInformation />
     </div>
   );

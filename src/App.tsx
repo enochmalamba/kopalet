@@ -1,14 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout";
-import Home from "./pages/Home";
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import CreateHandle from "./pages/CreateHandle";
-import MailBox from "./pages/MailBox";
+import MainLayout from "./layouts/MainLayout.jsx";
+import Home from "./pages/Home.jsx";
+import Landing from "./pages/Landing.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
+import CreateHandle from "./pages/CreateHandle.jsx";
+import MailBox from "./pages/MailBox.jsx";
+import Communities from "./pages/Communities.jsx";
+import Vacancies from "./pages/Vacancies.jsx";
+import MarketPlace from "./pages/MarketPlace.jsx";
+
 import "./App.css";
 import "./assets/style/auth.css";
-import "./assets/style/formelements.css";
 
 function App() {
   return (
@@ -20,9 +23,12 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/create" element={<CreateHandle />} />
             <Route path="/mailbox" element={<MailBox />} />
+            <Route path="/communities" element={<Communities />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/marketplace" element={<MarketPlace />} />
           </Route>
           <Route path="/login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </>

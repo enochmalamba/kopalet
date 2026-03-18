@@ -35,7 +35,7 @@ function JobPost() {
             />
           </div>
           <div className="job-highlights">
-            <h2>UX/UI Designer with 5y+ experience </h2>
+            <h2>UX/UI Designer </h2>
             <p>Telekom Networks Malawi (TNM)</p>
             <p className="muted-text">
               <span>Full Time</span> | <span>Malawi</span>

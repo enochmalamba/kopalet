@@ -1,9 +1,11 @@
-.job-details-container {
+.job-details-container,
+.company-details-container {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
-.job-details-container .mui-input {
+.job-details-container .mui-input,
+.company-details-container .mui-input {
   width: 100%;
 }
 

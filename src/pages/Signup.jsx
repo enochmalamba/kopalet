@@ -1,33 +1,57 @@
+import { useSession } from "../context/sessionContext";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Icon from "../components/Icon";
+import Button from "@mui/material/Button";
 function Signup() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
+
+  const { createAccount, isRegistering } = useSession();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    createAccount(email, password);
+  };
+
   return (
     <>
       <div className="auth-container">
-        <form className="auth-form">
+        <form className="auth-form" onSubmit={handleSubmit}>
           <img src="/logo.png" alt="Kopalet wordmark" className="auth-logo" />
           <h1>Join Kopalet</h1>
           <p className="muted-text">Create account to get started</p>
-          <TextField label="Enter email" required variant="outlined" />
-          <TextField label="Create password" required variant="outlined" />
+          <TextField
+            label="Enter email"
+            required
+            disabled={isRegistering}
+            variant="outlined"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="Create password"
+            required
+            disabled={isRegistering}
+            variant="outlined"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          <p>
-            By creating account, you agree to our &nbsp;
-            <Link to={"/login"} className="auth-switch-link">
-              Terms
-            </Link>{" "}
-            and &nbsp;
-            <Link to={"/login"} className="auth-switch-link">
-              Privacy Policy
-            </Link>
-          </p>
-          <button type="submit" className="auth-action-btn">
+          <Button
+            type="submit"
+            fullWidth
+            loading={isRegistering}
+            loadingPosition="end"
+            variant="contained"
+          >
             Create account
-          </button>
+          </Button>
           <p>
             Already have an account? &nbsp;
             <Link to={"/signup"} className="auth-switch-link">
