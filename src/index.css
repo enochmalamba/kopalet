@@ -99,6 +99,11 @@
   white-space: nowrap;
   direction: ltr;
 }
+html,
+body {
+  height: 100%;
+  background: var(--bg);
+}
 
 * {
   padding: 0;

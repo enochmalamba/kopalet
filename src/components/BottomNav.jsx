@@ -60,6 +60,9 @@ function BottomNav() {
         onChange={(event, newPage) => {
           handleNavigation(event, newPage);
         }}
+        sx={{
+          borderTop: "1px solid var(--border)",
+        }}
       >
         <BottomNavigationAction
           label="Home"

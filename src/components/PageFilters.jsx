@@ -14,7 +14,7 @@ const DEFAULT_FILTERS = [
 ];
 
 function PageFilters() {
-  const [activeFilters, setActiveFilters] = useState(["f1"]); // default "All"
+  const [activeFilters, setActiveFilters] = useState(["f1"]);
 
   const handleClick = (filterId) => {
     // single-select logic (more realistic for filters like this)
@@ -24,15 +24,18 @@ function PageFilters() {
   return (
     <Box
       sx={{
-        position: "fixed",
-        zIndex: 10,
-        top: "var(--header-height)",
+        position: "sticky",
+        top: -12,
+        zIndex: 1000,
         backgroundColor: "var(--bg)",
+        // background: "red",
         display: "flex",
         flexWrap: "nowrap",
         overflowX: "auto",
-        gap: 1,
-        p: 1,
+        gap: "var(--space-xs)",
+        borderBottom: "1px solid var(--border)",
+        flexShrink: 0,
+        padding: "var(--space-xs) 0",
       }}
     >
       {DEFAULT_FILTERS.map((filter) => {
