@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import Nav from "../components/Nav";
 import "./MainLayout.css";
 import Sidebar from "../components/Sidebar";
+import BottomNav from "../components/BottomNav";
 
 function MainLayout() {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -19,7 +20,8 @@ function MainLayout() {
           <Outlet />
         </section>
         <Sidebar />
-      </main>
+      </main>{" "}
+      <BottomNav />
     </>
   );
 }

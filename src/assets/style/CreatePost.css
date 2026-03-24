@@ -13,6 +13,7 @@
   background: var(--surface);
   border-radius: var(--radius-md);
   gap: var(--space-xs);
+  margin: var(--space-md) 0;
 }
 
 .upload-preview-card {

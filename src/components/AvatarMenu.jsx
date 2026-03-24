@@ -45,7 +45,7 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
           paper: {
             style: {
               maxHeight: "none",
-              width: "250px",
+              width: "220px",
               padding: "none",
             },
           },

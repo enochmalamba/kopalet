@@ -1,23 +1,24 @@
 import { useState, useRef } from "react";
+import CreatorHeader from "./CreatorHeader.jsx";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-// import Dialog from "@mui/material/Dialog";
-// import DialogActions from "@mui/material/DialogActions";
-// import DialogContent from "@mui/material/DialogContent";
-// import DialogContentText from "@mui/material/DialogContentText";
-// import DialogTitle from "@mui/material/DialogTitle";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import AttachFileOutlinedIcon from "@mui/icons-material/AttachFileOutlined";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import CloseIcon from "@mui/icons-material/Close";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 function CreateGeneralPost() {
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const imageInputRef = useRef(null);
   const docInputRef = useRef(null);
-
-  const [postTitle, setPostTitle] = useState("");
+  const [topicOpen, setTopicOpen] = useState(false);
+  const [postTopic, setPostTopic] = useState("");
   const [postContent, setPostContent] = useState("");
   const [imageAttachments, setImageAttachments] = useState([]);
   const [docAttachments, setDocAttachmentes] = useState([]);
@@ -26,7 +27,7 @@ function CreateGeneralPost() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      !postTitle.trim() &&
+      !postTopic.trim() &&
       !postContent.trim() &&
       imageAttachments.length === 0 &&
       docAttachments.length === 0
@@ -35,7 +36,7 @@ function CreateGeneralPost() {
     }
 
     setIsPosting(true);
-    const title = DOMPurify.sanitize(postTitle).replace(/\n/g, "<br>");
+    const topic = DOMPurify.sanitize(postTopic).replace(/\n/g, "<br>");
     const content = DOMPurify.sanitize(postContent).replace(/\n/g, "<br>");
   };
   const allowedDocTypes = [
@@ -105,6 +106,16 @@ function CreateGeneralPost() {
     const updated = docAttachments.filter((_, i) => i !== index);
     setDocAttachmentes(updated);
   };
+  const handleTopicToggle = () => {
+    if (topicOpen) {
+      setPostTopic("");
+      setTopicOpen(false);
+    }
+    if (!topicOpen) {
+      setTopicOpen(true);
+    }
+  };
+
   return (
     <>
       <form className="create-post-form" onSubmit={handleSubmit}>
@@ -129,99 +140,143 @@ function CreateGeneralPost() {
         />
 
         {/* hidden inputs end */}
-        <TextField
-          label="Title"
-          placeholder="What do you want to talk about"
-          type="text"
-          value={postTitle}
-          onChange={(e) => setPostTitle(e.target.value)}
-          fullWidth
-          disabled={isPosting}
-        />
-
-        <TextField
-          placeholder="Go ahead, share your thoughts, tips, etc"
-          type="text"
-          value={postContent}
-          onChange={(e) => setPostContent(e.target.value)}
-          fullWidth
-          disabled={isPosting}
-          multiline
-          minRows={5}
-        />
-        {imageAttachments.length > 0 && (
-          <div className="create-post-form-upload-preview">
-            {imageAttachments.map((file, index) => (
-              <div className="upload-preview-card" key={index}>
-                <IconButton
-                  size="small"
-                  onClick={() => removeImage(index)}
-                  sx={{
-                    position: "absolute",
-                    top: "4px",
-                    right: "4px",
-                    background: "rgba(0,0,0,0.55)",
-                    zIndex: 2,
-                  }}
-                >
-                  <CloseOutlinedIcon />
-                </IconButton>
-
-                <img src={URL.createObjectURL(file)} alt="" />
-
-                <div className="file-preview-details">
-                  <span>{file.name}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {docAttachments.length > 0 && (
-          <div className="create-post-form-upload-preview">
-            {docAttachments.map((file, index) => (
-              <div className="upload-preview-card" key={index}>
-                <IconButton
-                  size="small"
-                  onClick={() => removeImage(index)}
-                  sx={{
-                    position: "absolute",
-                    top: "4px",
-                    right: "4px",
-                    background: "rgba(0,0,0,0.55)",
-                    zIndex: 2,
-                  }}
-                >
-                  <CloseOutlinedIcon />
-                </IconButton>
-
-                <div className="file-preview-details">
-                  <span>{file.name}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ alignItems: "center", flexWrap: "wrap" }}
+        <Box
+          sx={{
+            width: "100%",
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius-md)",
+            padding: " var(--space-sm) var(--space-xs)",
+          }}
         >
-          <Chip
-            icon={<AddPhotoAlternateOutlinedIcon />}
-            label={`Images (${imageAttachments.length}/4)`}
-            variant="outlined"
-            onClick={() => imageInputRef.current.click()}
-            disabled={docAttachments.length > 0}
+          <CreatorHeader />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "var(--space-xs)",
+              cursor: "pointer",
+              margin: "var(--space-xs) 0",
+            }}
+            onClick={handleTopicToggle}
+          >
+            <IconButton size="small">
+              {topicOpen ? (
+                <CloseIcon sx={{ width: "18px" }} />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+
+            <Typography variant={topicOpen && "caption"}>
+              {topicOpen ? "Remove topic" : "Add topic"}
+            </Typography>
+          </Box>
+          {topicOpen && (
+            <TextField
+              placeholder="Add a topic to your post"
+              type="text"
+              value={postTopic}
+              onChange={(e) => setPostTopic(e.target.value)}
+              fullWidth
+              disabled={isPosting}
+              sx={{ transition: "ease-in .2s" }}
+            />
+          )}
+          <TextField
+            placeholder="What do you want to talk about?"
+            type="text"
+            value={postContent}
+            onChange={(e) => setPostContent(e.target.value)}
+            fullWidth
+            disabled={isPosting}
+            multiline
+            minRows={2}
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "none",
+              },
+              "& .MuiInputBase-root": {
+                padding: "var(--space-sm) var(--space-xs)",
+              },
+            }}
           />
-          <Chip
-            icon={<AttachFileOutlinedIcon />}
-            label={`Documents (${docAttachments.length}/4)`}
-            variant="outlined"
-            onClick={() => docInputRef.current.click()}
-            disabled={imageAttachments.length > 0}
-          />
-        </Stack>
+          {imageAttachments.length > 0 && (
+            <div className="create-post-form-upload-preview">
+              {imageAttachments.map((file, index) => (
+                <div className="upload-preview-card" key={index}>
+                  <IconButton
+                    size="small"
+                    onClick={() => removeImage(index)}
+                    sx={{
+                      position: "absolute",
+                      top: "4px",
+                      right: "4px",
+                      background: "rgba(0,0,0,0.55)",
+                      zIndex: 2,
+                    }}
+                  >
+                    <CloseOutlinedIcon />
+                  </IconButton>
+
+                  <img src={URL.createObjectURL(file)} alt="" />
+
+                  <div className="file-preview-details">
+                    <span>{file.name}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {docAttachments.length > 0 && (
+            <div className="create-post-form-upload-preview">
+              {docAttachments.map((file, index) => (
+                <div className="upload-preview-card" key={index}>
+                  <ArticleOutlinedIcon
+                    sx={{ fontSize: "48px", color: "white" }}
+                  />
+                  <IconButton
+                    size="small"
+                    onClick={() => removeImage(index)}
+                    sx={{
+                      position: "absolute",
+                      top: "4px",
+                      right: "4px",
+                      background: "rgba(0,0,0,0.55)",
+                      zIndex: 2,
+                    }}
+                  >
+                    <CloseOutlinedIcon />
+                  </IconButton>
+
+                  <div className="file-preview-details">
+                    <span>{file.name}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ alignItems: "center", flexWrap: "wrap" }}
+          >
+            <Chip
+              icon={<AddPhotoAlternateOutlinedIcon />}
+              label={`Images (${imageAttachments.length}/4)`}
+              variant="outlined"
+              onClick={() => imageInputRef.current.click()}
+              disabled={docAttachments.length > 0}
+            />
+            <Chip
+              icon={<AttachFileOutlinedIcon />}
+              label={`Documents (${docAttachments.length}/4)`}
+              variant="outlined"
+              onClick={() => docInputRef.current.click()}
+              disabled={imageAttachments.length > 0}
+            />
+          </Stack>
+        </Box>
+
         <Stack
           direction="row"
           spacing={1}

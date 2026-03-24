@@ -84,7 +84,14 @@ const ThemeProvider = ({ children }) => {
           MuiButton: {
             styleOverrides: {
               root: {
-                textTransform: "none", // This removes uppercase from all buttons
+                textTransform: "none",
+              },
+            },
+          },
+          MuiTab: {
+            styleOverrides: {
+              root: {
+                textTransform: "none",
               },
             },
           },
