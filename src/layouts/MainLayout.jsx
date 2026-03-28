@@ -5,7 +5,7 @@ import Nav from "../components/Nav";
 import "./MainLayout.css";
 import Sidebar from "../components/Sidebar";
 import BottomNav from "../components/BottomNav";
-
+import PageFilters from "../components/PageFilters";
 function MainLayout() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const handleNavClick = () => {

@@ -42,12 +42,10 @@ const ThemeProvider = ({ children }) => {
     document.documentElement.setAttribute("data-theme", finalTheme);
   };
 
-  // Apply theme on mount and when theme changes
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
 
-  // Listen for system theme changes
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -61,37 +59,141 @@ const ThemeProvider = ({ children }) => {
     return () => media.removeEventListener("change", systemListener);
   }, [theme]);
 
-  // Create MUI theme based on resolvedTheme
   const muiTheme = useMemo(
     () =>
       createTheme({
         palette: {
-          mode: resolvedTheme, // 'light' or 'dark'
-          // Optional: Add custom colors for each mode
-          ...(resolvedTheme === "light"
-            ? {
-                // Light mode customization
-                primary: { main: "#1976d2" },
-                background: { default: "#ffffff", paper: "#f5f5f5" },
-              }
-            : {
-                // Dark mode customization
-                primary: { main: "#90caf9" },
-                background: { default: "#121212", paper: "#1e1e1e" },
-              }),
+          mode: resolvedTheme,
+
+          primary: {
+            main: "#000",
+          },
+
+          background: {
+            default: "var(--bg)",
+            paper: "var(--surface)",
+          },
         },
+
         components: {
+          MuiCssBaseline: {
+            styleOverrides: {
+              body: {
+                backgroundColor: "var(--bg)",
+                color: "var(--text)",
+              },
+            },
+          },
+
           MuiButton: {
             styleOverrides: {
               root: {
                 textTransform: "none",
+                borderRadius: "var(--radius-md)",
+              },
+
+              contained: {
+                backgroundColor: "var(--text)",
+                color: "var(--bg)",
+                boxShadow: "none",
+
+                "&:hover": {
+                  backgroundColor: "var(--text)",
+                  opacity: 0.85,
+                  boxShadow: "none",
+                },
+
+                "&:active": {
+                  transform: "scale(0.97)",
+                  opacity: 0.75,
+                },
+              },
+
+              outlined: {
+                borderColor: "var(--text)",
+                color: "var(--text)",
+
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  opacity: 0.7,
+                  borderColor: "var(--text)",
+                },
+
+                "&:active": {
+                  opacity: 0.5,
+                },
+              },
+
+              text: {
+                color: "var(--text)",
+
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  opacity: 0.7,
+                },
               },
             },
           },
+
+          MuiButtonBase: {
+            defaultProps: {
+              disableRipple: true,
+            },
+          },
+
+          MuiOutlinedInput: {
+            styleOverrides: {
+              root: {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "var(--border)",
+                },
+
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "var(--text)",
+                },
+
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "var(--primary)", // 👈 green lives here
+                  borderWidth: "2px",
+                },
+              },
+
+              input: {
+                color: "var(--text)",
+              },
+            },
+          },
+
+          MuiInputLabel: {
+            styleOverrides: {
+              root: {
+                color: "var(--muted)",
+
+                "&.Mui-focused": {
+                  color: "var(--primary)", // 👈 green only on focus
+                },
+              },
+            },
+          },
+
+          // ✅ Tabs (minimal + consistent)
+          MuiTabs: {
+            styleOverrides: {
+              indicator: {
+                backgroundColor: "var(--primary)",
+              },
+            },
+          },
+
           MuiTab: {
             styleOverrides: {
               root: {
                 textTransform: "none",
+                color: "var(--muted)",
+
+                "&.Mui-selected": {
+                  color: "var(--text)",
+                },
               },
             },
           },
