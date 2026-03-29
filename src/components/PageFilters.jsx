@@ -1,25 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 
-const DEFAULT_FILTERS = [
-  { id: "f1", label: "All" },
-  { id: "f2", label: "Latest" },
-  { id: "f3", label: "Popular" },
-  { id: "f4", label: "Jobs" },
-  { id: "f5", label: "Ideas" },
-  { id: "f6", label: "News" },
-  { id: "f7", label: "Events" },
-  { id: "f8", label: "Resources" },
-];
+function PageFilters({
+  filters = [],
+  defaultActive = [],
+  onChange,
+  singleSelect = true,
+}) {
+  const [activeFilters, setActiveFilters] = useState(() => {
+    if (defaultActive?.length) return defaultActive;
+    return filters.length ? [filters[0].id] : [];
+  });
 
-function PageFilters() {
-  const [activeFilters, setActiveFilters] = useState(["f1"]);
+  useEffect(() => {
+    if (!filters.length) return;
 
+    if (defaultActive?.length) {
+      setActiveFilters(defaultActive);
+    } else {
+      setActiveFilters([filters[0].id]);
+    }
+  }, [filters, defaultActive]);
   const handleClick = (filterId) => {
-    // single-select logic (more realistic for filters like this)
-    setActiveFilters([filterId]);
+    let updated;
+
+    if (singleSelect) {
+      updated = [filterId];
+    } else {
+      updated = activeFilters.includes(filterId)
+        ? activeFilters.filter((id) => id !== filterId)
+        : [...activeFilters, filterId];
+    }
+
+    setActiveFilters(updated);
+
+    if (onChange) onChange(updated);
   };
+  if (!filters.length) return null;
 
   return (
     <Box
@@ -28,7 +46,6 @@ function PageFilters() {
         top: -12,
         zIndex: 1000,
         backgroundColor: "var(--bg)",
-        // background: "red",
         display: "flex",
         flexWrap: "nowrap",
         overflowX: "auto",
@@ -38,7 +55,7 @@ function PageFilters() {
         padding: "var(--space-xs) 0",
       }}
     >
-      {DEFAULT_FILTERS.map((filter) => {
+      {filters.map((filter) => {
         const isActive = activeFilters.includes(filter.id);
 
         return (

@@ -1,3 +1,4 @@
+import { formatTimeAgo } from "../utils/format";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
@@ -25,28 +26,34 @@ function PostHeader({
           alignItems: "center",
           gap: "var(--space-sm)",
           flex: 1,
-          // background: "red",
         }}
       >
-        <Avatar
-          alt={authorName}
-          src={avatarSrc}
-          sx={{ width: 35, height: 35 }}
-        />
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Avatar alt={authorName} src={avatarSrc} />
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            alignSelf: "stretch",
+            alignItems: "start",
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Typography
-            variant="subtitle1"
-            noWrap // cleaner than manual CSS
+            variant="body1"
+            noWrap
             sx={{
               minWidth: 0,
-              lineHeight: 1.2,
+              lineHeight: 1,
               m: 0,
             }}
           >
             {authorName}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            {timePosted} &bull; {isPromoted ? <span>Promoted</span> : audience}
+            {formatTimeAgo(timePosted)} &bull;{" "}
+            {isPromoted ? <span>Promoted</span> : audience}
           </Typography>
         </Box>
       </Box>

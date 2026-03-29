@@ -1,84 +1,284 @@
-export   const jTypes = [
-    {
-      label: "Full-time",
-      value: "full-time",
-    },
-    {
-      label: "Part-time",
-      value: "part-time",
-    },
-    {
-      label: "Contract",
-      value: "contract",
-    },
-    {
-      label: "Internship",
-      value: "internship",
-    },
-  ];
-  export const workArrangements = [
-    {
-      label: "Remote",
-      value: "remote",
-    },
-    {
-      label: "On-site",
-      value: "onsite",
-    },
-    {
-      label: "Hybrid",
-      value: "hybrid",
-    },
-  ]
- export const months = [
-    {
-      label: "January",
-      value: "january",
-    },
-    {
-      label: "February",
-      value: "february",
-    },
-    {
-      label: "March",
-      value: "march",
-    },
-    {
-      label: "April",
-      value: "april",
-    },
-    {
-      label: "May",
-      value: "may",
-    },
-    {
-      label: "June",
-      value: "june",
-    },
-    {
-      label: "July",
-      value: "july",
-    },
-    {
-      label: "August",
-      value: "august",
-    },
-    {
-      label: "September",
-      value: "september",
-    },
-    {
-      label: "October",
-      value: "october",
-    },
-    {
-      label: "November",
-      value: "november",
-    },
-    {
-      label: "December",
-      value: "december",
-    },
-  ];
-  
-  
+export const jTypes = [
+  {
+    label: "Full-time",
+    value: "full-time",
+  },
+  {
+    label: "Part-time",
+    value: "part-time",
+  },
+  {
+    label: "Contract",
+    value: "contract",
+  },
+  {
+    label: "Internship",
+    value: "internship",
+  },
+];
+export const workArrangements = [
+  {
+    label: "Remote",
+    value: "remote",
+  },
+  {
+    label: "On-site",
+    value: "onsite",
+  },
+  {
+    label: "Hybrid",
+    value: "hybrid",
+  },
+];
+export const months = [
+  {
+    label: "January",
+    value: "january",
+  },
+  {
+    label: "February",
+    value: "february",
+  },
+  {
+    label: "March",
+    value: "march",
+  },
+  {
+    label: "April",
+    value: "april",
+  },
+  {
+    label: "May",
+    value: "may",
+  },
+  {
+    label: "June",
+    value: "june",
+  },
+  {
+    label: "July",
+    value: "july",
+  },
+  {
+    label: "August",
+    value: "august",
+  },
+  {
+    label: "September",
+    value: "september",
+  },
+  {
+    label: "October",
+    value: "october",
+  },
+  {
+    label: "November",
+    value: "november",
+  },
+  {
+    label: "December",
+    value: "december",
+  },
+];
+
+export const PRODUCTS = [
+  {
+    id: "prod_001",
+    primary_image: "/products/demo_product.jpg",
+    product_name: "Nike Air Force 1 Custom (Grey/Black)",
+    price: 45000,
+    currency: "MWK",
+    condition: "New",
+    description:
+      "Custom grey and black suede sneakers with a gum sole. Brand new.",
+    location: "Lilongwe",
+    delivery: "Local Pickup",
+    category: "Footwear",
+    date_posted: "2026-03-29T10:15:00.000Z",
+  },
+  {
+    id: "prod_002",
+    primary_image: "/products/demo_product2.jpg",
+    product_name: "Nike Air Force 1 (Green/White)",
+    price: 38000,
+    currency: "MWK",
+    condition: "Like New",
+    description: "Classic green and white AF1s, slightly worn, good condition.",
+    location: "Blantyre",
+    delivery: "Courier Available",
+    category: "Footwear",
+    date_posted: "2026-03-28T16:45:30.000Z",
+  },
+  {
+    id: "prod_003",
+    primary_image: "/products/download (4).jpg",
+    product_name: "White Timberland-Style Boots",
+    price: 55000,
+    currency: "MWK",
+    condition: "New",
+    description: "Premium all-white boots, perfect for style and durability.",
+    location: "Mzuzu",
+    delivery: "Local Pickup",
+    category: "Footwear",
+    date_posted: "2026-03-29T08:00:15.000Z",
+  },
+  {
+    id: "prod_004",
+    primary_image: "/products/download (5).jpg",
+    product_name: "Black Leather Chelsea Boots",
+    price: 60000,
+    currency: "MWK",
+    condition: "New",
+    description: "Sleek black leather Chelsea boots with a modern design.",
+    location: "Zomba",
+    delivery: "Ships Nationwide",
+    category: "Footwear",
+    date_posted: "2026-03-27T12:30:00.000Z",
+  },
+  {
+    id: "prod_005",
+    primary_image: "/products/download (6).jpg",
+    product_name: "Set of 3 Men's Sweater Shirts",
+    price: 25000,
+    currency: "MWK",
+    condition: "New",
+    description:
+      "Assorted colors: Green, Navy Blue, and Black. Comfortable fit.",
+    location: "Lilongwe",
+    delivery: "Local Pickup",
+    category: "Apparel",
+    date_posted: "2026-03-29T11:55:40.000Z",
+  },
+  {
+    id: "prod_006",
+    primary_image: "/products/download (7).jpg",
+    product_name: "Wireless Earbuds (White)",
+    price: 18000,
+    currency: "MWK",
+    condition: "New",
+    description:
+      "High-quality wireless earbuds with charging case. Great sound.",
+    location: "Blantyre",
+    delivery: "Courier Available",
+    category: "Electronics",
+    date_posted: "2026-03-28T09:10:05.000Z",
+  },
+  {
+    id: "prod_007",
+    primary_image: "/products/download (8).jpg",
+    product_name: "Ultra-Thin Gaming Laptop (Pink/Gold)",
+    price: 850000,
+    currency: "MWK",
+    condition: "New",
+    description: "Powerful and stylish laptop. Great for work and gaming.",
+    location: "Lilongwe",
+    delivery: "Ships Nationwide",
+    category: "Electronics",
+    date_posted: "2026-03-26T14:20:00.000Z",
+  },
+  {
+    id: "prod_008",
+    primary_image: "/products/download (9).jpg",
+    product_name: "Professional Camera Gimbal Stabilizer",
+    price: 120000,
+    currency: "MWK",
+    condition: "Like New",
+    description: "Hardly used, 3-axis gimbal for smooth video footage.",
+    location: "Mzuzu",
+    delivery: "Local Pickup",
+    category: "Electronics",
+    date_posted: "2026-03-27T10:05:30.000Z",
+  },
+  {
+    id: "prod_009",
+    primary_image: "/products/download (10).jpg",
+    product_name: "Foldable Drone with Controller",
+    price: 95000,
+    currency: "MWK",
+    condition: "New",
+    description: "4K camera drone with easy controls and extra batteries.",
+    location: "Blantyre",
+    delivery: "Ships Nationwide",
+    category: "Electronics",
+    date_posted: "2026-03-29T07:30:10.000Z",
+  },
+  {
+    id: "prod_010",
+    primary_image: "/products/download (11).jpg",
+    product_name: "Foldable GPS Drone (White)",
+    price: 110000,
+    currency: "MWK",
+    condition: "New",
+    description:
+      "Advanced drone with GPS positioning for stability and return home.",
+    location: "Zomba",
+    delivery: "Local Pickup",
+    category: "Electronics",
+    date_posted: "2026-03-28T15:00:00.000Z",
+  },
+  {
+    id: "prod_011",
+    primary_image: "/products/download (12).jpg",
+    product_name: "Set of 3 Beanies (Grey, Black, Red)",
+    price: 12000,
+    currency: "MWK",
+    condition: "New",
+    description: "Three stylish winter beanies in classic colors.",
+    location: "Lilongwe",
+    delivery: "Courier Available",
+    category: "Accessories",
+    date_posted: "2026-03-29T13:40:20.000Z",
+  },
+  {
+    id: "prod_012",
+    primary_image: "/products/Macbook pro 2021 m1.jpg",
+    product_name: "MacBook Pro (2021, M1 Chip)",
+    price: 1500000,
+    currency: "MWK",
+    condition: "Like New",
+    description: "Lightly used MacBook Pro with M1, 16GB RAM, 512GB SSD.",
+    location: "Blantyre",
+    delivery: "Ships Nationwide",
+    category: "Electronics",
+    date_posted: "2026-03-25T11:00:00.000Z",
+  },
+  {
+    id: "prod_013",
+    primary_image: "/products/Samsung galaxy A14.jpg",
+    product_name: "Samsung Galaxy A14",
+    price: 180000,
+    currency: "MWK",
+    condition: "New",
+    description: "Latest budget smartphone from Samsung. 64GB storage.",
+    location: "Lilongwe",
+    delivery: "Local Pickup",
+    category: "Electronics",
+    date_posted: "2026-03-29T09:30:00.000Z",
+  },
+  {
+    id: "prod_014",
+    primary_image: "/products/pods.jpg",
+    product_name: "Premium True Wireless Earbuds",
+    price: 22000,
+    currency: "MWK",
+    condition: "New",
+    description: "Top-tier sound quality and noise cancellation.",
+    location: "Mzuzu",
+    delivery: "Courier Available",
+    category: "Electronics",
+    date_posted: "2026-03-28T14:15:30.000Z",
+  },
+  {
+    id: "prod_015",
+    primary_image: "/products/clothes.jpg",
+    product_name: "Men's Full Casual Outfit Set",
+    price: 75000,
+    currency: "MWK",
+    condition: "New",
+    description: "Complete set: Green Polo, Chinos, Green Sneakers, and Hat.",
+    location: "Blantyre",
+    delivery: "Ships Nationwide",
+    category: "Apparel",
+    date_posted: "2026-03-29T12:10:05.000Z",
+  },
+];

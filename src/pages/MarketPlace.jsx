@@ -1,20 +1,61 @@
+import { useState, useEffect } from "react";
+import { PRODUCTS } from "../data";
+import PageFilters from "../components/PageFilters";
 import MarketListItem from "../components/MarketListItem";
+import { Helmet } from "react-helmet";
+import Box from "@mui/material/Box";
+
 function MarketPlace() {
-  const marketItem = {
-    name: "Men's Stylish Set ",
-    description:
-      "Dope looking set for men. Available in different color pallets. Deliver only around Lilongwe 49",
-    image:
-      "https://i.pinimg.com/1200x/b3/05/3b/b3053b368ff570dd2dbf088790c5b850.jpg",
-    price: 78000,
-    currency: "MWK",
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const generateCategories = () => {
+    const uniqueCategories = new Set(PRODUCTS.map((prod) => prod.category));
+
+    const cleanedCategories = [...uniqueCategories].filter(
+      (cat) => cat !== "All",
+    );
+
+    setCategories(["All", ...cleanedCategories]);
   };
+
+  useEffect(() => {
+    generateCategories();
+  }, []);
+
+  const filteredItems =
+    selectedCategory === "All"
+      ? PRODUCTS
+      : PRODUCTS.filter((prod) => prod.category === selectedCategory);
+
   return (
     <>
-      <h2>MarketPlace</h2>
-      <MarketListItem marketItem={marketItem} />
-      <MarketListItem marketItem={marketItem} />
+      <Helmet>
+        <title>Market Place - Kopalet</title>
+      </Helmet>
+
+      <h2>Market Place</h2>
+
+      <PageFilters
+        filters={categories.map((cat) => ({ id: cat, label: cat }))}
+        onChange={(selected) => {
+          if (!selected?.length) return; // safety check
+          setSelectedCategory(selected[0]);
+        }}
+      />
+
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
+        {filteredItems.map((prod) => (
+          <MarketListItem key={prod.id} marketItem={prod} />
+        ))}
+      </Box>
     </>
   );
 }
+
 export default MarketPlace;
