@@ -42,16 +42,21 @@ const SessionProvider = ({ children }) => {
 
   const createAccount = async (email, password) => {
     setIsRegistering(true);
+    setRegisteringError(null);
     try {
       const { data } = await axiosInstance.post("/auth/register.php", {
         email,
         password,
       });
       console.log(data);
+      // Auto-login after successful registration
+      setUser(data.user);
+      setIsAuthenticated(true);
       setRegisteringError(null);
     } catch (err) {
       console.error(err);
-      setRegisteringError(err);
+      setRegisteringError(err.message || "Registration failed");
+      setIsAuthenticated(false);
     } finally {
       setIsRegistering(false);
     }
@@ -68,8 +73,11 @@ const SessionProvider = ({ children }) => {
       const userData = data.user;
       setUser(userData);
       setIsAuthenticated(true);
+      setAuthError(null); // ✓ Explicitly clear on success
     } catch (err) {
-      setAuthError(err.message);
+      setAuthError(err.message || "Login failed");
+      setIsAuthenticated(false);
+      setUser(null);
       console.error(err);
     } finally {
       setIsLoggingIn(false);
@@ -98,6 +106,7 @@ const SessionProvider = ({ children }) => {
   useEffect(() => {
     checkSession();
   }, []);
+
   const contextValues = {
     user,
     isAuthenticated,
@@ -112,9 +121,20 @@ const SessionProvider = ({ children }) => {
     createAccount,
   };
 
+  // Show a simple fallback during initial session check, not the actual children
+  if (isLoading && !user) {
+    return (
+      <SessionContext.Provider value={contextValues}>
+        <div style={{ padding: "2rem", textAlign: "center" }}>
+          <p>Loading session...</p>
+        </div>
+      </SessionContext.Provider>
+    );
+  }
+
   return (
     <SessionContext.Provider value={contextValues}>
-      {isLoading ? <div>session manager is loading</div> : children}
+      {children}
     </SessionContext.Provider>
   );
 };

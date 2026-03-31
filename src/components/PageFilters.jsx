@@ -13,15 +13,6 @@ function PageFilters({
     return filters.length ? [filters[0].id] : [];
   });
 
-  useEffect(() => {
-    if (!filters.length) return;
-
-    if (defaultActive?.length) {
-      setActiveFilters(defaultActive);
-    } else {
-      setActiveFilters([filters[0].id]);
-    }
-  }, [filters, defaultActive]);
   const handleClick = (filterId) => {
     let updated;
 

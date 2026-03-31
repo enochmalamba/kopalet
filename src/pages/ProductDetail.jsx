@@ -9,9 +9,7 @@ import { PRODUCTS } from "../data.js";
 function ProductDetail() {
   const productId = useParams().id;
   const PRODUCT = PRODUCTS.find((prod) => prod.id === productId);
-  const SIMILAR_PRODUCTS = PRODUCTS.filter(
-    (prod) => prod.category === PRODUCT.category && prod.id !== PRODUCT.id,
-  ).slice(0, 5); // get up to 5 similar products
+
   if (!PRODUCT) {
     return (
       <Box sx={{ padding: "var(--space-lg)", textAlign: "center" }}>
@@ -19,6 +17,10 @@ function ProductDetail() {
       </Box>
     );
   }
+
+  const SIMILAR_PRODUCTS = PRODUCTS.filter(
+    (prod) => prod.category === PRODUCT.category && prod.id !== PRODUCT.id,
+  ).slice(0, 5); // get up to 5 similar products
   return (
     <Box>
       <DetailPageHeader heading={PRODUCT.product_name} />

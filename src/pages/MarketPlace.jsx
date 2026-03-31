@@ -37,6 +37,7 @@ function MarketPlace() {
 
       <PageFilters
         filters={categories.map((cat) => ({ id: cat, label: cat }))}
+        defaultActive={["All"]}
         onChange={(selected) => {
           if (!selected?.length) return; // safety check
           setSelectedCategory(selected[0]);

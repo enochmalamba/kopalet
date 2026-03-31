@@ -1,6 +1,7 @@
 import { Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import Home from "../pages/Home.jsx";
+import Landing from "../pages/Landing.jsx";
 import CreateHandle from "../pages/CreateHandle";
 import MailBox from "../pages/MailBox";
 import Communities from "../pages/Communities";

@@ -5,11 +5,15 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from "@mui/material/InputAdornment";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const navigate = useNavigate();
   const { isLoggingIn, isAuthenticated, login, authError } = useSession();
@@ -29,16 +33,15 @@ function Login() {
         {authError ? (
           <Snackbar
             autoHideDuration={5000}
-            open={authError}
-            anchorOrigin={{ vertical: "top", horizontal: "centre" }}
+            open={!!authError}
+            onClose={() => {}}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
           >
             <Alert variant="outlined" severity="error">
               {authError}
             </Alert>
           </Snackbar>
-        ) : (
-          ""
-        )}
+        ) : null}
         <form onSubmit={handleLogin}>
           <img src="/wordmark_light.png" alt="Kopalet Wordmark" />
           <TextField
@@ -61,6 +64,21 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                      size="small"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
           <p>
             By registering or logging in, you consent to Kopalet's Terms of use

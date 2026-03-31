@@ -54,7 +54,7 @@ function Signup() {
           </Button>
           <p>
             Already have an account? &nbsp;
-            <Link to={"/signup"} className="auth-switch-link">
+            <Link to={"/login"} className="auth-switch-link">
               Log in
             </Link>
           </p>
