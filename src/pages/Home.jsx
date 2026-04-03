@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import PageFilters from "../components/PageFilters";
 import Post from "../components/Post";
 import JobPost from "../components/JobPost";

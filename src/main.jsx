@@ -5,13 +5,16 @@ import "./index.css";
 import App from "./App.jsx";
 import SessionProvider from "./context/sessionContext";
 import ThemeProvider from "./context/themeContext";
+import { HelmetProvider } from "react-helmet-async";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
         <SessionProvider>
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
         </SessionProvider>
       </ThemeProvider>
     </BrowserRouter>

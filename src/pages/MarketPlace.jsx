@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { PRODUCTS } from "../data";
 import PageFilters from "../components/PageFilters";
 import MarketListItem from "../components/MarketListItem";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Box from "@mui/material/Box";
 
 function MarketPlace() {

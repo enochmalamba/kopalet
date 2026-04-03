@@ -10,15 +10,12 @@ import Communities from "./pages/Communities.jsx";
 import Vacancies from "./pages/Vacancies.jsx";
 import MarketPlace from "./pages/MarketPlace.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
-
-import { useRouteLoader } from "./hooks/useRouteLoader.js";
+import VacancyDetail from "./pages/VacancyDetail.jsx";
 
 import "./App.css";
 import "./assets/style/auth.css";
 
 function App() {
-  useRouteLoader();
-
   return (
     <>
       <Routes>
@@ -31,6 +28,7 @@ function App() {
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/marketplace" element={<MarketPlace />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/vacancy/:id" element={<VacancyDetail />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
