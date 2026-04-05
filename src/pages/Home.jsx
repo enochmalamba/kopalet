@@ -7,10 +7,9 @@ import GeneralPost from "../components/GeneralPost";
 function Home() {
   return (
     <>
-      {" "}
       <Helmet>
         <title>Home - Kopalet</title>
-      </Helmet>{" "}
+      </Helmet>
       <GeneralPost />
       <PageFilters />
       <JobPost />

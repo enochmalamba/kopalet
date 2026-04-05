@@ -43,7 +43,7 @@ const GeneralPost = () => {
       </Typography>
       <Box
         component="img"
-        src="https://i.pinimg.com/1200x/71/53/8b/71538bc0568fd9313079cfb39b98692e.jpg"
+        src="/defaults/img.JPG"
         sx={{
           width: "100%",
           height: "auto",
