@@ -30,3 +30,17 @@ export function formatCompactMoney(amount, currency = "MWK") {
   }
   return `$${amount.toFixed(2)}`;
 }
+
+// Number formatting utilities
+export const formatCount = (num) => {
+  if (!num) return 0;
+  if (num >= 1000000) {
+    const value = num / 1000000;
+    return (value % 1 === 0 ? value.toFixed(0) : value.toFixed(1)) + "M";
+  }
+  if (num >= 1000) {
+    const value = num / 1000;
+    return (value % 1 === 0 ? value.toFixed(0) : value.toFixed(1)) + "k";
+  }
+  return num;
+};

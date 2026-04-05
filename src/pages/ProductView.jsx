@@ -17,7 +17,7 @@ import { formatMoney, formatTimeAgo } from "../utils/format.js";
 import MoreVert from "@mui/icons-material/MoreVert";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 
-function ProductDetail() {
+function ProductView() {
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
   const productId = useParams().id;
   const PRODUCT = PRODUCTS.find((prod) => prod.id === productId);
@@ -173,4 +173,4 @@ function ProductDetail() {
   );
 }
 
-export default ProductDetail;
+export default ProductView;

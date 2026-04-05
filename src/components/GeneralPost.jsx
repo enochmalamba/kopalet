@@ -3,7 +3,7 @@ import PostActions from "./PostActions";
 import Box from "@mui/material/Box";
 
 import Typography from "@mui/material/Typography";
-import { North, South, Chat, Share } from "@mui/icons-material";
+
 const GeneralPost = () => {
   return (
     <Box
@@ -53,7 +53,13 @@ const GeneralPost = () => {
           borderRadius: "var(--radius-md)",
         }}
       />{" "}
-      <PostActions votes={99000} comments={33500} />
+      <PostActions
+        initialVotes={99000}
+        initialUserVote={1}
+        comments={3350000}
+        hasCommented={true}
+        isSaved={true}
+      />
     </Box>
   );
 };

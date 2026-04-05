@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DetailPageHeader from "../components/DetailPageHeader";
 
-function VacancyDetail() {
+function VacancyView() {
   return (
     <Box>
       <Helmet>
@@ -62,7 +62,7 @@ function VacancyDetail() {
   );
 }
 
-export default VacancyDetail;
+export default VacancyView;
 
 const liStyle = {
   color: "var(--muted) ",

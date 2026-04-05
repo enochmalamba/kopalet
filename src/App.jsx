@@ -9,8 +9,9 @@ import MailBox from "./pages/MailBox.jsx";
 import Communities from "./pages/Communities.jsx";
 import Vacancies from "./pages/Vacancies.jsx";
 import MarketPlace from "./pages/MarketPlace.jsx";
-import ProductDetail from "./pages/ProductDetail.jsx";
-import VacancyDetail from "./pages/VacancyDetail.jsx";
+import ProductView from "./pages/ProductView.jsx";
+import VacancyView from "./pages/VacancyView.jsx";
+import GeneralPostView from "./pages/GeneralPostView.jsx";
 
 import "./App.css";
 import "./assets/style/auth.css";
@@ -27,8 +28,9 @@ function App() {
           <Route path="/communities" element={<Communities />} />
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/marketplace" element={<MarketPlace />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/vacancy/:id" element={<VacancyDetail />} />
+          <Route path="/product/:id" element={<ProductView />} />
+          <Route path="/vacancy/:id" element={<VacancyView />} />
+          <Route path="/post/:id" element={<GeneralPostView />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
