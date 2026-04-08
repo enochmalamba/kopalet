@@ -6,7 +6,7 @@ import CommentCard from "../components/CommentCard";
 function GeneralPostView() {
   return (
     <>
-      <GeneralPost />
+      <GeneralPost isPostView />
       <TextField
         fullWidth
         label="Add comment"
@@ -18,8 +18,6 @@ function GeneralPostView() {
       <Typography variant="body" color="var(--muted)">
         Comments
       </Typography>
-      <CommentCard />
-      <CommentCard />
       <CommentCard />
     </>
   );

@@ -67,9 +67,12 @@ function JobCard() {
       </Box>
       <Typography
         color="text.secondary"
-        noWrap
         sx={{
-          minWidth: 0,
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
         }}
       >
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod nisi nam

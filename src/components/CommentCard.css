@@ -1,0 +1,30 @@
+.comment-card-avatar {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* vertical line */
+.comment-card-avatar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 95%;
+  background: var(--border);
+  z-index: -1;
+}
+
+.comment-card-avatar::before {
+  content: "";
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  transform: translateX(0);
+  width: 10px;
+  height: 1px;
+  background: var(--border);
+  z-index: -1;
+}

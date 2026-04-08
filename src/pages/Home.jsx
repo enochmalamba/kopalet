@@ -3,6 +3,7 @@ import PageFilters from "../components/PageFilters";
 
 import JobPost from "../components/JobPost";
 import GeneralPost from "../components/GeneralPost";
+import JobCard from "../components/JobCard";
 
 function Home() {
   return (
@@ -13,6 +14,7 @@ function Home() {
       <GeneralPost />
       <PageFilters />
       <JobPost />
+      <JobCard />
     </>
   );
 }

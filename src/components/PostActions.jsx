@@ -23,6 +23,8 @@ export default function PostActions({
   onSave,
   hasCommented = false,
   isSaved = false,
+  cardType = "post",
+  handleNavigate,
 }) {
   const [votes, setVotes] = useState(initialVotes);
   const [userVote, setUserVote] = useState(initialUserVote);
@@ -139,7 +141,7 @@ export default function PostActions({
         </Box>
 
         {/* COMMENTS */}
-        <Box sx={iconBoxStyles}>
+        <Box sx={iconBoxStyles} onClick={handleNavigate}>
           <IconButton
             size="small"
             onClick={onComment}
@@ -167,33 +169,37 @@ export default function PostActions({
 
       {/* RIGHT */}
       <Box sx={iconContainerStyles}>
-        <IconButton
-          size="small"
-          onClick={onShare}
-          sx={getIconStyles({
-            isActive: false,
-            activeBg: "transparent",
-            activeColor: "inherit",
-          })}
-        >
-          <ShareOutlinedIcon fontSize="small" />
-        </IconButton>
-
-        <IconButton
-          size="small"
-          onClick={onSave}
-          sx={getIconStyles({
-            isActive: isSaved,
-            activeBg: "var(--primary-bg)",
-            activeColor: "var(--primary)",
-          })}
-        >
-          {isSaved ? (
-            <BookmarkIcon fontSize="small" />
-          ) : (
-            <BookmarkBorderIcon fontSize="small" />
-          )}
-        </IconButton>
+        {cardType === "post" && (
+          <>
+            {" "}
+            <IconButton
+              size="small"
+              onClick={onShare}
+              sx={getIconStyles({
+                isActive: false,
+                activeBg: "transparent",
+                activeColor: "inherit",
+              })}
+            >
+              <ShareOutlinedIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              size="small"
+              onClick={onSave}
+              sx={getIconStyles({
+                isActive: isSaved,
+                activeBg: "var(--primary-bg)",
+                activeColor: "var(--primary)",
+              })}
+            >
+              {isSaved ? (
+                <BookmarkIcon fontSize="small" />
+              ) : (
+                <BookmarkBorderIcon fontSize="small" />
+              )}
+            </IconButton>
+          </>
+        )}
       </Box>
     </Box>
   );
@@ -206,6 +212,7 @@ const iconContainerStyles = {
 };
 
 const iconBoxStyles = {
+  cursor: "pointer",
   display: "flex",
   alignItems: "center",
   gap: "var(--space-2xs)",

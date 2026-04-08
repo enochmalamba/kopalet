@@ -1,10 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import PostHeader from "./PostHeader";
 import PostActions from "./PostActions";
 import Box from "@mui/material/Box";
 
 import Typography from "@mui/material/Typography";
 
-const GeneralPost = () => {
+const GeneralPost = ({ isPostView = false }) => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    if (isPostView) return;
+    navigate("/post/1");
+  };
   return (
     <Box
       sx={{
@@ -29,11 +35,13 @@ const GeneralPost = () => {
       <Typography
         sx={{
           color: "var(--muted)",
-          display: "-webkit-box",
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
+          ...(!isPostView && {
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }),
         }}
       >
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta deleniti
@@ -59,6 +67,7 @@ const GeneralPost = () => {
         comments={3350000}
         hasCommented={true}
         isSaved={true}
+        handleNavigate={handleNavigate}
       />
     </Box>
   );
