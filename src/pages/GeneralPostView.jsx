@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import GeneralPost from "../components/GeneralPost";
-import CommentCard from "../components/CommentCard";
+import Comment from "../components/Comment";
 function GeneralPostView() {
   return (
     <>
@@ -18,7 +18,7 @@ function GeneralPostView() {
       <Typography variant="body" color="var(--muted)">
         Comments
       </Typography>
-      <CommentCard />
+      <Comment />
     </>
   );
 }

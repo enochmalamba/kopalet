@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feed Listing Types</title>
+  </head>
+  <body>
+    <h1>Feed Listing Types</h1>
+    <p>check listing types in console</p>
+    <div id="result"></div>
+    <script>
+      fetch("/src/api/feed.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              `HTTP error! status: ${response.status} - File not found at api/feed.json`,
+            );
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Loaded data:", data);
+
+          const listingTypes = new Set();
+
+          // Loop through each item in the feed array
+          data.feed.forEach((item) => {
+            if (item.listing && item.listing.type) {
+              listingTypes.add(item.listing.type);
+            }
+          });
+
+          // Convert Set back to an Array to display or use it
+          const uniqueTypes = Array.from(listingTypes);
+          console.log("Extracted unique listing types:", uniqueTypes);
+
+          // Optional: Display them on the page
+          const resultDiv = document.getElementById("result");
+          if (resultDiv) {
+            resultDiv.innerHTML = `
+            <p>✅ Found <strong>${uniqueTypes.length}</strong> unique types:</p>
+            <ul>
+                ${uniqueTypes.map((type) => `<li>${type}</li>`).join("")}
+            </ul>
+        `;
+          }
+        });
+    </script>
+  </body>
+</html>

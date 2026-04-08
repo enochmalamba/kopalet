@@ -4,8 +4,8 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 
 import PostActions from "./PostActions";
-import "./CommentCard.css";
-const CommentCard = () => {
+import "./Comment.css";
+const Comment = () => {
   return (
     <Box sx={{ display: "flex", alignItems: "start", gap: "var(--space-xs)" }}>
       {" "}
@@ -52,4 +52,4 @@ const CommentCard = () => {
   );
 };
 
-export default CommentCard;
+export default Comment;

@@ -5,7 +5,16 @@ import Box from "@mui/material/Box";
 
 import Typography from "@mui/material/Typography";
 
-const GeneralPost = ({ isPostView = false }) => {
+const GeneralPost = ({
+  isPostView = false,
+  title,
+  content,
+  userName,
+  userAvatar,
+  audience = "Public",
+  createdAt,
+  postMedia,
+}) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
     if (isPostView) return;
@@ -24,13 +33,11 @@ const GeneralPost = ({ isPostView = false }) => {
       }}
     >
       <PostHeader
-        avatarSrc={
-          "https://lh3.googleusercontent.com/a/ACg8ocK6G-C-MHz2Q_w_KD6-VGXepOC-dQ9ZRK0XNZ5goivtWyi6m-4l=s288-c-no"
-        }
-        authorName={"Enoch Malamba "}
-        timePosted={"3hr ago"}
+        avatarSrc={userAvatar}
+        authorName={userName}
+        timePosted={createdAt}
         isPromoted={false}
-        audience={"Public"}
+        audience={audience}
       />
       <Typography
         sx={{
@@ -44,23 +51,22 @@ const GeneralPost = ({ isPostView = false }) => {
           }),
         }}
       >
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta deleniti
-        hic ex harum impedit id distinctio, omnis assumenda. Sed illum ratione
-        molestiae aliquam quae tenetur alias similique, reprehenderit molestias
-        qui!
+        {content}
       </Typography>
-      <Box
-        component="img"
-        src="/defaults/img.JPG"
-        sx={{
-          width: "100%",
-          height: "auto",
-          maxHeight: "400px",
-          objectFit: "cover",
-          objectPosition: "top",
-          borderRadius: "var(--radius-md)",
-        }}
-      />{" "}
+      {postMedia && (
+        <Box
+          component="img"
+          src={postMedia[0]}
+          sx={{
+            width: "100%",
+            height: "auto",
+            maxHeight: "400px",
+            objectFit: "cover",
+            objectPosition: "top",
+            borderRadius: "var(--radius-md)",
+          }}
+        />
+      )}{" "}
       <PostActions
         initialVotes={99000}
         initialUserVote={1}

@@ -1,0 +1,402 @@
+[
+  {
+    "id": "usr_0",
+    "name": "Chimwemwe Banda",
+    "email": "chimwemwe.banda@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=chimwemwebanda&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-22T12:33:01.569208",
+    "updated_at": "2026-04-04T12:33:01.569236"
+  },
+  {
+    "id": "usr_1",
+    "name": "Tadala Phiri",
+    "email": "tadala.phiri@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=tadalaphiri&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-26T12:33:01.569246",
+    "updated_at": "2026-04-01T12:33:01.569250"
+  },
+  {
+    "id": "usr_2",
+    "name": "Kondwani Mwale",
+    "email": "kondwani.mwale@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=kondwanimwale&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-16T12:33:01.569255",
+    "updated_at": "2026-04-05T12:33:01.569258"
+  },
+  {
+    "id": "usr_3",
+    "name": "Tionge Chirwa",
+    "email": "tionge.chirwa@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=tiongechirwa&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-15T12:33:01.569262",
+    "updated_at": "2026-04-04T12:33:01.569266"
+  },
+  {
+    "id": "usr_4",
+    "name": "Mphatso Tembo",
+    "email": "mphatso.tembo@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=mphatsotembo&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-14T12:33:01.569271",
+    "updated_at": "2026-03-28T12:33:01.569275"
+  },
+  {
+    "id": "usr_5",
+    "name": "Gracious Nyirenda",
+    "email": "gracious.nyirenda@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=graciousnyirenda&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-01T12:33:01.569279",
+    "updated_at": "2026-03-09T12:33:01.569283"
+  },
+  {
+    "id": "usr_6",
+    "name": "Dalitso Gondwe",
+    "email": "dalitso.gondwe@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=dalitsogondwe&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-01T12:33:01.569287",
+    "updated_at": "2026-04-04T12:33:01.569290"
+  },
+  {
+    "id": "usr_7",
+    "name": "Precious Mvula",
+    "email": "precious.mvula@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=preciousmvula&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-21T12:33:01.569294",
+    "updated_at": "2026-03-27T12:33:01.569298"
+  },
+  {
+    "id": "usr_8",
+    "name": "Limbikani Chikwanda",
+    "email": "limbikani.chikwanda@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=limbikanichikwanda&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-18T12:33:01.569302",
+    "updated_at": "2026-04-07T12:33:01.569305"
+  },
+  {
+    "id": "usr_9",
+    "name": "Alinafe Msiska",
+    "email": "alinafe.msiska@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=alinafemsiska&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-01T12:33:01.569309",
+    "updated_at": "2026-04-01T12:33:01.569313"
+  },
+  {
+    "id": "usr_10",
+    "name": "Yamikani Kaunda",
+    "email": "yamikani.kaunda@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=yamikanikaunda&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-16T12:33:01.569317",
+    "updated_at": "2026-03-30T12:33:01.569320"
+  },
+  {
+    "id": "usr_11",
+    "name": "Chisomo Lungu",
+    "email": "chisomo.lungu@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=chisomolungu&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-22T12:33:01.569324",
+    "updated_at": "2026-04-04T12:33:01.569327"
+  },
+  {
+    "id": "usr_12",
+    "name": "Tawonga Mbewe",
+    "email": "tawonga.mbewe@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=tawongambewe&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-01T12:33:01.569331",
+    "updated_at": "2026-03-25T12:33:01.569334"
+  },
+  {
+    "id": "usr_13",
+    "name": "Takondwa Mkandawire",
+    "email": "takondwa.mkandawire@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=takondwamkandawire&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-04T12:33:01.569339",
+    "updated_at": "2026-04-08T12:33:01.569342"
+  },
+  {
+    "id": "usr_14",
+    "name": "Fatsani Chikaonda",
+    "email": "fatsani.chikaonda@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=fatsanichikaonda&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-09T12:33:01.569347",
+    "updated_at": "2026-04-07T12:33:01.569350"
+  },
+  {
+    "id": "usr_15",
+    "name": "Mtisunge Ngulube",
+    "email": "mtisunge.ngulube@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=mtisungengulube&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-28T12:33:01.569355",
+    "updated_at": "2026-03-10T12:33:01.569358"
+  },
+  {
+    "id": "usr_16",
+    "name": "Pemphero Phoya",
+    "email": "pemphero.phoya@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=pempherophoya&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-11T12:33:01.569362",
+    "updated_at": "2026-03-23T12:33:01.569365"
+  },
+  {
+    "id": "usr_17",
+    "name": "Wongani Kasambara",
+    "email": "wongani.kasambara@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=wonganikasambara&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-07T12:33:01.569370",
+    "updated_at": "2026-03-24T12:33:01.569373"
+  },
+  {
+    "id": "usr_18",
+    "name": "Innocent Matemba",
+    "email": "innocent.matemba@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=innocentmatemba&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-16T12:33:01.569377",
+    "updated_at": "2026-03-27T12:33:01.569380"
+  },
+  {
+    "id": "usr_19",
+    "name": "Thokozire Chingoli",
+    "email": "thokozire.chingoli@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=thokozirechingoli&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-10T12:33:01.569384",
+    "updated_at": "2026-03-27T12:33:01.569387"
+  },
+  {
+    "id": "usr_20",
+    "name": "Blessings Nkhoma",
+    "email": "blessings.nkhoma@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=blessingsnkhoma&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-11T12:33:01.569391",
+    "updated_at": "2026-04-04T12:33:01.569395"
+  },
+  {
+    "id": "usr_21",
+    "name": "Chifuniro Mkwezalamba",
+    "email": "chifuniro.mkwezalamba@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=chifuniromkwezalamba&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-24T12:33:01.569399",
+    "updated_at": "2026-04-07T12:33:01.569402"
+  },
+  {
+    "id": "usr_22",
+    "name": "Doreen Kamanga",
+    "email": "doreen.kamanga@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=doreenkamanga&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-06T12:33:01.569406",
+    "updated_at": "2026-03-23T12:33:01.569409"
+  },
+  {
+    "id": "usr_23",
+    "name": "Steward Kachingwe",
+    "email": "steward.kachingwe@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=stewardkachingwe&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-19T12:33:01.569413",
+    "updated_at": "2026-04-05T12:33:01.569416"
+  },
+  {
+    "id": "usr_24",
+    "name": "Annie Dzimbiri",
+    "email": "annie.dzimbiri@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=anniedzimbiri&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-11T12:33:01.569421",
+    "updated_at": "2026-03-28T12:33:01.569424"
+  },
+  {
+    "id": "usr_25",
+    "name": "Miracle Nkhata",
+    "email": "miracle.nkhata@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=miraclenkhata&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-18T12:33:01.569428",
+    "updated_at": "2026-03-13T12:33:01.569431"
+  },
+  {
+    "id": "usr_26",
+    "name": "Emmanuel Phiri",
+    "email": "emmanuel.phiri@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=emmanuelphiri&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-18T12:33:01.569435",
+    "updated_at": "2026-03-12T12:33:01.569439"
+  },
+  {
+    "id": "usr_27",
+    "name": "Bridget Kholowa",
+    "email": "bridget.kholowa@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=bridgetkholowa&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-10T12:33:01.569443",
+    "updated_at": "2026-03-10T12:33:01.569464"
+  },
+  {
+    "id": "usr_28",
+    "name": "Victor Matemba",
+    "email": "victor.matemba@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=victormatemba&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-20T12:33:01.569468",
+    "updated_at": "2026-03-21T12:33:01.569472"
+  },
+  {
+    "id": "usr_29",
+    "name": "Rose Nankhumwa",
+    "email": "rose.nankhumwa@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=rosenankhumwa&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-05T12:33:01.569476",
+    "updated_at": "2026-03-12T12:33:01.569479"
+  },
+  {
+    "id": "usr_30",
+    "name": "Patrick Mwafulirwa",
+    "email": "patrick.mwafulirwa@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=patrickmwafulirwa&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-16T12:33:01.569483",
+    "updated_at": "2026-04-01T12:33:01.569486"
+  },
+  {
+    "id": "usr_31",
+    "name": "Stella Chileka",
+    "email": "stella.chileka@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=stellachileka&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-24T12:33:01.569490",
+    "updated_at": "2026-03-27T12:33:01.569493"
+  },
+  {
+    "id": "usr_32",
+    "name": "Geoffrey Soko",
+    "email": "geoffrey.soko@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=geoffreysoko&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-22T12:33:01.569497",
+    "updated_at": "2026-03-31T12:33:01.569501"
+  },
+  {
+    "id": "usr_33",
+    "name": "Memory Mwenye",
+    "email": "memory.mwenye@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=memorymwenye&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-07T12:33:01.569505",
+    "updated_at": "2026-03-21T12:33:01.569508"
+  },
+  {
+    "id": "usr_34",
+    "name": "Gladys Chiwaya",
+    "email": "gladys.chiwaya@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=gladyschiwaya&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-12T12:33:01.569512",
+    "updated_at": "2026-03-29T12:33:01.569515"
+  },
+  {
+    "id": "usr_35",
+    "name": "Frank Chingota",
+    "email": "frank.chingota@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=frankchingota&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-27T12:33:01.569519",
+    "updated_at": "2026-03-09T12:33:01.569522"
+  },
+  {
+    "id": "usr_36",
+    "name": "Josephine Ntchisi",
+    "email": "josephine.ntchisi@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=josephinentchisi&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-24T12:33:01.569526",
+    "updated_at": "2026-03-25T12:33:01.569529"
+  },
+  {
+    "id": "usr_37",
+    "name": "Harrison Kamlomo",
+    "email": "harrison.kamlomo@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=harrisonkamlomo&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-07T12:33:01.569533",
+    "updated_at": "2026-03-28T12:33:01.569537"
+  },
+  {
+    "id": "usr_38",
+    "name": "Esther Gombwa",
+    "email": "esther.gombwa@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=esthergombwa&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-21T12:33:01.569540",
+    "updated_at": "2026-03-24T12:33:01.569544"
+  },
+  {
+    "id": "usr_39",
+    "name": "Lovemore Chikopa",
+    "email": "lovemore.chikopa@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=lovemorechikopa&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-29T12:33:01.569548",
+    "updated_at": "2026-03-25T12:33:01.569551"
+  },
+  {
+    "id": "usr_40",
+    "name": "Natasha Manda",
+    "email": "natasha.manda@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=natashamanda&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-04-03T12:33:01.569555",
+    "updated_at": "2026-03-27T12:33:01.569564"
+  },
+  {
+    "id": "usr_41",
+    "name": "Brian Kachali",
+    "email": "brian.kachali@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=briankachali&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-25T12:33:01.569569",
+    "updated_at": "2026-03-16T12:33:01.569572"
+  },
+  {
+    "id": "usr_42",
+    "name": "Patricia Chibwana",
+    "email": "patricia.chibwana@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=patriciachibwana&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-31T12:33:01.569576",
+    "updated_at": "2026-03-16T12:33:01.569580"
+  },
+  {
+    "id": "usr_43",
+    "name": "Austin Mwenifumbo",
+    "email": "austin.mwenifumbo@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=austinmwenifumbo&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-20T12:33:01.569584",
+    "updated_at": "2026-03-20T12:33:01.569587"
+  },
+  {
+    "id": "usr_44",
+    "name": "Charity Jere",
+    "email": "charity.jere@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=charityjere&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-22T12:33:01.569591",
+    "updated_at": "2026-04-01T12:33:01.569594"
+  },
+  {
+    "id": "usr_45",
+    "name": "Felix Munthali",
+    "email": "felix.munthali@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=felixmunthali&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-12T12:33:01.569598",
+    "updated_at": "2026-03-25T12:33:01.569602"
+  },
+  {
+    "id": "usr_46",
+    "name": "Grace Chikhosi",
+    "email": "grace.chikhosi@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=gracechikhosi&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-16T12:33:01.569605",
+    "updated_at": "2026-03-15T12:33:01.569608"
+  },
+  {
+    "id": "usr_47",
+    "name": "Chidya Mulaga",
+    "email": "chidya.mulaga@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=chidyamulaga&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-22T12:33:01.569613",
+    "updated_at": "2026-03-31T12:33:01.569616"
+  },
+  {
+    "id": "usr_48",
+    "name": "Salome Nkosi",
+    "email": "salome.nkosi@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=salomenkosi&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-11T12:33:01.569620",
+    "updated_at": "2026-03-26T12:33:01.569623"
+  },
+  {
+    "id": "usr_49",
+    "name": "Tinotenda Makwinja",
+    "email": "tinotenda.makwinja@example.mw",
+    "avatar_url": "https://api.dicebear.com/9.x/avataaars/svg?seed=tinotendamakwinja&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&skinColor=623d36,92594b,b16a5b&clothingColor=8fa7df,9ddadb,78e185",
+    "created_at": "2026-03-11T12:33:01.569627",
+    "updated_at": "2026-03-19T12:33:01.569630"
+  }
+]
