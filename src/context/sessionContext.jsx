@@ -8,14 +8,14 @@ export const useSession = () => useContext(SessionContext);
 const SessionProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [registeringError, setRegisteringError] = useState(null);
   const [authError, setAuthError] = useState(null);
 
   const checkSession = async () => {
-    console.log("Loading data from server");
+    // console.log("Loading data from server");
     setIsLoading(true);
 
     try {
@@ -23,20 +23,20 @@ const SessionProvider = ({ children }) => {
       if (data && data.user) {
         setUser(data.user);
 
-        console.log(data);
+        // console.log(data);
         setIsAuthenticated(true);
       } else {
-        console.log("not expected but heres the data: ", data);
+        // console.log("not expected but heres the data: ");
         setUser(null);
         setIsAuthenticated(false);
       }
     } catch (err) {
-      console.log("something went wrong coz of this:", err);
+      // console.log("something went wrong coz of this:", err);
       setIsAuthenticated(false);
       setUser(null);
     } finally {
       setIsLoading(false);
-      console.log("this is the end of session check");
+      // console.log("this is the end of session check");
     }
   };
 
@@ -48,7 +48,7 @@ const SessionProvider = ({ children }) => {
         email,
         password,
       });
-      console.log(data);
+      // console.log(data);
       // Auto-login after successful registration
       setUser(data.user);
       setIsAuthenticated(true);
@@ -104,7 +104,8 @@ const SessionProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkSession();
+    // checkSession();
+    console.log("session check is currently offline for maintenance");
   }, []);
 
   const contextValues = {

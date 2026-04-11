@@ -40,7 +40,11 @@ header div {
 
 .menu-button span {
   font-size: var(--fs-xl);
-  font-variation-settings: "FILL" 0, "wght" 800, "GRAD" 0, "opsz" 60;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 800,
+    "GRAD" 0,
+    "opsz" 60;
   transform: scale(1.2);
 }
 
@@ -84,8 +88,6 @@ header .actions button span {
   font-size: 30px;
 }
 
- 
-
 @media screen and (max-width: 1000px) {
   .header-left .menu-button {
     display: flex !important;
@@ -98,6 +100,9 @@ header .actions button span {
   }
   header {
     padding: var(--space-sm);
+  }
+  .header-left .menu-button {
+    display: none !important;
   }
 
   header button div {

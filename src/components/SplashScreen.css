@@ -1,0 +1,7 @@
+.splash__screen__loading__bar {
+  width: "200px";
+  height: "1px";
+  background: "var(--muted)";
+  position: "fixed";
+  bottom: "20px";
+}

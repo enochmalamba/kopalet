@@ -282,3 +282,48 @@ export const PRODUCTS = [
     date_posted: "2026-03-29T12:10:05.000Z",
   },
 ];
+
+export const job = {
+  job_title: "Accountant – Financial Reporting",
+  job_desc_overview:
+    "Exciting opportunity for a detail-oriented accountant to manage financial reporting and compliance for a leading financial services firm in Blantyre.",
+  job_description:
+    "We are seeking a qualified accountant to lead monthly financial reporting, tax compliance, and audit preparation. The role requires strong analytical skills and familiarity with IFRS standards.",
+  responsibilities: [
+    "Prepare monthly management accounts",
+    "Ensure tax compliance (PAYE, VAT, TPIN)",
+    "Coordinate with external auditors",
+    "Analyze financial performance and flag variances",
+    "Maintain accurate general ledger entries",
+  ],
+  requirements: [
+    "ACCA/CIMA qualification or equivalent",
+    "2+ years of accounting experience",
+    "Proficient in Sage or QuickBooks",
+    "Strong Excel skills",
+    "Knowledge of Malawi Revenue Authority regulations",
+  ],
+  employment_type: "full-time",
+  work_mode: "on-site",
+  experience_level: "mid",
+  salary_grade: "Grade H",
+  salary_range: {
+    min: 650000,
+    max: 950000,
+  },
+  benefits: ["Medical insurance", "Pension scheme", "Annual performance bonus"],
+  application_type: "external",
+  application_url: "https://apply.com",
+  application_email: "hr@corp.com",
+  application_deadline: "2026-03-10T12:33:01.570029",
+  location: "Zomba",
+  status: "active",
+  created_at: "2026-03-21T12:33:01.569985",
+  updated_at: "2026-03-21T12:33:01.569985",
+  company: {
+    name: "National Bank of Malawi",
+    logo_url: "/logo_new.png",
+    location: "Lilongwe, Malawi",
+    verified: true,
+  },
+};

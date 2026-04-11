@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -8,6 +9,8 @@ import Divider from "@mui/material/Divider";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorder";
 import Share from "@mui/icons-material/Share";
 function JobCard() {
+  const navigate = useNavigate();
+  const handleNavigate = (id) => navigate(`/vacancy/${id}`);
   return (
     <Box
       sx={{
@@ -108,7 +111,9 @@ function JobCard() {
           <IconButton variant="secondary" size="small">
             <Share />
           </IconButton>
-          <Button variant="outlined">Details</Button>
+          <Button variant="outlined" onClick={() => handleNavigate("900")}>
+            Details
+          </Button>
         </Box>
       </Box>
     </Box>

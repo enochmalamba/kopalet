@@ -13,6 +13,15 @@ export function formatTimeAgo(date) {
   } else return date;
 }
 
+export function formatTimeStamp(timeStamp) {
+  const date = new Date(timeStamp);
+  return date.toLocaleDateString("en-us", {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+  });
+}
+
 // Money formatting utilities
 export function formatMoney(amount, currency = "MWK", locale = "en-US") {
   return new Intl.NumberFormat(locale, {
