@@ -5,16 +5,20 @@ import Box from "@mui/material/Box";
 
 import Typography from "@mui/material/Typography";
 
-const GeneralPost = ({
-  isPostView = false,
-  title,
-  content,
-  userName,
-  userAvatar,
-  audience = "Public",
-  createdAt,
-  postMedia,
-}) => {
+const GeneralPost = ({ post }) => {
+  const isPostView = window.location.pathname.startsWith("/post/");
+  const {
+    author: postAuthor,
+    title: postTitle,
+    body: postBody,
+    post_type: postType,
+    is_sponsored: isSponsored,
+    is_anonymous: isAnonymous,
+    created_at: createdAt,
+    media: postMedia,
+    reactions_count: reactionsCount,
+    user_reactions: userReactions,
+  } = post;
   const navigate = useNavigate();
   const handleNavigate = () => {
     if (isPostView) return;
@@ -33,30 +37,48 @@ const GeneralPost = ({
       }}
     >
       <PostHeader
-        avatarSrc={userAvatar}
-        authorName={userName}
         timePosted={createdAt}
-        isPromoted={false}
-        audience={audience}
+        postAuthor={postAuthor}
+        isAnonymous={isAnonymous}
       />
-      <Typography
-        sx={{
-          color: "var(--muted)",
-          ...(!isPostView && {
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }),
-        }}
-      >
-        {content}
-      </Typography>
-      {postMedia && (
+      <Box>
+        {postTitle && (
+          <Typography
+            sx={{
+              color: "var(--text)",
+              ...(!isPostView && {
+                display: "-webkit-box",
+                WebkitLineClamp: 1,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }),
+            }}
+          >
+            {postTitle}
+          </Typography>
+        )}
+        {postBody && (
+          <Typography
+            sx={{
+              color: "var(--muted)",
+              ...(!isPostView && {
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }),
+            }}
+          >
+            {postBody}
+          </Typography>
+        )}
+      </Box>
+      {postMedia?.length > 0 && (
         <Box
           component="img"
-          src={postMedia[0]}
+          src={"http://kplt.test" + postMedia[0].url}
           sx={{
             width: "100%",
             height: "auto",
@@ -66,13 +88,10 @@ const GeneralPost = ({
             borderRadius: "var(--radius-md)",
           }}
         />
-      )}{" "}
+      )}
       <PostActions
-        initialVotes={99000}
-        initialUserVote={1}
-        comments={3350000}
-        hasCommented={true}
-        isSaved={true}
+        reactionsCount={reactionsCount}
+        userReactions={userReactions}
         handleNavigate={handleNavigate}
       />
     </Box>

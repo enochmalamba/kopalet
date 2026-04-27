@@ -1,9 +1,12 @@
 import { useState, useRef } from "react";
+import axiosInstance from "../api/axios.js";
+import DOMPurify from "dompurify";
 import CreatorHeader from "./CreatorHeader.jsx";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
+import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -38,6 +41,28 @@ function CreateGeneralPost() {
     setIsPosting(true);
     const topic = DOMPurify.sanitize(postTopic).replace(/\n/g, "<br>");
     const content = DOMPurify.sanitize(postContent).replace(/\n/g, "<br>");
+    const media = [...imageAttachments, ...docAttachments];
+
+    const formData = new FormData();
+    formData.append("title", topic);
+    formData.append("post_type", "regular");
+    formData.append("body", content);
+    media.forEach((file) => formData.append("media[]", file));
+
+    axiosInstance
+      .post("/v1/listings/post", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("Post created successfully:", response.data);
+        setIsPosting(false);
+      })
+      .catch((error) => {
+        console.error("Error creating post:", error);
+        setIsPosting(false);
+      });
   };
   const allowedDocTypes = [
     "application/pdf",
@@ -171,17 +196,19 @@ function CreateGeneralPost() {
               {topicOpen ? "Remove topic" : "Add topic"}
             </Typography>
           </Box>
-          {topicOpen && (
-            <TextField
-              placeholder="Add a topic to your post"
-              type="text"
-              value={postTopic}
-              onChange={(e) => setPostTopic(e.target.value)}
-              fullWidth
-              disabled={isPosting}
-              sx={{ transition: "ease-in .2s" }}
-            />
-          )}
+          <Collapse in={!!topicOpen}>
+            {topicOpen && (
+              <TextField
+                placeholder="Add a topic to your post"
+                type="text"
+                value={postTopic}
+                onChange={(e) => setPostTopic(e.target.value)}
+                fullWidth
+                disabled={isPosting}
+                sx={{ transition: "ease-in .2s" }}
+              />
+            )}
+          </Collapse>
           <TextField
             placeholder="What do you want to talk about?"
             type="text"

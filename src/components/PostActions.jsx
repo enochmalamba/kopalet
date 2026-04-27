@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -15,77 +15,36 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { formatCount } from "../utils/format";
 
 export default function PostActions({
-  initialVotes = 0,
-  initialUserVote = 0, // -1, 0, 1
-  comments = 0,
+  userReactions,
+  reactionsCount,
   onComment,
   onShare,
   onSave,
-  hasCommented = false,
-  isSaved = false,
+  onUpvote,
+  onDownvote,
   cardType = "post",
   handleNavigate,
 }) {
-  const [votes, setVotes] = useState(initialVotes);
-  const [userVote, setUserVote] = useState(initialUserVote);
+  const { upvotes = 0, downvotes = 0, comments = 0 } = reactionsCount || {};
+  const { vote = 0, comment = false, saved = false } = userReactions || {};
 
-  // ✅ Fix: sync props → state
-  useEffect(() => {
-    setVotes(initialVotes);
-  }, [initialVotes]);
-
-  useEffect(() => {
-    setUserVote(initialUserVote);
-  }, [initialUserVote]);
-
-  // ✅ Voting logic
-  const handleUpvote = () => {
-    if (userVote === 1) {
-      setVotes((v) => v - 1);
-      setUserVote(0);
-    } else if (userVote === -1) {
-      setVotes((v) => v + 2);
-      setUserVote(1);
-    } else {
-      setVotes((v) => v + 1);
-      setUserVote(1);
-    }
-  };
-
-  const handleDownvote = () => {
-    if (userVote === -1) {
-      setVotes((v) => v + 1);
-      setUserVote(0);
-    } else if (userVote === 1) {
-      setVotes((v) => v - 2);
-      setUserVote(-1);
-    } else {
-      setVotes((v) => v - 1);
-      setUserVote(-1);
-    }
-  };
+  const votes = upvotes - downvotes;
 
   const getIconStyles = ({ isActive, activeBg, activeColor }) => ({
     borderRadius: "var(--radius-md)",
     padding: "var(--space-2xs)",
     transition: "background-color 0.15s ease, color 0.15s ease",
 
-    // DEFAULT
     backgroundColor: isActive ? activeBg : "transparent",
 
-    // HOVER
     "&:hover": {
-      backgroundColor: isActive
-        ? activeBg // keep SAME bg if already active
-        : "var(--hover-bg)",
+      backgroundColor: isActive ? activeBg : "var(--hover-bg)",
     },
 
-    // CLICK (only meaningful when active)
     "&:active": {
-      backgroundColor: isActive ? activeBg : "var(--hover-bg)", // prevent wrong flash
+      backgroundColor: isActive ? activeBg : "var(--hover-bg)",
     },
 
-    // ICON COLOR
     "& svg": {
       color: isActive ? activeColor : "inherit",
     },
@@ -108,9 +67,9 @@ export default function PostActions({
           {/* UPVOTE */}
           <IconButton
             size="small"
-            onClick={handleUpvote}
+            onClick={onUpvote}
             sx={getIconStyles({
-              isActive: userVote === 1,
+              isActive: vote === 1,
               activeBg: "var(--primary-bg)",
               activeColor: "var(--primary)",
             })}
@@ -129,9 +88,9 @@ export default function PostActions({
           {/* DOWNVOTE */}
           <IconButton
             size="small"
-            onClick={handleDownvote}
+            onClick={onDownvote}
             sx={getIconStyles({
-              isActive: userVote === -1,
+              isActive: vote === -1,
               activeBg: "var(--danger-bg)",
               activeColor: "var(--danger)",
             })}
@@ -146,12 +105,12 @@ export default function PostActions({
             size="small"
             onClick={onComment}
             sx={getIconStyles({
-              isActive: hasCommented, // boolean from your logic
+              isActive: comment,
               activeBg: "var(--info-bg)",
               activeColor: "var(--info)",
             })}
           >
-            {hasCommented ? (
+            {comment ? (
               <ChatBubbleIcon fontSize="small" />
             ) : (
               <ChatBubbleOutlineIcon fontSize="small" />
@@ -171,7 +130,6 @@ export default function PostActions({
       <Box sx={iconContainerStyles}>
         {cardType === "post" && (
           <>
-            {" "}
             <IconButton
               size="small"
               onClick={onShare}
@@ -183,16 +141,17 @@ export default function PostActions({
             >
               <ShareOutlinedIcon fontSize="small" />
             </IconButton>
+
             <IconButton
               size="small"
               onClick={onSave}
               sx={getIconStyles({
-                isActive: isSaved,
+                isActive: saved,
                 activeBg: "var(--primary-bg)",
                 activeColor: "var(--primary)",
               })}
             >
-              {isSaved ? (
+              {saved ? (
                 <BookmarkIcon fontSize="small" />
               ) : (
                 <BookmarkBorderIcon fontSize="small" />

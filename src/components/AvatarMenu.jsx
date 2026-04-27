@@ -74,14 +74,15 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
             <Button
               variant="contained"
               size="medium"
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate(`/signup?redirect=${encodeURIComponent(location.pathname)}`)}
+              
             >
               Create account
             </Button>
             <Button
               variant="outlined"
               size="medium"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`)}
             >
               Log in
             </Button>

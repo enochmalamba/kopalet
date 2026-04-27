@@ -8,7 +8,7 @@ function CreatorHeader() {
   return (
     <Box sx={{ display: "flex", alignItems: "top", gap: "var(--space-sm)" }}>
       <Avatar
-        src={isAuthenticated ? user.avatar : "/src/assets/user.jpeg"}
+        src={isAuthenticated ? user.avatar_url : "/src/assets/user.jpeg"}
         alt={isAuthenticated ? user.username : "Profile"}
         sx={{ width: 24, height: 24 }}
       />

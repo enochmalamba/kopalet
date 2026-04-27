@@ -1,193 +1,104 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 import FormLabel from "@mui/material/FormLabel";
 import MenuItem from "@mui/material/MenuItem";
-import { workArrangements, jTypes, months } from "../data";
+import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
+import FormHelperText from "@mui/material/FormHelperText";
 import "./CreateJobPost.css";
 
-const JobInformation = () => {
-  return (
-    <>
-      <div className="job-details-container">
-        <h3>1. Job details</h3>
-        <div className="mui-input-group">
-          <FormLabel>Job position</FormLabel>
-          <TextField
-            helperText="e.g. Sales Manager, Receiptionist, etc."
-            variant="outlined"
-            required
-            className="mui-input"
-          />
-        </div>
-        <div className="mui-input-group">
-          <FormLabel>Department</FormLabel>
-          <TextField
-            helperText="e.g. Marketing, Engineering, Finance, etc."
-            variant="outlined"
-            required
-            className="mui-input"
-          />
-        </div>
-        <div className="mui-input-group">
-          <FormLabel>Employment Type</FormLabel>
-          <TextField
-            select
-            required
-            className="mui-input"
-            helperText="e.g. Full-time, Part-time, etc."
-          >
-            {jTypes.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
-        <div className="mui-input-group">
-          <FormLabel>Work arrangment</FormLabel>
-          <TextField
-            required
-            select
-            className="mui-input"
-            helperText="e.g. Remote, On-site, Hybrid, etc."
-          >
-            {workArrangements.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
-        <div>
-          <FormLabel>Location</FormLabel>
-          <TextField
-            helperText="Where is the job based?"
-            variant="outlined"
-            required
-            className="mui-input"
-          />
-        </div>
-        <div className="deadline-input-container">
-          <FormLabel>Enter application deadline</FormLabel>
-          <div className="deadline-inputs">
-            <TextField
-              select
-              label="Month"
-              variant="outlined"
-              className="deadline-input"
-              required
-            >
-              {months.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              max="31"
-              label="Day"
-              variant="outlined"
-              className="deadline-input"
-              required
-            />
-            <TextField
-              label="Year"
-              variant="outlined"
-              className="deadline-input"
-              required
-            />
-          </div>
-        </div>
-        <div className="mui-input-group">
-          <FormLabel>Role overview</FormLabel>
-          <TextField
-            helperText="What is the job all about?"
-            variant="outlined"
-            className="mui-input"
-            multiline
-            minRows={2}
-            maxRows={6}
-          />
-        </div>
-        <div className="mui-input-group">
-          <FormLabel>Qualifications and experiences</FormLabel>
-          <TextField
-            helperText="e.g. MSCE holder, etc"
-            variant="outlined"
-            className="mui-input"
-            multiline
-            minRows={2}
-            maxRows={6}
-          />
-        </div>
-        <div className="mui-input-group">
-          <FormLabel>Skills and competencies</FormLabel>
-          <TextField
-            helperText="What type of individual are you looking for?"
-            variant="outlined"
-            className="mui-input"
-            multiline
-            minRows={2}
-            maxRows={6}
-          />
-        </div>
-        <div>
-          <FormLabel>Duties and responsibilities</FormLabel>
-          <TextField
-            helperText="What will the employee be doing?"
-            variant="outlined"
-            className="mui-input"
-            multiline
-            minRows={2}
-            maxRows={6}
-          />
-        </div>
-        {/* <TextEditor
-          value={jobSummary}
-          onChange={(html) => setJobSummary(html)}
-          placeholder="Enter job summary here..."
-        /> */}
-      </div>
-    </>
-  );
-};
-const EmployerInformation = () => {
-  return (
-    <>
-      <div className="company-details-container">
-        <h3>2. Company Overview</h3>
-        <div>
-          <FormLabel>Employer name</FormLabel>
-          <TextField variant="outlined" className="mui-input" />
-        </div>
-        <div>
-          <FormLabel>About the Employer</FormLabel>
-          <TextField
-            variant="outlined"
-            className="mui-input"
-            multiline
-            minRows={2}
-            maxRows={6}
-          />
-        </div>{" "}
-      </div>
-    </>
-  );
-};
-
 const CreateJobPost = () => {
-  // const [position, setPosition] = useState("");
-  // const [jobSummary, setJobSummary] = useState("");
-  // const [jobType, setJobType] = useState("");
-  // const [dueDate, setDueDate] = useState("");
-  // const [attachedFile, setAttachedFile] = useState("");
-  // const [employer, SetEmployer] = useState({}); // company name, image, about, etc.
-
   return (
-    <div className="create-job-post">
-      <JobInformation />
-      <EmployerInformation />
-    </div>
+    <form>
+      <Box>
+        <Typography>Job details</Typography>
+        <TextField
+          label="Position"
+          variant="outlined"
+          helperText="e.g Secretary, Hiring Manager"
+          fullWidth
+          required
+        />
+        <TextField
+          label="Job summary"
+          helperText="Briefly describe the job role and/or the employer"
+          multiline
+          minRows={3}
+          maxRows={4}
+          variant="outlined"
+          fullWidth
+          required
+        />
+
+        <TextField
+          label="Location"
+          variant="outlined"
+          helperText="e.g Lusaka, Livingstone"
+          fullWidth
+          required
+        />
+        <Box sx={{ display: "flex", gap: "var(--space-md)" }}>
+          <TextField
+            label="Work arrangement"
+            variant="outlined"
+            select
+            defaultValue={"full-time"}
+            fullWidth
+            required
+          >
+            <MenuItem value="full-time">Full-Time</MenuItem>
+            <MenuItem value="part-time">Part-Time</MenuItem>
+            <MenuItem value="contract">Contract</MenuItem>
+            <MenuItem value="internship">Internship</MenuItem>
+          </TextField>
+          <TextField
+            label="Job type"
+            variant="outlined"
+            select
+            defaultValue={"on-site"}
+            fullWidth
+            required
+          >
+            <MenuItem value="on-site">On-Site</MenuItem>
+            <MenuItem value="remote">Remote</MenuItem>
+            <MenuItem value="hybrid">Hybrid</MenuItem>
+          </TextField>
+        </Box>
+        <Typography>Employer details</Typography>
+        <TextField
+          label="Company name"
+          variant="outlined"
+          helperText="if individual, enter your name"
+          fullWidth
+          required
+        />
+        <Box
+          sx={{ display: "flex", gap: "var(--space-md)", alignItems: "center" }}
+        >
+          <Button startIcon={<CameraAltOutlined />} variant="outlined">
+            Upload company logo
+          </Button>
+          <Box
+            component={"img"}
+            alt="Company logo"
+            src="/default-company-logo.png"
+            sx={{
+              maxWidth: "80px",
+              height: "80px",
+              backgroundColor: "var(--muted)",
+              borderRadius: "var(--radius-md)",
+            }}
+          />
+        </Box>
+        <FormHelperText>
+          Upload your company logo, if individual add picture of your
+          business{" "}
+        </FormHelperText>
+      </Box>
+    </form>
   );
 };
 

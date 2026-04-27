@@ -6,12 +6,13 @@ import IconButton from "@mui/material/IconButton";
 import MoreVert from "@mui/icons-material/MoreVert";
 
 function PostHeader({
-  avatarSrc,
-  authorName,
+  postAuthor,
+  isAnonymous,
   timePosted,
-  isPromoted,
   audience,
+  isSponsored,
 }) {
+  const { name, avatar } = postAuthor || {};
   return (
     <Box
       sx={{
@@ -28,7 +29,7 @@ function PostHeader({
           flex: 1,
         }}
       >
-        <Avatar alt={authorName} src={avatarSrc} />
+        <Avatar alt={name} src={avatar} />
         <Box
           sx={{
             flex: 1,
@@ -49,11 +50,11 @@ function PostHeader({
               m: 0,
             }}
           >
-            {authorName}
+            {isAnonymous ? "Anonymous" : name}
           </Typography>
           <Typography variant="caption" color="text.secondary">
             {formatTimeAgo(timePosted)} &bull;{" "}
-            {isPromoted ? <span>Promoted</span> : audience}
+            {isSponsored ? <span>Promoted</span> : audience}
           </Typography>
         </Box>
       </Box>

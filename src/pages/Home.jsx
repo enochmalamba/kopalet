@@ -5,50 +5,31 @@ import axiosInstance from "../api/axios";
 import JobPost from "../components/JobPost";
 import GeneralPost from "../components/GeneralPost";
 import JobCard from "../components/JobCard";
+import LoadingStates from "../components/LoadingStates";
 
 function Home() {
   const [feed, setFeed] = useState([]);
+  const [loadingFeed, setLoadingFeed] = useState(true);
+  const [feedError, setFeedError] = useState(null);
+
+  const fetchFeed = async () => {
+    try {
+      setLoadingFeed(true);
+      setFeedError(null);
+
+      const { data } = await axiosInstance.get("/v1/posts");
+      setFeed(data.data);
+    } catch (error) {
+      console.error(error);
+      setFeedError("Failed to load posts.");
+      setFeed([]);
+    } finally {
+      setLoadingFeed(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log("Fetching feed and users...");
-
-        // 1. Fetch both files simultaneously
-        const [feedRes, usersRes] = await Promise.all([
-          axiosInstance.get("/feed.json"),
-          axiosInstance.get("/users.json"),
-        ]);
-
-        const rawFeed = feedRes.data.feed || [];
-        const usersList = usersRes.data.users || usersRes.data || [];
-
-        // 2. Merge user details into the feed listings
-        const mergedData = rawFeed.map((item) => {
-          // Use .toString() to ensure "usr_0" matches correctly regardless of type
-          const userDetails = usersList.find(
-            (u) => u.id?.toString() === item.listing.user_id?.toString(),
-          );
-
-          return {
-            ...item,
-            listing: {
-              ...item.listing,
-              // Match avatar_url from users.json
-              user: userDetails || { name: "Unknown User", avatar_url: null },
-            },
-          };
-        });
-
-        setFeed(mergedData);
-        console.log("Feed items loaded:", mergedData.length);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setFeed([]); // Stop loading state on error
-      }
-    };
-
-    fetchData();
+    fetchFeed();
   }, []);
 
   return (
@@ -57,43 +38,33 @@ function Home() {
         <title>Home - Kopalet</title>
       </Helmet>
 
-      {/* Static components at the top of the feed */}
-      <GeneralPost />
       <PageFilters />
-      <JobPost />
 
-      {/* Dynamic Feed Content */}
-      {feed.length === 0 ? (
-        <p style={{ textAlign: "center", padding: "20px" }}>Loading feed...</p>
-      ) : (
-        feed.map((item) => {
-          const type = item.listing?.type;
-
-          // Render General Posts
-          if (type === "post") {
-            return (
-              <GeneralPost
-                key={item.listing.id}
-                isPostView={false}
-                title={item.listing.title}
-                content={item.listing.description}
-                userName={item.listing.user.name}
-                userAvatar={item.listing.user.avatar_url}
-                audience={item.listing.audience}
-                createdAt={item.listing.created_at}
-                postMedia={item.listing.post_media}
-              />
-            );
-          }
-
-          // Render Vacancies/Opportunities
-          if (type === "job") {
-            return <JobCard key={item.listing.id} data={item} />;
-          }
-
-          return null;
-        })
+      {loadingFeed && (
+        <>
+          <LoadingStates type="post" />
+          <LoadingStates type="post" />
+        </>
       )}
+
+      {!loadingFeed && feedError && (
+        <div className="empty-state">
+          <h2>Could not load feed</h2>
+          <p>{feedError}</p>
+          <button onClick={fetchFeed}>Retry</button>
+        </div>
+      )}
+
+      {!loadingFeed && !feedError && feed.length === 0 && (
+        <div className="empty-state">
+          <h2>No posts yet</h2>
+          <p>Be the first to share an update or opportunity.</p>
+        </div>
+      )}
+
+      {!loadingFeed &&
+        !feedError &&
+        feed.map((post) => <GeneralPost key={post.id} post={post} />)}
     </>
   );
 }

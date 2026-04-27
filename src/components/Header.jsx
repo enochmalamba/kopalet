@@ -49,7 +49,7 @@ function Header({ handleNavClick, isNavOpen }) {
           </Tooltip>
           <div className="header-avatar">
             <Avatar
-              src={isAuthenticated ? user.avatar : "/src/assets/user.jpeg"}
+              src={isAuthenticated ? user.avatar_url : "/src/assets/user.jpeg"}
               alt={isAuthenticated ? user.username : "Profile"}
               onClick={handleAvatarClick}
               sx={{ width: 30, height: 30 }}

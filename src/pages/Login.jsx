@@ -1,6 +1,7 @@
 import { useSession } from "../context/sessionContext";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
@@ -9,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
+import AuthPageBottomLinks from "../components/AuthPageBottomLinks";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -16,7 +18,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const navigate = useNavigate();
-  const { isLoggingIn, isAuthenticated, login, authError } = useSession();
+  const { isLoggingIn, isAuthenticated, login, authError, setAuthError } =
+    useSession();
 
   if (isAuthenticated) {
     navigate("/home");
@@ -32,12 +35,18 @@ function Login() {
       <div className="auth-container">
         {authError ? (
           <Snackbar
-            autoHideDuration={5000}
-            open={!!authError}
-            onClose={() => {}}
+            open={authError}
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            sx={{ bgcolor: "var(--danger)" }}
           >
-            <Alert variant="outlined" severity="error">
+            <Alert
+              variant="filled"
+              onClose={() => {
+                setAuthError(null);
+              }}
+              sx={{ bgcolor: "var(--danger)" }}
+              severity="error"
+            >
               {authError}
             </Alert>
           </Snackbar>
@@ -80,13 +89,13 @@ function Login() {
               },
             }}
           />
-          <p>
+          <Typography variant="body2">
             By registering or logging in, you consent to Kopalet's Terms of use
             and Privacy Policy
-          </p>
+          </Typography>
           <div className="auth-action-text">
             <span>
-              <Link color="inherit">Forgot password</Link>
+              <Link color="inherit">Forgot password?</Link>
             </span>
             <span>
               <Link to="/signup" color="inherit">
@@ -95,6 +104,7 @@ function Login() {
             </span>
           </div>
           <Button
+            size="large"
             type="submit"
             variant="contained"
             loadingPosition="end"
@@ -104,6 +114,7 @@ function Login() {
             {isLoggingIn ? "Logging in.." : "Log In"}
           </Button>
         </form>
+        <AuthPageBottomLinks />
       </div>
     </>
   );

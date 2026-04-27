@@ -62,6 +62,7 @@ function BottomNav() {
         }}
         sx={{
           borderTop: "1px solid var(--border)",
+          // height: "60px",
         }}
       >
         <BottomNavigationAction
