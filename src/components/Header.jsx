@@ -31,9 +31,7 @@ function Header({ handleNavClick, isNavOpen }) {
               <Icon>{isNavOpen ? "close" : "density_medium"}</Icon>
             </button>
           </Tooltip>
-          <div className="logo">
-            <img src="/logo.png" alt="Kopalet logo" />
-          </div>
+          <div className="logo">KOPALET</div>
         </div>
         <div className="actions">
           <Tooltip title="Mailbox" onClick={goToMailBox}>

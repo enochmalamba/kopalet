@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axios.js";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -9,11 +11,110 @@ import MenuItem from "@mui/material/MenuItem";
 import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
 import FormHelperText from "@mui/material/FormHelperText";
 import InputLabel from "@mui/material/InputLabel";
-import "./CreateJobPost.css";
+import toast from "react-hot-toast";
 
 const CreateJobPost = () => {
+  const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
+  const [roles, setRoles] = useState([]);
+  const [requirements, setRequirements] = useState([]);
+  const [qualifications, setQualifications] = useState([]);
+  const [benefits, setBenefits] = useState([]);
+  const [location, setLocation] = useState("");
+  const [workMode, setWorkMode] = useState("on_site");
+  const [jobType, setJobType] = useState("full_time");
+  const [employerName, setEmployerName] = useState("");
+  const [applicationInstructions, setApplicationInstructions] = useState(" ");
+  const [employerLogo, setEmployerLogo] = useState(null);
+  const [experienceLevel, setExperienceLevel] = useState("mid");
+  const [applicationDeadline, setApplicationDeadline] = useState(null);
+
+  const [isPosting, setIsPosting] = useState(false);
+  const logoInputRef = useRef(null);
+  const navigate = useNavigate();
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Only image files are allowed.");
+      e.target.value = "";
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image must be under 5MB.");
+      e.target.value = "";
+      return;
+    }
+
+    setEmployerLogo(file);
+  };
+  const arrayToLines = (arr) => {
+    return Array.isArray(arr) ? arr.join("\n") : "";
+  };
+
+  const linesToArray = (value) => {
+    return typeof value === "string" ? value.split("\n") : [];
+  };
+
+  const cleanLinesArray = (arr) => {
+    return Array.isArray(arr)
+      ? arr.map((line) => line.trim()).filter(Boolean)
+      : [];
+  };
+  function handleSubmit(e) {
+    setIsPosting;
+    e.preventDefault();
+
+    const jobDta = new FormData();
+    jobDta.append("title", title);
+    jobDta.append("body", summary);
+    cleanLinesArray(roles).forEach((item, i) => {
+      jobDta.append(`duties[${i}]`, item);
+    });
+
+    cleanLinesArray(requirements).forEach((item, i) => {
+      jobDta.append(`requirements[${i}]`, item);
+    });
+
+    cleanLinesArray(qualifications).forEach((item, i) => {
+      jobDta.append(`qualifications[${i}]`, item);
+    });
+
+    cleanLinesArray(benefits).forEach((item, i) => {
+      jobDta.append(`benefits[${i}]`, item);
+    });
+
+    jobDta.append("location", location);
+    jobDta.append("work_mode", workMode);
+    jobDta.append("job_type", jobType);
+    jobDta.append("employer_name", employerName);
+    jobDta.append("application_instructions", applicationInstructions);
+    jobDta.append("experience_level", experienceLevel);
+    jobDta.append("application_deadline", applicationDeadline);
+    if (employerLogo) {
+      jobDta.append("media[]", employerLogo);
+    }
+    axiosInstance
+      .post("/v1/listings/job", jobDta, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        toast.dismiss();
+        toast("Job post created successfully!");
+        navigate(`/vacancy/${response.data.data.id}`);
+      })
+      .catch((error) => {
+        toast.error("Failed to create job post.", {
+          position: "bottom-left",
+        });
+      });
+  }
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Box
         sx={{
           display: "flex",
@@ -31,6 +132,8 @@ const CreateJobPost = () => {
             fullWidth
             required
             name="job-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </Box>
         <Box>
@@ -44,10 +147,14 @@ const CreateJobPost = () => {
             variant="outlined"
             fullWidth
             required
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
           />
         </Box>
         <Box>
-          <InputLabel htmlFor="job-roles">Roles or duties</InputLabel>
+          <InputLabel htmlFor="job-roles">
+            Roles/Duties/Responsibilities
+          </InputLabel>
           <TextField
             id="job-roles"
             name="job-roles"
@@ -58,6 +165,8 @@ const CreateJobPost = () => {
             variant="outlined"
             fullWidth
             required
+            value={arrayToLines(roles)}
+            onChange={(e) => setRoles(linesToArray(e.target.value))}
           />
         </Box>
         <Box>
@@ -72,6 +181,8 @@ const CreateJobPost = () => {
             variant="outlined"
             fullWidth
             required
+            value={arrayToLines(requirements)}
+            onChange={(e) => setRequirements(linesToArray(e.target.value))}
           />
         </Box>
         <Box>
@@ -86,6 +197,8 @@ const CreateJobPost = () => {
             variant="outlined"
             fullWidth
             required
+            value={arrayToLines(qualifications)}
+            onChange={(e) => setQualifications(linesToArray(e.target.value))}
           />
         </Box>
         <Box>
@@ -99,6 +212,8 @@ const CreateJobPost = () => {
             maxRows={10}
             variant="outlined"
             fullWidth
+            value={arrayToLines(benefits)}
+            onChange={(e) => setBenefits(linesToArray(e.target.value))}
           />
         </Box>
         <Box>
@@ -110,33 +225,37 @@ const CreateJobPost = () => {
             helperText="e.g Lilongwe, Chilinde Blantyre"
             fullWidth
             required
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
           />
         </Box>
         <Box sx={{ display: "flex", gap: "var(--space-md)" }}>
           <TextField
-            label="Work arrangement"
+            label="Work Mode"
             variant="outlined"
             select
-            defaultValue={"full-time"}
             fullWidth
             required
+            value={workMode}
+            onChange={(e) => setWorkMode(e.target.value)}
           >
-            <MenuItem value="full-time">Full-Time</MenuItem>
-            <MenuItem value="part-time">Part-Time</MenuItem>
-            <MenuItem value="contract">Contract</MenuItem>
-            <MenuItem value="internship">Internship</MenuItem>
-          </TextField>
-          <TextField
-            label="Job type"
-            variant="outlined"
-            select
-            defaultValue={"on-site"}
-            fullWidth
-            required
-          >
-            <MenuItem value="on-site">On-Site</MenuItem>
+            <MenuItem value="on_site">On-Site</MenuItem>
             <MenuItem value="remote">Remote</MenuItem>
             <MenuItem value="hybrid">Hybrid</MenuItem>
+          </TextField>
+          <TextField
+            label="Job Type"
+            variant="outlined"
+            select
+            fullWidth
+            required
+            value={jobType}
+            onChange={(e) => setJobType(e.target.value)}
+          >
+            <MenuItem value="full_time">Full-Time</MenuItem>
+            <MenuItem value="part_time">Part-Time</MenuItem>
+            <MenuItem value="contract">Contract</MenuItem>
+            <MenuItem value="internship">Internship</MenuItem>
           </TextField>
         </Box>
         <Typography>Employer details</Typography>{" "}
@@ -150,33 +269,55 @@ const CreateJobPost = () => {
             helperText="The employer name can be company name, business name, or individual
             name."
             required
+            value={employerName}
+            onChange={(e) => setEmployerName(e.target.value)}
           />
         </Box>
         <Box
           sx={{ display: "flex", gap: "var(--space-md)", alignItems: "center" }}
         >
-          <Button startIcon={<CameraAltOutlined />} variant="outlined">
+          <Button
+            startIcon={<CameraAltOutlined />}
+            variant="outlined"
+            onClick={() => logoInputRef.current.click()}
+          >
             Upload company logo
           </Button>
+
           <Box
-            component={"img"}
+            component="img"
             alt="Company logo"
-            src="/default-company-logo.png"
+            src={
+              employerLogo
+                ? URL.createObjectURL(employerLogo)
+                : "/default-company-logo.png"
+            }
             sx={{
               maxWidth: "80px",
               height: "80px",
+              objectFit: "cover",
               backgroundColor: "var(--muted)",
               borderRadius: "var(--radius-md)",
             }}
           />
-        </Box>{" "}
+
+          <input
+            ref={logoInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleLogoChange}
+          />
+        </Box>
         <FormHelperText>
           The logo can be any image that represents you or your business. The
           photo is however optional.
         </FormHelperText>
         <Typography>How to apply</Typography>{" "}
         <Box>
-          <InputLabel>Application instructions</InputLabel>
+          <InputLabel htmlFor="application-instructions">
+            Application instructions
+          </InputLabel>
           <TextField
             multiline
             fullWidth
@@ -185,6 +326,22 @@ const CreateJobPost = () => {
             minRows={3}
             maxRows={10}
             required
+            value={applicationInstructions}
+            onChange={(e) => setApplicationInstructions(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <InputLabel htmlFor="application-deadline">
+            Application deadline
+          </InputLabel>
+          <TextField
+            fullWidth
+            type="date"
+            id="applications-deadline"
+            name="applications-deadline"
+            required
+            value={applicationDeadline}
+            onChange={(e) => setApplicationDeadline(e.target.value)}
           />
         </Box>
         <Button type="submit" variant="contained">

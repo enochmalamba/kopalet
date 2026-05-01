@@ -1,99 +1,182 @@
 import { useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
+
 import DetailPageHeader from "../components/DetailPageHeader.jsx";
+
 import Box from "@mui/material/Box";
-import MarketListItem from "../components/MarketListItem.jsx";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Button from "@mui/material/Button";
-import { PRODUCTS } from "../data.js";
-import { formatMoney, formatTimeAgo } from "../utils/format.js";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
+import Skeleton from "@mui/material/Skeleton";
+
 import MoreVert from "@mui/icons-material/MoreVert";
 import CopyAllIcon from "@mui/icons-material/CopyAll";
 
+import axiosInstance from "../api/axios.js";
+import { formatMoney, formatTimeAgo } from "../utils/format.js";
+
 function ProductView() {
+  const { id: productId } = useParams();
+
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
-  const productId = useParams().id;
-  const PRODUCT = PRODUCTS.find((prod) => prod.id === productId);
+
+  // 🔹 NEW: image loading state
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  if (!PRODUCT) {
+
+  // 🔹 Fetch product
+  useEffect(() => {
+    let isMounted = true;
+
+    axiosInstance
+      .get(`/v1/market-item/${productId}`)
+      .then((response) => {
+        if (!isMounted) return;
+        setProduct(response.data.item);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (!isMounted) return;
+        console.log(err);
+        setError("Failed to load product.");
+        setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [productId]);
+
+  // 🔹 Loading UI
+  if (loading) {
     return (
-      <Box sx={{ padding: "var(--space-lg)", textAlign: "center" }}>
-        <Typography variant="h6">Product not found</Typography>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <CircularProgress />
       </Box>
     );
   }
 
-  const SIMILAR_PRODUCTS = PRODUCTS.filter(
-    (prod) => prod.category === PRODUCT.category && prod.id !== PRODUCT.id,
-  ).slice(0, 5); // get up to 5 similar products
+  // 🔹 Error UI
+  if (error) {
+    return (
+      <Box sx={{ p: 2 }}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
+
+  // 🔹 Not found
+  if (!product) {
+    return (
+      <Box sx={{ p: 2 }}>
+        <Typography>Product not found</Typography>
+      </Box>
+    );
+  }
+
+  // 🔹 Safe mappings
+  const title = product.title;
+  const description = product.body;
+  const price = product.price;
+  const currency = product.currency;
+  const location = product.location;
+  const createdAt = product.created_at;
+
+  const primaryImage =
+    product.media?.find((m) => m.is_primary)?.url ||
+    product.media?.[0]?.url ||
+    "/fallback-image.png";
 
   const handleCopyDetails = () => {
-    const details = `Seller contact details:\nEmail: ${PRODUCT.seller_email || "Not provided"}\nPhone: ${PRODUCT.seller_phone || "Not provided"}\nWhatsApp: ${PRODUCT.seller_phone || "Not provided"}`;
+    const details = `Seller contact details:
+Name: ${product.author?.name || "Unknown"}
+Phone: Not provided`;
     navigator.clipboard.writeText(details);
     setContactDialogOpen(false);
   };
+
   return (
     <>
-      {" "}
       <Helmet>
-        <title>{PRODUCT.product_name} - Marketplace</title>
+        <title>{title} - Marketplace</title>
         <meta
           name="description"
-          content={PRODUCT.description?.slice(0, 160) || "Product details"}
+          content={description?.slice(0, 160) || "Product details"}
         />
       </Helmet>
+
       <Box>
-        {" "}
-        <DetailPageHeader heading={PRODUCT.product_name} />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "var(--space-lg) 0",
-          }}
-        >
-          <Box
-            component="img"
-            src={PRODUCT.primary_image}
-            alt={PRODUCT.product_name}
-            sx={{
-              width: "100%",
-              height: "auto",
-              maxHeight: "400px",
-              objectFit: "cover",
-            }}
-          />
+        <DetailPageHeader heading={title} />
+
+        {/* 🔹 Image with Skeleton */}
+        <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
+          <Box sx={{ width: "100%", maxHeight: 400, position: "relative" }}>
+            {/* Skeleton */}
+            {!imageLoaded && (
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height={400}
+                sx={{ borderRadius: 2 }}
+              />
+            )}
+
+            {/* Image */}
+            <Box
+              component="img"
+              src={primaryImage}
+              alt={title}
+              onLoad={() => setImageLoaded(true)}
+              onError={(e) => {
+                e.target.src = "/fallback-image.png";
+                setImageLoaded(true);
+              }}
+              sx={{
+                width: "100%",
+                height: 400,
+                objectFit: "cover",
+                position: imageLoaded ? "static" : "absolute",
+                top: 0,
+                left: 0,
+                opacity: imageLoaded ? 1 : 0,
+                transition: "opacity 0.3s ease",
+              }}
+            />
+          </Box>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-2xs)",
-            marginBottom: "var(--space-lg)",
-          }}
-        >
-          <Typography variant="body1" color="text.secondary">
-            Posted {formatTimeAgo(PRODUCT.date_posted)} in {PRODUCT.location}
-          </Typography>
-          <Typography variant="h5">{PRODUCT.product_name}</Typography>
-          <Typography variant="h6" color="text.secondary">
-            {formatMoney(PRODUCT.price, PRODUCT.currency)}
+
+        {/* 🔹 Details */}
+        <Box sx={{ mb: 4 }}>
+          <Typography color="text.secondary">
+            Posted {formatTimeAgo(createdAt)} in {location}
           </Typography>
 
+          <Typography variant="h5" color="text.secondary">
+            {title}
+          </Typography>
+
+          <Typography variant="h4">{formatMoney(price, currency)}</Typography>
+
+          {/* Actions 
           <Box
             sx={{
               display: "grid",
               gridTemplateColumns: "85% 10%",
-              gap: "var(--space-2xs)",
+              gap: 1,
+              mt: 2,
             }}
           >
             <Button
@@ -102,71 +185,41 @@ function ProductView() {
             >
               Contact Seller
             </Button>
-            <Button variant="outlined" sx={{ minWidth: "32px", padding: 0 }}>
+
+            <Button variant="outlined" sx={{ minWidth: 32, p: 0 }}>
               <MoreVert />
             </Button>
-            <Dialog
-              open={contactDialogOpen}
-              onClose={() => setContactDialogOpen(false)}
-            >
-              <DialogContent>
-                <Typography variant="h6">Seller contact details</Typography>
-                <Typography variant="body1">
-                  Email: {PRODUCT.seller_email || "Not provided"}
-                </Typography>
-                <Typography variant="body1">
-                  Phone: {PRODUCT.seller_phone || "Not provided"}
-                </Typography>
-                <Typography variant="body1">
-                  WhatsApp: {PRODUCT.seller_phone || "Not provided"}
-                </Typography>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  variant="text"
-                  onClick={handleCopyDetails}
-                  startIcon={<CopyAllIcon />}
-                >
-                  Copy Details
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Box>
+          </Box>*/}
 
-          <Typography variant="body1" fontWeight={"var(--fw-bold)"}>
+          {/* Contact Dialog */}
+          <Dialog
+            open={contactDialogOpen}
+            onClose={() => setContactDialogOpen(false)}
+            fullScreen={fullScreen}
+          >
+            {/* <DialogContent>
+              <Typography variant="h6">Seller details</Typography>
+              <Typography>Name: {product.author?.name}</Typography>
+              <Typography>Phone: Not provided</Typography>
+            </DialogContent> */}
+
+            <DialogActions>
+              <Button onClick={handleCopyDetails} startIcon={<CopyAllIcon />}>
+                Copy Details
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          {/* Description */}
+          <Typography fontWeight="bold" mt={3}>
             Description
           </Typography>
-          <Typography variant="body" color="text.secondary">
-            {PRODUCT.description}
+
+          <Typography color="text.secondary">
+            {description || "No description provided."}
           </Typography>
-          <Divider />
-        </Box>
-        {/* similar products section */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-md)",
-            marginBottom: "var(--space-lg)",
-          }}
-        >
-          <Typography variant="h6">Similar listings</Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-            }}
-          >
-            {SIMILAR_PRODUCTS.length > 0 ? (
-              SIMILAR_PRODUCTS.map((prod) => (
-                <MarketListItem key={prod.id} marketItem={prod} />
-              ))
-            ) : (
-              <Typography variant="body2" color="text.secondary">
-                No similar listings found.
-              </Typography>
-            )}
-          </Box>
+
+          <Divider sx={{ mt: 2 }} />
         </Box>
       </Box>
     </>

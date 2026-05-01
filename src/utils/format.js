@@ -24,10 +24,23 @@ export function formatTimeStamp(timeStamp) {
 
 // Money formatting utilities
 export function formatMoney(amount, currency = "MWK", locale = "en-US") {
-  return new Intl.NumberFormat(locale, {
+  const value = Number(amount) || 0;
+
+  const formatter = new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: currency,
-  }).format(amount);
+    currency,
+    minimumFractionDigits: value % 1 === 0 ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+
+  let formatted = formatter.format(value);
+
+  // Replace MWK symbol/name with MK
+  if (currency === "MWK") {
+    formatted = formatted.replace("MWK", "MK");
+  }
+
+  return formatted;
 }
 
 export function formatCompactMoney(amount, currency = "MWK") {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import axiosInstance from "../api/axios.js";
 import CreatorHeader from "./CreatorHeader.jsx";
@@ -23,7 +24,7 @@ const CreateMarketItem = () => {
   const [isSingleItem, setIsSingleItem] = useState(true);
   const [location, setLocation] = useState("");
   const [imageAttachments, setImageAttachments] = useState([]);
-
+  const navigate = useNavigate();
   const handleUploadImages = (event) => {
     const files = Array.from(event.target.files);
     // images must be >= 10mb and not more than 5 images
@@ -67,8 +68,8 @@ const CreateMarketItem = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((responce) => {
-        console.log("Post created successfully: ", responce.data);
+      .then((response) => {
+        navigate(`/marketplace/product/${response.data.item.id}`);
       })
       .catch((error) => {});
   };

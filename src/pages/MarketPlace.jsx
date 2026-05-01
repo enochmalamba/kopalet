@@ -1,31 +1,60 @@
 import { useState, useEffect } from "react";
-import { PRODUCTS } from "../data";
-import PageFilters from "../components/PageFilters";
 import MarketListItem from "../components/MarketListItem";
 import { Helmet } from "react-helmet-async";
+
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+
+import axiosInstance from "../api/axios.js";
 
 function MarketPlace() {
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const generateCategories = () => {
-    const uniqueCategories = new Set(PRODUCTS.map((prod) => prod.category));
+  const [items, setItems] = useState([]);
 
-    const cleanedCategories = [...uniqueCategories].filter(
-      (cat) => cat !== "All",
-    );
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState(null);
 
-    setCategories(["All", ...cleanedCategories]);
-  };
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
-    generateCategories();
-  }, []);
+    let isMounted = true;
 
-  const filteredItems =
-    selectedCategory === "All"
-      ? PRODUCTS
-      : PRODUCTS.filter((prod) => prod.category === selectedCategory);
+    // 🔹 differentiate initial load vs pagination
+    if (page === 1) setLoading(true);
+    else setLoadingMore(true);
+
+    axiosInstance
+      .get(`/v1/market-items?page=${page}`)
+      .then((response) => {
+        if (!isMounted) return;
+
+        // ⚠️ adjust if your API structure differs
+        const newItems = response.data.data || [];
+
+        setItems((prev) => (page === 1 ? newItems : [...prev, ...newItems]));
+
+        const meta = response.data.meta;
+        setHasMore(meta.current_page < meta.last_page);
+
+        setLoading(false);
+        setLoadingMore(false);
+      })
+      .catch((err) => {
+        if (!isMounted) return;
+        console.log(err);
+        setError("Failed to load marketplace items.");
+        setLoading(false);
+        setLoadingMore(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [page]);
 
   return (
     <>
@@ -33,28 +62,59 @@ function MarketPlace() {
         <title>Market Place - Kopalet</title>
       </Helmet>
 
-      <h2>Market Place</h2>
+      <Typography variant="h5" mb={2}>
+        Market Place
+      </Typography>
 
-      <PageFilters
-        filters={categories.map((cat) => ({ id: cat, label: cat }))}
-        defaultActive={["All"]}
-        onChange={(selected) => {
-          if (!selected?.length) return; // safety check
-          setSelectedCategory(selected[0]);
-        }}
-      />
+      {/* 🔹 Error */}
+      {error && (
+        <Box sx={{ my: 2 }}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      )}
 
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-        }}
-      >
-        {filteredItems.map((prod) => (
-          <MarketListItem key={prod.id} marketItem={prod} />
-        ))}
-      </Box>
+      {/* 🔹 Initial Loading */}
+      {loading && (
+        <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
+          <CircularProgress />
+        </Box>
+      )}
+
+      {/* 🔹 Items */}
+      {!loading && (
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            gap: 2,
+          }}
+        >
+          {items.map((item) => (
+            <MarketListItem key={item.id} marketItem={item} />
+          ))}
+        </Box>
+      )}
+
+      {/* 🔹 Empty state */}
+      {!loading && items.length === 0 && (
+        <Typography mt={3} color="text.secondary">
+          No items available.
+        </Typography>
+      )}
+
+      {/* 🔹 Load more button */}
+      {!loading && hasMore && (
+        <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
+          <Button
+            variant="contained"
+            onClick={() => setPage((prev) => prev + 1)}
+            disabled={loadingMore}
+          >
+            {loadingMore ? "Loading..." : "Load More"}
+          </Button>
+        </Box>
+      )}
     </>
   );
 }

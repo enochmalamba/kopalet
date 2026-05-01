@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { Toaster } from "react-hot-toast";
 
 const ThemeContext = createContext(null);
 export const useTheme = () => useContext(ThemeContext);
@@ -206,6 +207,34 @@ const ThemeProvider = ({ children }) => {
     <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
       <MuiThemeProvider theme={muiTheme}>
         <CssBaseline />
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 4500,
+            style: {
+              background: "var(--surface)",
+              color: "var(--text)",
+              border: "1px solid var(--text)",
+              borderRadius: "var(--radius-md)",
+              fontSize: "var(--font-size-sm)",
+              padding: "12px 16px",
+              boxShadow: "var(--shadow-md)",
+            },
+            success: {
+              iconTheme: {
+                primary: "var(--success)",
+                secondary: "var(--surface)",
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: "var(--danger)",
+                secondary: "var(--surface)",
+              },
+            },
+          }}
+        />
         {children}
       </MuiThemeProvider>
     </ThemeContext.Provider>

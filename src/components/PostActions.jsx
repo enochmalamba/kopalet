@@ -15,6 +15,7 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { formatCount } from "../utils/format";
 
 export default function PostActions({
+  handleVoteClick,
   userReactions,
   reactionsCount,
   onComment,
@@ -67,7 +68,7 @@ export default function PostActions({
           {/* UPVOTE */}
           <IconButton
             size="small"
-            onClick={onUpvote}
+            onClick={() => handleVoteClick(1)}
             sx={getIconStyles({
               isActive: vote === 1,
               activeBg: "var(--primary-bg)",
@@ -88,7 +89,7 @@ export default function PostActions({
           {/* DOWNVOTE */}
           <IconButton
             size="small"
-            onClick={onDownvote}
+            onClick={() => handleVoteClick(-1)}
             sx={getIconStyles({
               isActive: vote === -1,
               activeBg: "var(--danger-bg)",

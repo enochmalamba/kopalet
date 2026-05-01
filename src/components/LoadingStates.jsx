@@ -75,12 +75,43 @@ const LoadingSpinner = () => {
 
 const PageFiltersSkeleton = () => {
   return (
-    <Stack direction={"row"} gap={"var(--space-sm)"}>
-      <Skeleton animation="wave" width={"60px"} height={"30px"} />
-      <Skeleton animation="wave" width={"60px"} height={"30px"} />
-      <Skeleton animation="wave" width={"60px"} height={"30px"} />
-      <Skeleton animation="wave" width={"60px"} height={"30px"} />
-      <Skeleton animation="wave" width={"60px"} height={"30px"} />
+    <Stack direction={"row"} gap={"var(--space-sm)"} overflow={"hidden"}>
+      <Skeleton
+        sx={{ flex: 1 }}
+        animation="wave"
+        width={"60px"}
+        height={"35px"}
+      />
+      <Skeleton
+        sx={{ flex: 1 }}
+        animation="wave"
+        width={"60px"}
+        height={"35px"}
+      />
+      <Skeleton
+        sx={{ flex: 1 }}
+        animation="wave"
+        width={"60px"}
+        height={"35px"}
+      />
+      <Skeleton
+        sx={{ flex: 1 }}
+        animation="wave"
+        width={"60px"}
+        height={"35px"}
+      />
+      <Skeleton
+        sx={{ flex: 1 }}
+        animation="wave"
+        width={"60px"}
+        height={"35px"}
+      />
+      <Skeleton
+        sx={{ flex: 1 }}
+        animation="wave"
+        width={"60px"}
+        height={"35px"}
+      />
     </Stack>
   );
 };

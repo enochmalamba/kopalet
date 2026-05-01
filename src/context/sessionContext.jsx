@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axios";
 import LoadingStates from "../components/LoadingStates";
-
 const SessionContext = createContext();
 
 export const useSession = () => useContext(SessionContext);

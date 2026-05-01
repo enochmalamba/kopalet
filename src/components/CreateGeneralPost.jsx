@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axios.js";
 import DOMPurify from "dompurify";
 import CreatorHeader from "./CreatorHeader.jsx";
@@ -16,6 +17,7 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import toast from "react-hot-toast";
 function CreateGeneralPost() {
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const imageInputRef = useRef(null);
@@ -26,6 +28,8 @@ function CreateGeneralPost() {
   const [imageAttachments, setImageAttachments] = useState([]);
   const [docAttachments, setDocAttachmentes] = useState([]);
   const [isPosting, setIsPosting] = useState(false);
+
+  const navigate = useNavigate();
   // const [warning, setWarning] = useState(null);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,12 +60,15 @@ function CreateGeneralPost() {
         },
       })
       .then((response) => {
-        console.log("Post created successfully:", response.data);
         setIsPosting(false);
+        toast.success("Post created successfully!");
+        //rediret to the new post
+        const postId = response.data.post.id;
+        navigate(`/post/${postId}`);
       })
       .catch((error) => {
-        console.error("Error creating post:", error);
         setIsPosting(false);
+        toast.error("Something went wrong. Please try again.");
       });
   };
   const allowedDocTypes = [

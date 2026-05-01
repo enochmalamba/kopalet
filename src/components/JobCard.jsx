@@ -5,12 +5,16 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
+import PostHeader from "../components/PostHeader";
+import { formatTimeAgo } from "../utils/format";
 
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorder";
 import Share from "@mui/icons-material/Share";
-function JobCard() {
+function JobCard({ job }) {
   const navigate = useNavigate();
   const handleNavigate = (id) => navigate(`/vacancy/${id}`);
+
+  const { author, listing: vacancy, id: jobId, employer } = job;
   return (
     <Box
       sx={{
@@ -23,6 +27,12 @@ function JobCard() {
         padding: "var(--space-sm) var(--space-md)",
       }}
     >
+      {/* <PostHeader
+        postAuthor={author}
+        timePosted={"Vacancy"}
+        audience={"Public"}
+      />
+      <Divider /> */}
       <Box
         sx={{
           display: "grid",
@@ -41,8 +51,8 @@ function JobCard() {
         >
           <Box
             component="img"
-            src="/products/clothes.jpg"
-            alt="{PRODUCT.product_name}"
+            src={employer.logo_url || "/default-company-logo.png"}
+            alt={employer.name}
             sx={{
               width: "100%",
               height: "100%",
@@ -51,7 +61,7 @@ function JobCard() {
           />
         </Box>
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <Typography variant="body">Human Resource Manager</Typography>
+          <Typography variant="body">{vacancy.title}</Typography>
           <Typography
             color="text.secondary"
             noWrap
@@ -61,7 +71,7 @@ function JobCard() {
               m: 0,
             }}
           >
-            MPLO Landscaping & Cleaners
+            {employer.name}
           </Typography>
         </Box>
         <IconButton size="small">
@@ -78,10 +88,7 @@ function JobCard() {
           textOverflow: "ellipsis",
         }}
       >
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod nisi nam
-        neque corrupti laborum. Laboriosam dolore nam, facere exercitationem
-        officiis blanditiis nihil porro consectetur rerum deserunt? Sapiente
-        labore non deleniti?
+        {vacancy.body}
       </Typography>
       <Box
         sx={{
@@ -90,9 +97,14 @@ function JobCard() {
           alignItems: "center",
         }}
       >
-        <Chip label="Full-time" size="small" />
-        <Chip label="Lilongwe" size="small" />
-        <Chip label="On-site" size="small" />
+        <Chip label={vacancy.job_type} size="small" />
+        <Chip label={vacancy.work_mode} size="small" />
+        <Chip label={vacancy.experience_level} size="small" />
+        {/* 
+          <GetChip>{listing.job_type}</GetChip>
+            <GetChip>{listing.work_mode}</GetChip>
+            <GetChip>{listing.experience_level}</GetChip>
+        */}
       </Box>
       <Divider />
       <Box
@@ -103,7 +115,8 @@ function JobCard() {
         }}
       >
         <Typography variant="caption" color="text.secondary">
-          2d ago - 220 views
+          {/* 2d ago - Views */}
+          {formatTimeAgo(job.created_at)}
         </Typography>{" "}
         <Box
           sx={{ display: "flex", alignItems: "center", gap: "var(--space-sm)" }}
@@ -111,7 +124,7 @@ function JobCard() {
           <IconButton variant="secondary" size="small">
             <Share />
           </IconButton>
-          <Button variant="outlined" onClick={() => handleNavigate("900")}>
+          <Button variant="outlined" onClick={() => handleNavigate(job.id)}>
             Details
           </Button>
         </Box>

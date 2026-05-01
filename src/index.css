@@ -79,8 +79,14 @@
   --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 @font-face {
+  font-family: "Eurostile";
+  src: url("./assets/fonts/eurostile.ttf") format("opentype");
+  font-style: normal;
+  font-weight: 900 !important;
+}
+@font-face {
   font-family: "Material Symbols Outlined";
-  src: url("/fonts/google_icons_outlined.ttf") format("truetype");
+  src: url("./assets/fonts/google_icons_outlined.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -129,4 +135,14 @@ body {
   font-size: var(--base-font-size);
   color: var(--muted);
   line-height: 1.5;
+}
+.external_link {
+  font-size: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+}
+.logo {
+  font-family: "Eurostile" !important;
+  font-size: var(--fs-xxl);
+  font-weight: 900;
 }

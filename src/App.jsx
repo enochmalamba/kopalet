@@ -28,7 +28,7 @@ function App() {
           <Route path="/communities" element={<Communities />} />
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/marketplace" element={<MarketPlace />} />
-          <Route path="/product/:id" element={<ProductView />} />
+          <Route path="/marketplace/product/:id" element={<ProductView />} />
           <Route path="/vacancy/:id" element={<VacancyView />} />
           <Route path="/post/:id" element={<GeneralPostView />} />
         </Route>
