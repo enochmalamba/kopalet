@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import axiosInstance from "../api/axios.js";
-import CreatorHeader from "./CreatorHeader.jsx";
+
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -15,6 +15,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import LoadingStates from "./LoadingStates.jsx";
 // must have at least name, description, price, condition, and optionally location, images, and category
 const CreateMarketItem = () => {
   const [title, setTitle] = useState("");
@@ -24,7 +25,14 @@ const CreateMarketItem = () => {
   const [isSingleItem, setIsSingleItem] = useState(true);
   const [location, setLocation] = useState("");
   const [imageAttachments, setImageAttachments] = useState([]);
+  const [isPosting, setIsPosting] = useState(false);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [productCategoryId, setProductCategoryId] = useState(null);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [loadingCategoriesError, setLoadingCategoriesError] = useState(null);
+
   const navigate = useNavigate();
+
   const handleUploadImages = (event) => {
     const files = Array.from(event.target.files);
     // images must be >= 10mb and not more than 5 images
@@ -52,6 +60,7 @@ const CreateMarketItem = () => {
       alert("Please fill in all required fields.");
       return;
     }
+    setIsPosting(true);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
@@ -71,8 +80,59 @@ const CreateMarketItem = () => {
       .then((response) => {
         navigate(`/marketplace/product/${response.data.item.id}`);
       })
-      .catch((error) => {});
+      .catch((error) => {})
+      .finally(() => setIsPosting(false));
   };
+
+  const fetchCategories = () => {
+    setLoadingCategoriesError(null);
+    setIsLoadingCategories(true);
+    axiosInstance
+      .get("/v1/market-item-categories")
+      .then((response) => {
+        setCategoryOptions(response.data);
+        setIsLoadingCategories(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoadingCategoriesError("Something went wrong, retry or refresh.");
+        setIsLoadingCategories(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+  // no posting if categories are not loaded
+
+  if (isLoadingCategories) {
+    return (
+      <Box sx={{ paddingTop: "80px" }}>
+        <LoadingStates component="spinner" />
+      </Box>
+    );
+  }
+  if (loadingCategoriesError) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "var(--space-lg)",
+          paddingTop: "var(--space-xxl)",
+          gap: "var(--space-xxl)",
+        }}
+      >
+        <Typography variant="h6" sx={{ textAlign: "center" }}>
+          {loadingCategoriesError}
+        </Typography>
+        <Button onClick={fetchCategories} sx={{ mt: 1 }} variant="contained">
+          Retry
+        </Button>
+      </Box>
+    );
+  }
   return (
     <form className="create-market-item-form" onSubmit={handleSumbit}>
       <Box
@@ -83,7 +143,6 @@ const CreateMarketItem = () => {
           marginBottom: "var(--space-lg)",
         }}
       >
-        <CreatorHeader />
         <TextField
           fullWidth
           value={title}
@@ -215,7 +274,14 @@ const CreateMarketItem = () => {
           marginTop: "var(--space-md)",
         }}
       >
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={isPosting}
+          loading={isPosting}
+          loadingPosition="start"
+        >
           Create
         </Button>
       </Stack>

@@ -5,7 +5,6 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
-import PostHeader from "../components/PostHeader";
 import { formatTimeAgo } from "../utils/format";
 
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorder";
@@ -23,20 +22,14 @@ function JobCard({ job }) {
         gap: "var(--space-md)",
         width: "min(550px, 100%)",
         background: " var(--surface)",
-        borderRadius: "var(--radius-md)",
-        padding: "var(--space-sm) var(--space-md)",
+        // borderRadius: "var(--radius-md)",
+        padding: "var(--space-sm) var(--space-lg)",
       }}
     >
-      {/* <PostHeader
-        postAuthor={author}
-        timePosted={"Vacancy"}
-        audience={"Public"}
-      />
-      <Divider /> */}
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "60px calc(100% - 100px) 30px",
+          gridTemplateColumns: "60px 1fr auto",
           gap: "var(--space-sm)",
           alignItems: "start",
         }}
@@ -60,7 +53,7 @@ function JobCard({ job }) {
             }}
           />
         </Box>
-        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Box sx={{ minWidth: 0, display: "flex", flexDirection: "column" }}>
           <Typography variant="body">{vacancy.title}</Typography>
           <Typography
             color="text.secondary"
@@ -74,9 +67,11 @@ function JobCard({ job }) {
             {employer.name}
           </Typography>
         </Box>
-        <IconButton size="small">
-          <BookmarkBorderOutlinedIcon />
-        </IconButton>
+        <Box sx={{ border: ".5px solid var(--border)", background: "red" }}>
+          <IconButton>
+            <BookmarkBorderOutlinedIcon />
+          </IconButton>
+        </Box>
       </Box>
       <Typography
         color="text.secondary"
@@ -99,7 +94,7 @@ function JobCard({ job }) {
       >
         <Chip label={vacancy.job_type} size="small" />
         <Chip label={vacancy.work_mode} size="small" />
-        <Chip label={vacancy.experience_level} size="small" />
+        <Chip label={vacancy.location} size="small" />
         {/* 
           <GetChip>{listing.job_type}</GetChip>
             <GetChip>{listing.work_mode}</GetChip>

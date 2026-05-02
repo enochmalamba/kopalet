@@ -9,23 +9,15 @@ function MarketListItem({ marketItem }) {
       className="market-list-item"
       to={`/marketplace/product/${marketItem.id}`}
     >
-      <img src={marketItem.media[0].url} alt={marketItem.name} />
-
-      <Typography
-        fontSize={"var(--fs-sm)"}
-        color="text.secondary"
-        noWrap
-        sx={{ maxWidth: "100%" }}
-      >
-        {marketItem.product_name}
+      <img src={marketItem.primary_image_url} alt={marketItem.title} />
+      <Typography color="text.secondary" noWrap sx={{ maxWidth: "100%" }}>
+        {marketItem.title}
       </Typography>
 
-      <Typography fontSize={"var(--fs-base)"}>
-        {formatMoney(marketItem.price, "MWK")}
-      </Typography>
+      <Typography>{formatMoney(marketItem.price, "MWK")}</Typography>
 
       <Typography variant="caption" color="var(--muted)">
-        {formatTimeAgo(marketItem.created_at)}
+        {formatTimeAgo(marketItem.created_at)} - {marketItem.location}
       </Typography>
     </Link>
   );

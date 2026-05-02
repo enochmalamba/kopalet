@@ -23,7 +23,6 @@ function MarketPlace() {
   useEffect(() => {
     let isMounted = true;
 
-    // 🔹 differentiate initial load vs pagination
     if (page === 1) setLoading(true);
     else setLoadingMore(true);
 
@@ -32,7 +31,6 @@ function MarketPlace() {
       .then((response) => {
         if (!isMounted) return;
 
-        // ⚠️ adjust if your API structure differs
         const newItems = response.data.data || [];
 
         setItems((prev) => (page === 1 ? newItems : [...prev, ...newItems]));
@@ -66,28 +64,29 @@ function MarketPlace() {
         Market Place
       </Typography>
 
-      {/* 🔹 Error */}
       {error && (
         <Box sx={{ my: 2 }}>
           <Alert severity="error">{error}</Alert>
         </Box>
       )}
 
-      {/* 🔹 Initial Loading */}
       {loading && (
         <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
           <CircularProgress />
         </Box>
       )}
 
-      {/* 🔹 Items */}
       {!loading && (
         <Box
           sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: 2,
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "repeat(2, 1fr)", // mobile: always 2 columns
+              sm: "repeat(3, 1fr)", // tablet: 3
+              md: "repeat(3, 1fr)", // desktop: 3
+              lg: "repeat(3, 1fr)", // wide: 3
+            },
+            gap: { xs: 1, sm: 2 },
           }}
         >
           {items.map((item) => (
@@ -96,14 +95,12 @@ function MarketPlace() {
         </Box>
       )}
 
-      {/* 🔹 Empty state */}
       {!loading && items.length === 0 && (
         <Typography mt={3} color="text.secondary">
           No items available.
         </Typography>
       )}
 
-      {/* 🔹 Load more button */}
       {!loading && hasMore && (
         <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
           <Button

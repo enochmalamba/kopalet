@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateJobPost from "../components/CreateJobPost";
 import CreateMarketItem from "../components/CreateMarketItem";
@@ -18,8 +18,26 @@ function TabPanel({ value, index, children }) {
 }
 
 const CreateHandle = () => {
-  const [value, setValue] = useState(0);
+  const getTabFromHash = () => {
+    const hash = window.location.hash;
+    if (hash === "#market-item") return 1;
+    if (hash === "#post") return 2;
+    return 0; // default to vacancy
+  };
+
+  const handleTabChange = (e, v) => {
+    setValue(v);
+    const hashes = ["#vacancy", "#market-item", "#post"];
+    window.location.hash = hashes[v];
+  };
+
+  const [value, setValue] = useState(getTabFromHash);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setValue(getTabFromHash());
+  }, []);
+
   return (
     <>
       <Box
@@ -49,7 +67,7 @@ const CreateHandle = () => {
       </Box>
       <Tabs
         value={value}
-        onChange={(e, v) => setValue(v)}
+        onChange={handleTabChange}
         scrollButtons
         allowScrollButtonsMobile
         aria-label="scrollable force tabs example"

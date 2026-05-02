@@ -50,11 +50,11 @@ const GeneralPost = ({ post }) => {
       sx={{
         width: "100%",
         background: "var(--surface)",
-        padding: "var(--space-sm) var(--space-md)",
+        padding: "var(--space-sm) var(--space-lg)",
         display: "flex",
         flexDirection: "column",
         gap: "var(--space-md)",
-        borderRadius: "var(--radius-md)",
+        // borderRadius: "var(--radius-md)",
       }}
     >
       <PostHeader

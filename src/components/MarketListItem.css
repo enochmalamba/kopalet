@@ -1,37 +1,51 @@
 .market-list-item {
   display: flex;
   flex-direction: column;
-  width: min(100%, 150px);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
   border-radius: var(--radius-md);
   overflow: hidden;
-  padding: var(--space-xs) var(--space-sm);
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.15s ease;
 }
 
 .market-list-item:hover {
-  background: var(--surface);
+  opacity: 0.85;
 }
 
 .market-list-item img {
   width: 100%;
-  height: 130px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  object-position: center;
-  border-radius: var(--radius-sm);
-}
-.market-list-item h3 {
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-regular);
-}
-.market-list-item p {
-  font-size: var(--fs-base);
+  border-radius: var(--radius-md);
+  background-color: var(--surface, #f0f0f0);
+  display: block;
 }
 
-.market-list-item p,
-.market-list-item h3 {
+.market-list-item .item-price {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: inherit;
+
+  padding: 0 4px;
+}
+
+.market-list-item .item-name,
+.market-list-item .item-location {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  padding: 0 4px;
+}
+
+.market-list-item .item-name {
+  font-size: var(--fs-sm);
+  color: inherit;
+}
+
+.market-list-item .item-location {
+  font-size: var(--fs-xs);
+  color: var(--muted);
 }

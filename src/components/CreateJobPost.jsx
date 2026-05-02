@@ -11,6 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
 import FormHelperText from "@mui/material/FormHelperText";
 import InputLabel from "@mui/material/InputLabel";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import toast from "react-hot-toast";
 
 const CreateJobPost = () => {
@@ -64,7 +66,7 @@ const CreateJobPost = () => {
       : [];
   };
   function handleSubmit(e) {
-    setIsPosting;
+    setIsPosting(true);
     e.preventDefault();
 
     const jobDta = new FormData();
@@ -103,18 +105,23 @@ const CreateJobPost = () => {
         },
       })
       .then((response) => {
-        toast.dismiss();
-        toast("Job post created successfully!");
         navigate(`/vacancy/${response.data.data.id}`);
       })
       .catch((error) => {
-        toast.error("Failed to create job post.", {
+        toast.error("Something went wrong, please try again.", {
           position: "bottom-left",
         });
-      });
+      })
+      .finally(() => setIsPosting(false));
   }
   return (
     <form onSubmit={handleSubmit}>
+      <Backdrop
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+        open={isPosting}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Box
         sx={{
           display: "flex",
