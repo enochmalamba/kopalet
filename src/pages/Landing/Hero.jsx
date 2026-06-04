@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import heroImage from "../../assets/hero.png";
+import heroImage from "../../assets/hero.webp";
 import React from "react";
 
 function Hero() {
