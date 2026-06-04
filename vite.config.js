@@ -7,12 +7,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/v1": {
-        target: "http://kplt.test",
+        target: "http://api.kopalet.com",
         changeOrigin: true,
         secure: false,
       },
       "/sanctum": {
-        target: "http://kplt.test",
+        target: "http://api.kopalet.com",
         changeOrigin: true,
         secure: false,
       },
