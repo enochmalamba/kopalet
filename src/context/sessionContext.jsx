@@ -22,7 +22,7 @@ const SessionProvider = ({ children }) => {
     setIsLoading(true);
 
     try {
-      await axiosInstance.get("/sanctum/csrf-cookie");
+      await axiosInstance.get("sanctum/csrf-cookie");
 
       const { data } = await axiosInstance.get("/v1/auth/me");
       if (data && data.user) {
@@ -43,7 +43,7 @@ const SessionProvider = ({ children }) => {
   const createAccount = async (name, email, password) => {
     setIsRegistering(true);
     setAuthError(null);
-    await axiosInstance.get("/sanctum/csrf-cookie");
+    await axiosInstance.get("sanctum/csrf-cookie");
 
     try {
       const { data } = await axiosInstance.post("/v1/auth/register", {
@@ -80,7 +80,7 @@ const SessionProvider = ({ children }) => {
     setAuthError(null);
     setIsLoggingIn(true);
     try {
-      await axiosInstance.get("/sanctum/csrf-cookie");
+      await axiosInstance.get("sanctum/csrf-cookie");
       const { data } = await axiosInstance.post("/v1/auth/login", {
         email,
         password,
