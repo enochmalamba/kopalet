@@ -15,7 +15,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  /* padding: var(--space-sm) 0; */
+  padding: var(--space-sm);
   padding-bottom: 80px;
   overflow: hidden;
   background: var(--bg);

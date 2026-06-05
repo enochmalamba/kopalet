@@ -7,18 +7,18 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 
 // Outlined Icons
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import CasesOutlinedIcon from "@mui/icons-material/CasesOutlined";
 import StoreMallDirectoryOutlinedIcon from "@mui/icons-material/StoreMallDirectoryOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
 
 // Filled Icons
 import HomeIcon from "@mui/icons-material/Home";
-
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import CasesIcon from "@mui/icons-material/Work";
 import StoreMallDirectoryIcon from "@mui/icons-material/StoreMallDirectory";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 function BottomNav() {
   const [page, setPage] = useState("home");
@@ -51,7 +51,19 @@ function BottomNav() {
 
   return (
     <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 10 }}
+      sx={{
+        display: {
+          xs: "block", // mobile
+          sm: "none", // tablet
+          md: "none", // desktop
+          lg: "none", // wide
+        },
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
+      }}
       elevation={3}
     >
       <BottomNavigation
@@ -70,22 +82,18 @@ function BottomNav() {
           value="home"
           icon={currentPath === "home" ? <HomeIcon /> : <HomeOutlinedIcon />}
         />
-        {/* <BottomNavigationAction
-          label="Communities"
-          value="communities"
-          icon={
-            currentPath === "communities" ? (
-              <BubbleChartIcon />
-            ) : (
-              <BubbleChartOutlinedIcon />
-            )
-          }
-        /> */}
         <BottomNavigationAction
           label="Vacancies"
           value="vacancies"
           icon={
             currentPath === "vacancies" ? <CasesIcon /> : <CasesOutlinedIcon />
+          }
+        />{" "}
+        <BottomNavigationAction
+          label="Create"
+          value="create"
+          icon={
+            currentPath === "create" ? <AddBoxIcon /> : <AddBoxOutlinedIcon />
           }
         />
         <BottomNavigationAction
@@ -102,7 +110,7 @@ function BottomNav() {
         <BottomNavigationAction
           label={isMoreOpen ? "Close" : "More"}
           value="more"
-          icon={isMoreOpen ? <CloseOutlinedIcon /> : <MoreHorizOutlinedIcon />}
+          icon={isMoreOpen ? <CloseOutlinedIcon /> : <MenuIcon />}
         />
       </BottomNavigation>
       <NavMore

@@ -26,25 +26,22 @@ function Header({ handleNavClick, isNavOpen }) {
     <>
       <header>
         <div className="header-left">
-          <Tooltip title="Toggle Navigation">
-            <button className="menu-button" onClick={handleNavClick}>
-              <Icon>{isNavOpen ? "close" : "density_medium"}</Icon>
-            </button>
-          </Tooltip>
+          <button className="menu-button" onClick={handleNavClick}>
+            <Icon>{isNavOpen ? "close" : "density_medium"}</Icon>
+          </button>
+
           <div className="logo">KOPALET</div>
         </div>
         <div className="actions">
-          <Tooltip title="Mailbox" onClick={goToMailBox}>
-            <button>
-              <Icon>mail</Icon>
-            </button>
-          </Tooltip>
-          <Tooltip title="Create post">
-            <button onClick={goToCreatePage}>
-              <Icon>add_box</Icon>
-              <div>Create</div>
-            </button>
-          </Tooltip>
+          <button onClick={goToMailBox}>
+            <Icon>mail</Icon>
+          </button>
+
+          <button onClick={goToCreatePage}>
+            <Icon>add_box</Icon>
+            <div>Create</div>
+          </button>
+
           <div className="header-avatar">
             <Avatar
               src={isAuthenticated ? user.avatar_url : "/src/assets/user.jpeg"}

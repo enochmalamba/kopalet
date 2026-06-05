@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import axiosInstance from "../api/axios.js";
 
 import TextField from "@mui/material/TextField";
@@ -10,77 +9,168 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
-import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import Alert from "@mui/material/Alert";
 import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import LoadingStates from "./LoadingStates.jsx";
-// must have at least name, description, price, condition, and optionally location, images, and category
+
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // match backend: 10MB
+const MAX_IMAGES = 5;
+
 const CreateMarketItem = () => {
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("");
   const [condition, setCondition] = useState("null");
   const [description, setDescription] = useState("");
-  const [isSingleItem, setIsSingleItem] = useState(true);
+  const [isSingleItem, setIsSingleItem] = useState(false);
   const [location, setLocation] = useState("");
   const [imageAttachments, setImageAttachments] = useState([]);
   const [isPosting, setIsPosting] = useState(false);
   const [categoryOptions, setCategoryOptions] = useState([]);
-  const [productCategoryId, setProductCategoryId] = useState(null);
+  const [productCategoryId, setProductCategoryId] = useState("");
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [loadingCategoriesError, setLoadingCategoriesError] = useState(null);
+  const [errors, setErrors] = useState({ general: null, fields: {} });
 
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+
+  const clearErrors = () => setErrors({ general: null, fields: {} });
 
   const handleUploadImages = (event) => {
     const files = Array.from(event.target.files);
-    // images must be >= 10mb and not more than 5 images
-    const validFiles = files.filter((file) => file.size <= 10 * 1024 * 1024);
-    if (validFiles.length + imageAttachments.length > 5) {
-      alert("You can only upload up to 5 images.");
-      return;
+
+    const validFiles = files.filter((file) => {
+      if (file.size > MAX_FILE_SIZE) {
+        setErrors((prev) => ({
+          ...prev,
+          general: `"${file.name}" exceeds the 2MB limit and was skipped.`,
+        }));
+        return false;
+      }
+      return true;
+    });
+
+    const combined = [...imageAttachments, ...validFiles];
+    if (combined.length > MAX_IMAGES) {
+      setErrors((prev) => ({
+        ...prev,
+        general: `You can only upload up to ${MAX_IMAGES} images.`,
+      }));
+      setImageAttachments(combined.slice(0, MAX_IMAGES));
+    } else {
+      setImageAttachments(combined);
     }
-    setImageAttachments((prev) => [...prev, ...validFiles]);
+
+    event.target.value = null;
   };
 
   const removeImage = (index) => {
     setImageAttachments((prev) => prev.filter((_, i) => i !== index));
   };
-  const handleSumbit = (e) => {
-    e.preventDefault();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    // Client-side guard — catches obvious gaps before hitting the API
     if (
-      !title ||
-      !description ||
+      !title.trim() ||
+      !description.trim() ||
       !price ||
       condition === "null" ||
       imageAttachments.length === 0
     ) {
-      alert("Please fill in all required fields.");
+      setErrors({
+        general:
+          "Please fill in all required fields and add at least one image.",
+        fields: {},
+      });
       return;
     }
+
     setIsPosting(true);
+
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
+    formData.append("title", title.trim());
+    formData.append("description", description.trim());
     formData.append("currency", "MWK");
     formData.append("price", price);
     formData.append("condition", condition);
-    formData.append("isSingleItem", isSingleItem);
-    formData.append("location", location);
+    formData.append("in_stock", isSingleItem ? "1" : "0");
+    formData.append("location", location.trim());
+    if (productCategoryId) {
+      formData.append("category_id", productCategoryId);
+    }
     imageAttachments.forEach((file) => formData.append("media[]", file));
 
     axiosInstance
       .post("/v1/listings/market-item", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
         navigate(`/marketplace/product/${response.data.item.id}`);
       })
-      .catch((error) => {})
+      .catch((error) => {
+        if (!error.response) {
+          setErrors({
+            general:
+              "Could not reach the server. Check your connection and try again.",
+            fields: {},
+          });
+          return;
+        }
+
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 422:
+            setErrors({
+              general:
+                data.message ||
+                "Some fields have errors. Please review and try again.",
+              fields: data.errors || {},
+            });
+            break;
+          case 401:
+            setErrors({
+              general: "Your session has expired. Please log in again.",
+              fields: {},
+            });
+            break;
+          case 403:
+            setErrors({
+              general: "You do not have permission to post listings.",
+              fields: {},
+            });
+            break;
+          case 413:
+            setErrors({
+              general:
+                "One or more images are too large. Maximum is 2MB per image.",
+              fields: {},
+            });
+            break;
+          case 429:
+            setErrors({
+              general:
+                "You are submitting too fast. Please wait and try again.",
+              fields: {},
+            });
+            break;
+          case 500:
+          default:
+            setErrors({
+              general:
+                data?.message ||
+                "Something went wrong on our end. Please try again later.",
+              fields: {},
+            });
+        }
+      })
       .finally(() => setIsPosting(false));
   };
 
@@ -90,20 +180,19 @@ const CreateMarketItem = () => {
     axiosInstance
       .get("/v1/market-item-categories")
       .then((response) => {
-        setCategoryOptions(response.data);
-        setIsLoadingCategories(false);
+        setCategoryOptions(response.data.categories);
       })
-      .catch((error) => {
-        console.log(error);
-        setLoadingCategoriesError("Something went wrong, retry or refresh.");
-        setIsLoadingCategories(false);
-      });
+      .catch(() => {
+        setLoadingCategoriesError(
+          "Failed to load categories. Please retry or refresh.",
+        );
+      })
+      .finally(() => setIsLoadingCategories(false));
   };
 
   useEffect(() => {
     fetchCategories();
   }, []);
-  // no posting if categories are not loaded
 
   if (isLoadingCategories) {
     return (
@@ -112,6 +201,7 @@ const CreateMarketItem = () => {
       </Box>
     );
   }
+
   if (loadingCategoriesError) {
     return (
       <Box
@@ -133,8 +223,26 @@ const CreateMarketItem = () => {
       </Box>
     );
   }
+
   return (
-    <form className="create-market-item-form" onSubmit={handleSumbit}>
+    <form className="create-market-item-form" onSubmit={handleSubmit}>
+      {errors.general && (
+        <Alert
+          severity="error"
+          onClose={clearErrors}
+          sx={{ marginBottom: "var(--space-sm)" }}
+        >
+          {errors.general}
+        </Alert>
+      )}
+
+      <Backdrop
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+        open={isPosting}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
       <Box
         sx={{
           display: "flex",
@@ -146,87 +254,111 @@ const CreateMarketItem = () => {
         <TextField
           fullWidth
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            clearErrors();
+          }}
           label="Item name"
           variant="outlined"
+          error={!!errors.fields?.title}
+          helperText={errors.fields?.title?.[0]}
         />
-        <Box
-          sx={{
-            display: "flex",
-            gap: "var(--space-sm)",
-          }}
-        >
-          <Box sx={{ width: "50%" }}>
-            <TextField
-              label="Condition"
-              variant="outlined"
-              defaultValue={"null"}
-              onChange={(e) => setCondition(e.target.value)}
-              select
-              fullWidth
-            >
-              <MenuItem value={"null"}>Select</MenuItem>
-              <MenuItem value="new">New</MenuItem>
-              <MenuItem value="like-new">Like New</MenuItem>
-              <MenuItem value="used">Used</MenuItem>
-            </TextField>
-          </Box>
-          <Box sx={{ flex: 1 }}>
-            <TextField
-              label="LIst as"
-              defaultValue={false}
-              variant="outlined"
-              select
-              fullWidth
-              onChange={(e) => setIsSingleItem(e.target.value)}
-            >
-              <MenuItem default selected value={false}>
-                Single item
-              </MenuItem>
-              <MenuItem value={true}>In stock</MenuItem>
-            </TextField>
-          </Box>
+
+        <Box sx={{ display: "flex", gap: "var(--space-sm)" }}>
+          <TextField
+            label="Condition"
+            variant="outlined"
+            value={condition}
+            onChange={(e) => setCondition(e.target.value)}
+            select
+            fullWidth
+            error={!!errors.fields?.condition}
+            helperText={errors.fields?.condition?.[0]}
+          >
+            <MenuItem value="null" disabled>
+              Select condition
+            </MenuItem>
+            <MenuItem value="new">New</MenuItem>
+            <MenuItem value="like-new">Like New</MenuItem>
+            <MenuItem value="used">Used</MenuItem>
+          </TextField>
+
+          <TextField
+            label="List as"
+            variant="outlined"
+            value={isSingleItem}
+            select
+            fullWidth
+            onChange={(e) => setIsSingleItem(e.target.value)}
+          >
+            <MenuItem value={false}>Single item</MenuItem>
+            <MenuItem value={true}>In stock</MenuItem>
+          </TextField>
         </Box>
+
+        {/* Category selector */}
         <TextField
-          label="Price"
+          label="Category"
+          variant="outlined"
+          value={productCategoryId}
+          onChange={(e) => setProductCategoryId(e.target.value)}
+          select
+          fullWidth
+          error={!!errors.fields?.category_id}
+          helperText={errors.fields?.category_id?.[0]}
+        >
+          <MenuItem value="">No category</MenuItem>
+          {categoryOptions.map((cat) => (
+            <MenuItem key={cat.id} value={cat.id}>
+              {cat.name}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          label="Price (MWK)"
           variant="outlined"
           type="number"
-          InputProps={{
-            startAdornment: (
-              <Typography sx={{ marginRight: "var(--space-md)" }}>
-                MWK
-              </Typography>
-            ),
-          }}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-        />{" "}
+          error={!!errors.fields?.price}
+          helperText={errors.fields?.price?.[0]}
+          inputProps={{ min: 0 }}
+        />
+
         <TextField
           label="Location"
           variant="outlined"
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
+          error={!!errors.fields?.location}
+          helperText={errors.fields?.location?.[0]}
         />
+
         <TextField
           fullWidth
           label="Description"
           variant="outlined"
           multiline
           rows={4}
-          helperText="Dont forget to add contact details "
+          helperText={
+            errors.fields?.description?.[0] ??
+            "Don't forget to add contact details"
+          }
+          error={!!errors.fields?.description}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+
         <Button
           fullWidth
           component="label"
-          role={undefined}
           variant="outlined"
-          tabIndex={-1}
           startIcon={<CameraAltOutlined />}
+          disabled={imageAttachments.length >= MAX_IMAGES}
         >
-          Upload images
+          Upload images ({imageAttachments.length}/{MAX_IMAGES})
           <input
             type="file"
             accept="image/*"
@@ -235,6 +367,15 @@ const CreateMarketItem = () => {
             onChange={handleUploadImages}
           />
         </Button>
+
+        {errors.fields?.media && (
+          <Alert severity="error">
+            {Array.isArray(errors.fields.media)
+              ? errors.fields.media.join(" ")
+              : errors.fields.media}
+          </Alert>
+        )}
+
         {imageAttachments.length > 0 && (
           <div className="create-post-form-upload-preview">
             {imageAttachments.map((file, index) => (
@@ -252,9 +393,7 @@ const CreateMarketItem = () => {
                 >
                   <CloseOutlinedIcon />
                 </IconButton>
-
                 <img src={URL.createObjectURL(file)} alt="" />
-
                 <div className="file-preview-details">
                   <span>{file.name}</span>
                 </div>
@@ -274,15 +413,8 @@ const CreateMarketItem = () => {
           marginTop: "var(--space-md)",
         }}
       >
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={isPosting}
-          loading={isPosting}
-          loadingPosition="start"
-        >
-          Create
+        <Button type="submit" variant="contained" color="primary">
+          PUBLISH
         </Button>
       </Stack>
     </form>

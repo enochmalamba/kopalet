@@ -22,6 +22,7 @@ import CopyAllIcon from "@mui/icons-material/CopyAll";
 
 import axiosInstance from "../api/axios.js";
 import { formatMoney, formatTimeAgo } from "../utils/format.js";
+import { preserveLineBreaks } from "../utils/textFormat";
 
 function ProductView() {
   const { id: productId } = useParams();
@@ -216,7 +217,7 @@ Phone: Not provided`;
           </Typography>
 
           <Typography color="text.secondary">
-            {description || "No description provided."}
+            {preserveLineBreaks(description) || "No description provided."}
           </Typography>
 
           <Divider sx={{ mt: 2 }} />

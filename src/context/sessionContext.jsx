@@ -53,7 +53,6 @@ const SessionProvider = ({ children }) => {
       });
 
       setUser(data.user);
-      console.log(data.user);
       setIsAuthenticated(true);
       setAuthError(null);
       if (redirect && redirect.startsWith("/")) {

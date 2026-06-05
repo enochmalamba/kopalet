@@ -17,7 +17,11 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import toast from "react-hot-toast";
+import Alert from "@mui/material/Alert";
+
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 function CreateGeneralPost() {
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
   const imageInputRef = useRef(null);
@@ -26,20 +30,32 @@ function CreateGeneralPost() {
   const [postTopic, setPostTopic] = useState("");
   const [postContent, setPostContent] = useState("");
   const [imageAttachments, setImageAttachments] = useState([]);
-  const [docAttachments, setDocAttachmentes] = useState([]);
+  const [docAttachments, setDocAttachments] = useState([]);
   const [isPosting, setIsPosting] = useState(false);
+  const [errors, setErrors] = useState({
+    general: null, // string: shown in an Alert
+    fields: {}, // object: keyed by field name for inline field errors
+  });
+
+  const clearErrors = () => setErrors({ general: null, fields: {} });
 
   const navigate = useNavigate();
-  // const [warning, setWarning] = useState(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    clearErrors();
+
     if (
       !postTopic.trim() &&
       !postContent.trim() &&
       imageAttachments.length === 0 &&
       docAttachments.length === 0
     ) {
-      return; // nothing was entered
+      setErrors({
+        general: "Please add a topic, content, or attachment before posting.",
+        fields: {},
+      });
+      return;
     }
 
     setIsPosting(true);
@@ -55,20 +71,73 @@ function CreateGeneralPost() {
 
     axiosInstance
       .post("/v1/listings/post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
         setIsPosting(false);
-        toast.success("Post created successfully!");
-        //rediret to the new post
         const postId = response.data.post.id;
         navigate(`/post/${postId}`);
       })
       .catch((error) => {
         setIsPosting(false);
-        toast.error("Something went wrong. Please try again.");
+
+        if (!error.response) {
+          // No response: network down, CORS, timeout
+          setErrors({
+            general:
+              "Could not reach the server. Check your connection and try again.",
+            fields: {},
+          });
+          return;
+        }
+
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 422:
+            // Laravel validation — data.errors is { field: ["message", ...] }
+            setErrors({
+              general:
+                data.message ||
+                "Some fields have errors. Please review and try again.",
+              fields: data.errors || {},
+            });
+            break;
+          case 401:
+            setErrors({
+              general: "Your session has expired. Please log in again.",
+              fields: {},
+            });
+            break;
+          case 403:
+            setErrors({
+              general: "You do not have permission to post.",
+              fields: {},
+            });
+            break;
+          case 413:
+            setErrors({
+              general:
+                "Your upload is too large. Maximum total size is 10MB per file.",
+              fields: {},
+            });
+            break;
+          case 429:
+            setErrors({
+              general:
+                "You are posting too fast. Please wait a moment and try again.",
+              fields: {},
+            });
+            break;
+          case 500:
+          default:
+            setErrors({
+              general:
+                data?.message ||
+                "Something went wrong on our end. Please try again later.",
+              fields: {},
+            });
+        }
       });
   };
   const allowedDocTypes = [
@@ -126,7 +195,7 @@ function CreateGeneralPost() {
 
     const newFiles = [...docAttachments, ...validFiles].slice(0, 4);
 
-    setDocAttachmentes(newFiles);
+    setDocAttachments(newFiles);
     e.target.value = null;
   };
   const removeImage = (index) => {
@@ -136,7 +205,7 @@ function CreateGeneralPost() {
 
   const removeDoc = (index) => {
     const updated = docAttachments.filter((_, i) => i !== index);
-    setDocAttachmentes(updated);
+    setDocAttachments(updated);
   };
   const handleTopicToggle = () => {
     if (topicOpen) {
@@ -151,6 +220,21 @@ function CreateGeneralPost() {
   return (
     <>
       <form className="create-post-form" onSubmit={handleSubmit}>
+        {errors.general && (
+          <Alert
+            severity="error"
+            onClose={clearErrors}
+            sx={{ marginBottom: "var(--space-sm)" }}
+          >
+            {errors.general}
+          </Alert>
+        )}
+        <Backdrop
+          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+          open={isPosting}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         {/* hidden inputs start */}
 
         <input
@@ -270,7 +354,7 @@ function CreateGeneralPost() {
                   />
                   <IconButton
                     size="small"
-                    onClick={() => removeImage(index)}
+                    onClick={() => removeDoc(index)}
                     sx={{
                       position: "absolute",
                       top: "4px",
@@ -324,14 +408,8 @@ function CreateGeneralPost() {
           {/* <Button variant="outlined" size="medium">
           Schedule post
         </Button> */}
-          <Button
-            variant="contained"
-            size="small"
-            type="submit"
-            loadingPosition="end"
-            loading={isPosting}
-          >
-            Post now
+          <Button variant="contained" type="submit">
+            POST
           </Button>
         </Stack>
       </form>

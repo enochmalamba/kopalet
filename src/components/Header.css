@@ -94,7 +94,7 @@ header .actions button span {
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   :root {
     --header-height: 60px;
   }
