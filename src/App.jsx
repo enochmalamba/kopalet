@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout.jsx";
 import Home from "./pages/Home.jsx";
-import Landing from "./pages/Landing.jsx";
+import Landing from "./pages/Landing/Landing.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import CreateHandle from "./pages/CreateHandle.jsx";
@@ -20,17 +20,19 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<Landing />} />
+
+        {/* Pages that use MainLayout */}
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Landing />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/create" element={<CreateHandle />} />
-          <Route path="/mailbox" element={<MailBox />} />
-          <Route path="/communities" element={<Communities />} />
-          <Route path="/vacancies" element={<Vacancies />} />
-          <Route path="/marketplace" element={<MarketPlace />} />
-          <Route path="/marketplace/product/:id" element={<ProductView />} />
-          <Route path="/vacancy/:id" element={<VacancyView />} />
-          <Route path="/post/:id" element={<GeneralPostView />} />
+          <Route path="home" element={<Home />} />
+          <Route path="create" element={<CreateHandle />} />
+          <Route path="mailbox" element={<MailBox />} />
+          <Route path="communities" element={<Communities />} />
+          <Route path="vacancies" element={<Vacancies />} />
+          <Route path="marketplace" element={<MarketPlace />} />
+          <Route path="marketplace/product/:id" element={<ProductView />} />
+          <Route path="vacancy/:id" element={<VacancyView />} />
+          <Route path="post/:id" element={<GeneralPostView />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
