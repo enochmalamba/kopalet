@@ -8,6 +8,7 @@ import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import Icon from "../../components/Icon";
+import { Link } from "react-router-dom";
 function Landing() {
   const howItWorks = [
     {
@@ -270,14 +271,16 @@ function Landing() {
               Ready to get started?
             </Typography>
             <Typography>Its free with no hidden fees.</Typography>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ width: "300px" }}
-              href="/signup"
-            >
-              Create account
-            </Button>
+            <Link to="/signup" style={{ textDecoration: "none" }}>
+              <Button variant="contained" size="large" sx={{ width: "300px" }}>
+                Create account
+              </Button>
+            </Link>
+            <Link to="/home" style={{ textDecoration: "none" }}>
+              <Button variant="outlined" size="large" sx={{ width: "300px" }}>
+                Continue without an account
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </Box>
@@ -290,7 +293,9 @@ function Landing() {
         alignItems={"center"}
         borderTop={"1px solid var(--muted)"}
       >
-        <div className="logo">© KOPALET</div>
+        <Typography variant="h6" component={"h2"}>
+          KOPALET
+        </Typography>
 
         <Typography>hello@kopalet.com</Typography>
       </Box>

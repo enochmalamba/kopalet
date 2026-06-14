@@ -4,18 +4,18 @@ import eslint from "vite-plugin-eslint";
 
 export default defineConfig({
   plugins: [react()],
-  // server: {
-  //   proxy: {
-  //     "/v1": {
-  //       target: "http://api.kopalet.com",
-  //       changeOrigin: true,
-  //       secure: false,
-  //     },
-  //     "/sanctum": {
-  //       target: "http://api.kopalet.com",
-  //       changeOrigin: true,
-  //       secure: false,
-  //     },
-  //   },
-  // },
+  server: {
+    proxy: {
+      "/v1": {
+        target: "https://kplt.test",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/sanctum": {
+        target: "https://kplt.test",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

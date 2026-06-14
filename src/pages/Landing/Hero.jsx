@@ -1,26 +1,31 @@
 import { Box, Button, Typography } from "@mui/material";
 import heroImage from "../../assets/hero.webp";
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Hero() {
   return (
     <Box
       sx={{
         display: "flex",
+        flexDirection: {
+          xs: "column",
+          md: "row",
+        },
         alignItems: "center",
-        flexWrap: "wrap",
         gap: "var(--space-lg)",
         padding: "var(--space-md)",
         width: "100%",
         marginBottom: { xs: "var(--space-xl)", md: 0 },
       }}
     >
+      {/* Text */}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: "var(--space-md)",
-          flex: "1 1 300px",
+          flex: { xs: "1 1 auto", md: "0 0 calc(50% - var(--space-lg) / 2)" },
           minWidth: 0,
           order: { xs: 2, md: 1 },
         }}
@@ -28,12 +33,13 @@ function Hero() {
         <Typography
           variant="h4"
           component="h1"
-          sx={{ textTransform: "capitalize" }}
+          sx={{ textTransform: "none" }}
           fontWeight={"var(--fw-bold)"}
         >
-          Make connections <br />
-          find jobs &amp; trade locally.
+          Find Jobs, Scholarships <br />
+          &amp; Deals in Malawi
         </Typography>
+
         <Typography
           component="h2"
           fontSize={"var(--fs-lg)"}
@@ -41,21 +47,27 @@ function Hero() {
           color="var(--text)"
           maxWidth={"400px"}
         >
-          Build your network, explore new opportunities, and buy or sell
-          products and services in one place.
+          One place to find work, apply for scholarships, and buy or sell in
+          your community for free.
         </Typography>
+
         <Box
           display="flex"
           flexDirection="column"
           gap={"var(--space-md)"}
           maxWidth={"400px"}
         >
-          <Button variant="contained" size="large" href="/signup">
-            Create a free account
-          </Button>
-          <Button variant="outlined" size="large" href="/home">
-            Continue as guest
-          </Button>
+          <Link to="/signup" style={{ textDecoration: "none" }}>
+            <Button variant="contained" size="large" fullWidth>
+              Create a free account
+            </Button>
+          </Link>
+
+          <Link to="/home" style={{ textDecoration: "none" }}>
+            <Button variant="outlined" size="large" fullWidth>
+              Continue without an account
+            </Button>
+          </Link>
         </Box>
       </Box>
 
@@ -65,9 +77,10 @@ function Hero() {
         src={heroImage}
         alt="hero image"
         sx={{
-          flex: "1 1 300px",
+          flex: { xs: "1 1 auto", md: "0 0 calc(50% - var(--space-lg) / 2)" },
           width: "100%",
-          maxWidth: "100%",
+          maxWidth: { xs: "auto", md: "500px" },
+          height: "auto",
           objectFit: "cover",
           borderRadius: "var(--radius-lg)",
           order: { xs: 1, md: 2 },
