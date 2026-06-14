@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // baseURL: "http://kplt.test/",
-  baseURL: "/",
+  baseURL:
+    import.meta.env.VITE_API_BASE_URL || "https://kopalet.com/kplt/public",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
