@@ -10,7 +10,7 @@ main {
   overflow-y: auto;
   background: var(--bg);
 }
-section {
+section.app-outlet-section {
   width: min(550px, 100%);
   display: flex;
   flex-direction: column;

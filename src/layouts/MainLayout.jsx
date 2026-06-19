@@ -28,7 +28,7 @@ function MainLayout() {
       <Header handleNavClick={handleNavClick} isNavOpen={isNavOpen} />
       <main>
         <Nav isNavOpen={isNavOpen} />
-        <section ref={scrollRef}>
+        <section className="app-outlet-section" ref={scrollRef}>
           <Outlet />
         </section>
         <Sidebar />

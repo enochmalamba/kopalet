@@ -187,7 +187,7 @@ const GeneralPost = React.memo(({ post }) => {
     >
       <PostHeader timePosted={createdAt} postAuthor={postAuthor} />
 
-      <Box onClick={handleNavigate}>
+      <Box onClick={handleNavigate} sx={{ cursor: "pointer" }}>
         {postTitle && (
           <Typography
             sx={{
@@ -223,21 +223,6 @@ const GeneralPost = React.memo(({ post }) => {
             {preserveLineBreaks(postBody)}
           </Typography>
         )}
-        <button
-          onClick={() =>
-            toast("Message deleted", {
-              action: {
-                label: "Undo",
-                onClick: () => {
-                  restoreMessage();
-                },
-              },
-              duration: 5000,
-            })
-          }
-        >
-          Render a toast !!!!!!!!!
-        </button>
       </Box>
 
       {postMedia?.length > 0 && (
