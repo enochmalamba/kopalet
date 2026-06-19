@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
+import VisitGuard from "../components/VisitGuard";
 import Nav from "../components/Nav";
 import "./MainLayout.css";
 import Sidebar from "../components/Sidebar";
@@ -23,6 +24,7 @@ function MainLayout() {
   }, [location.pathname]);
   return (
     <>
+      <VisitGuard />
       <Header handleNavClick={handleNavClick} isNavOpen={isNavOpen} />
       <main>
         <Nav isNavOpen={isNavOpen} />

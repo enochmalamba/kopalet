@@ -4,17 +4,13 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <Box component={"header"}>
-      <div className="logo">KOPALET</div>
+      <div className="logo">Kopalet</div>
       <Box style={{ display: "flex !important", gap: "var(--space-sm)" }}>
         <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button variant="outlined" href="/login">
-            Log in
-          </Button>
+          <Button variant="outlined">Log in</Button>
         </Link>
         <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button variant="contained" href="/signup">
-            Register
-          </Button>
+          <Button variant="contained">Register</Button>
         </Link>
       </Box>
     </Box>

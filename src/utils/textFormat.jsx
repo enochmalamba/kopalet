@@ -65,10 +65,19 @@ const linkify = (line) => {
 
 export const preserveLineBreaks = (text) => {
   if (!text) return null;
-  return text.split("\n").map((line, i) => (
-    <span key={i}>
+
+  return text.split(/\n|<br\s*\/?>/i).map((line, i, arr) => (
+    <span
+      key={i}
+      style={{
+        fontSize: "inherit",
+        fontWeight: "inherit",
+        color: "inherit",
+        lineHeight: "inherit",
+      }}
+    >
       {linkify(line)}
-      <br />
+      {i < arr.length - 1 && <br />}
     </span>
   ));
 };

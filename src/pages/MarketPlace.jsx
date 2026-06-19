@@ -65,9 +65,13 @@ function MarketPlace() {
       </Typography>
 
       {error && (
-        <Box sx={{ my: 2 }}>
-          <Alert severity="error">{error}</Alert>
-        </Box>
+        <div className="empty-state">
+          <Typography variant="h4">Ooops!</Typography>
+          <Typography>Something went wrong. We're working on it.</Typography>
+          <Button variant="outlined" sx={{ fontSize: "var(--fs-lg)", mt: 5 }}>
+            Retry
+          </Button>
+        </div>
       )}
 
       {loading && (

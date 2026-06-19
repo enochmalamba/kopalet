@@ -16,6 +16,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import Paper from "@mui/material/Paper";
 import Collapse from "@mui/material/Collapse";
+
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,9 +60,17 @@ function Signup() {
           </Alert>
         </Snackbar>
         <form className="auth-form" onSubmit={handleSubmit}>
-          <img src="/wordmark_light.png" alt="Kopalet Wordmark" />
-
-          {/* <Typography>Create account </Typography> */}
+          <div
+            className="logo"
+            style={{
+              textAlign: "center",
+              margin: "var(--space-md) auto",
+              fontSize: "3rem ",
+            }}
+          >
+            Kopalet
+          </div>
+          <Typography>Create an account for free</Typography>
           <TextField
             label="Enter your name"
             required
@@ -85,7 +94,7 @@ function Signup() {
           />
           <TextField
             label="Password"
-            helperText="Password must be 6 to 12 characters long"
+            // helperText="Password must have a minimum of 6 characters"
             required
             disabled={isRegistering}
             variant="outlined"
@@ -109,11 +118,6 @@ function Signup() {
               },
             }}
           />
-
-          <Typography variant="body2">
-            By registering or logging in, you consent to Kopalet's Terms of use
-            and Privacy Policy
-          </Typography>
           <Typography
             variant="body1"
             style={{
@@ -134,9 +138,17 @@ function Signup() {
             loading={isRegistering}
             loadingPosition="end"
             variant="contained"
+            style={{
+              borderRadius: "var(--radius-full)",
+              marginTop: "var(--space-xxl)",
+            }}
           >
             Create account
-          </Button>
+          </Button>{" "}
+          <Typography variant="body2">
+            By registering or logging in, you consent to Kopalet's Terms of use
+            and Privacy Policy
+          </Typography>
         </form>
         <AuthPageBottomLinks />
       </div>

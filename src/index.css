@@ -1,10 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+/* logo font */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
 :root {
   /* Base */
   --base-font-size: 14px;
   --font-family: "Inter", system-ui, sans-serif;
-
+  --logo-font-family: "Orbitron", sans-serif;
   /* Font sizes */
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
@@ -32,7 +34,7 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
-
+  --radius-full: 9999px;
   /* Colors (theme-independent) */
   --primary: #076c44;
   --primary-hover: #0b8c56;
@@ -142,7 +144,65 @@ body {
   text-decoration: underline;
 }
 .logo {
-  font-family: "Eurostile" !important;
+  font-family: var(--logo-font-family);
   font-size: var(--fs-xxl);
   font-weight: 900;
+  user-select: none;
 }
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  padding-top: var(--space-xxl);
+  text-align: center;
+}
+
+.app-toast {
+  width: fit-content !important;
+  /* min-width: 150px !important; */
+  max-width: min(90vw, 420px);
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: var(--space-sm);
+
+  background: var(--bg);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+
+  box-shadow: var(--shadow-md);
+
+  font-family: var(--font-family);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+
+.app-toast-title,
+.app-toast-description {
+  color: inherit;
+  font: inherit;
+}
+
+/* .app-toast-success {
+  border-color: var(--success);
+}
+
+.app-toast-error {
+  border-color: var(--danger);
+}
+
+.app-toast-warning {
+  border-color: var(--warning);
+}
+
+.app-toast-info {
+  border-color: var(--info);
+} */

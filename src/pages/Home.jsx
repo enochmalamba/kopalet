@@ -6,6 +6,7 @@ import JobPost from "../components/JobPost";
 import GeneralPost from "../components/GeneralPost";
 import JobCard from "../components/JobCard";
 import LoadingStates from "../components/LoadingStates";
+import { Button, Typography } from "@mui/material";
 
 function Home() {
   const [feed, setFeed] = useState([]);
@@ -49,16 +50,24 @@ function Home() {
 
       {!loadingFeed && feedError && (
         <div className="empty-state">
-          <h2>Could not load feed</h2>
-          <p>{feedError}</p>
-          <button onClick={fetchFeed}>Retry</button>
+          <Typography variant="h4">Ooops!</Typography>
+          <Typography>Something went wrong. We're working on it.</Typography>
+          <Button
+            variant="outlined"
+            onClick={fetchFeed}
+            sx={{ fontSize: "var(--fs-lg)", mt: 5 }}
+          >
+            Retry
+          </Button>
         </div>
       )}
 
       {!loadingFeed && !feedError && feed.length === 0 && (
         <div className="empty-state">
-          <h2>No posts yet</h2>
-          <p>Be the first to share an update or opportunity.</p>
+          <Typography variant="h4">No posts yet</Typography>
+          <Typography>
+            Be the first to share an update or opportunity.
+          </Typography>
         </div>
       )}
 

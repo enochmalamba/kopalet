@@ -12,6 +12,7 @@ import MarketPlace from "./pages/MarketPlace.jsx";
 import ProductView from "./pages/ProductView.jsx";
 import VacancyView from "./pages/VacancyView.jsx";
 import GeneralPostView from "./pages/GeneralPostView.jsx";
+import LandingGuard from "./components/LandingGuard.jsx";
 
 import "./App.css";
 import "./assets/style/auth.css";
@@ -20,7 +21,15 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <LandingGuard />
+              <Landing />
+            </>
+          }
+        />
 
         {/* Pages that use MainLayout */}
         <Route path="/" element={<MainLayout />}>

@@ -14,6 +14,11 @@ const SessionProvider = ({ children }) => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [authError, setAuthError] = useState(null);
 
+  // modal for login and register when user
+  // is not authenticated and tries to access a protected route
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalReason, setAuthModalReason] = useState(null);
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const redirect = searchParams.get("redirect");
@@ -124,6 +129,16 @@ const SessionProvider = ({ children }) => {
     }
   };
 
+  const requireAuth = (callback, reason = null) => {
+    if (!user || !isAuthenticated) {
+      setAuthModalReason(reason);
+      setAuthModalOpen(true);
+      return false;
+    }
+    callback();
+    return true;
+  };
+
   useEffect(() => {
     checkSession();
   }, []);
@@ -135,11 +150,16 @@ const SessionProvider = ({ children }) => {
     authError,
     isRegistering,
     isLoggingIn,
+    authModalOpen,
+    authModalReason,
+    setAuthModalOpen,
+    setAuthModalReason,
     setAuthError,
     setIsLoggingIn,
     login,
     logout,
     createAccount,
+    requireAuth,
   };
 
   // Show a simple fallback during initial session check, not the actual children

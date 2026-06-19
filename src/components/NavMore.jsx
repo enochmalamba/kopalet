@@ -17,10 +17,15 @@ function NavMore({ anchorMenu, menuOpen, setAnchorMenu, currentPath }) {
       anchorEl={anchorMenu}
       open={menuOpen}
       onClose={() => setAnchorMenu(null)}
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       transformOrigin={{ vertical: "bottom", horizontal: "right" }}
+      slotProps={{
+        paper: {
+          sx: { width: "70%" },
+        },
+      }}
     >
-      <MenuList dense>
+      <MenuList>
         <MenuItem>
           <ListItemIcon>
             <BubbleChartOutlinedIcon />

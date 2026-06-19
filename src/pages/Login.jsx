@@ -52,7 +52,17 @@ function Login() {
           </Snackbar>
         ) : null}
         <form onSubmit={handleLogin}>
-          <img src="/wordmark_light.png" alt="Kopalet Wordmark" />
+          <div
+            className="logo"
+            style={{
+              textAlign: "center",
+              margin: "var(--space-md) auto",
+              fontSize: "3rem ",
+            }}
+          >
+            Kopalet
+          </div>
+          <Typography>Log into your account</Typography>
           <TextField
             label="Enter email"
             required
@@ -63,7 +73,6 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
           />
-
           <TextField
             label="Enter password"
             required
@@ -89,10 +98,6 @@ function Login() {
               },
             }}
           />
-          <Typography variant="body2">
-            By registering or logging in, you consent to Kopalet's Terms of use
-            and Privacy Policy
-          </Typography>
           <div className="auth-action-text">
             <span>
               <Link color="inherit">Forgot password?</Link>
@@ -104,15 +109,22 @@ function Login() {
             </span>
           </div>
           <Button
-            size="large"
             type="submit"
             variant="contained"
             loadingPosition="end"
             loading={isLoggingIn}
             fullWidth
+            style={{
+              borderRadius: "var(--radius-full)",
+              marginTop: "var(--space-xxl)",
+            }}
           >
             {isLoggingIn ? "Logging in.." : "Log In"}
           </Button>
+          <Typography variant="body2">
+            By registering or logging in, you consent to Kopalet's Terms of use
+            and Privacy Policy
+          </Typography>
         </form>
         <AuthPageBottomLinks />
       </div>

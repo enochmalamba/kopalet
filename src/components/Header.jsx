@@ -30,7 +30,7 @@ function Header({ handleNavClick, isNavOpen }) {
             <Icon>{isNavOpen ? "close" : "density_medium"}</Icon>
           </button>
 
-          <div className="logo">KOPALET</div>
+          <div className="logo">Kopalet</div>
         </div>
         <div className="actions">
           <button onClick={goToMailBox}>
