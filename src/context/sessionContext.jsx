@@ -152,6 +152,7 @@ const SessionProvider = ({ children }) => {
     isLoggingIn,
     authModalOpen,
     authModalReason,
+    setUser,
     setAuthModalOpen,
     setAuthModalReason,
     setAuthError,

@@ -1,4 +1,7 @@
 import CommunityCard from "../components/CommunityCard";
+import AdBanner from "../components/AdBanner";
+import SEO from "../components/SEO";
+
 function Communities() {
   const community = {
     name: "k/WrittingTechniques",
@@ -12,9 +15,15 @@ function Communities() {
   };
   return (
     <>
+      <SEO
+        title="Communities - Kopalet"
+        description="Explore Kopalet communities, join discussions, and connect with professionals."
+        url="/communities"
+      />
       <h2>Communities</h2>
       <CommunityCard community={community} />
       <CommunityCard community={community} />
+      <AdBanner />
     </>
   );
 }

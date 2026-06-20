@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import MarketListItem from "../components/MarketListItem";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -56,9 +56,11 @@ function MarketPlace() {
 
   return (
     <>
-      <Helmet>
-        <title>Market Place - Kopalet</title>
-      </Helmet>
+      <SEO
+        title="Marketplace - Kopalet"
+        description="Explore local marketplace listings for products and services on Kopalet."
+        url="/marketplace"
+      />
 
       <Typography variant="h5" mb={2}>
         Market Place

@@ -1,6 +1,7 @@
 import { useSession } from "../context/sessionContext";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SEO from "../components/SEO";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -32,6 +33,11 @@ function Login() {
 
   return (
     <>
+      <SEO
+        title="Login - Kopalet"
+        description="Log in to your Kopalet account to manage applications, listings, and messages."
+        url="/login"
+      />
       <div className="auth-container">
         {authError ? (
           <Snackbar

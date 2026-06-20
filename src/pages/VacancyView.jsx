@@ -1,7 +1,8 @@
-import { Helmet } from "react-helmet-async";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../api/axios";
+import SEO from "../components/SEO";
+import { truncateText } from "../utils/seo";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -11,6 +12,7 @@ import Divider from "@mui/material/Divider";
 import DetailPageHeader from "../components/DetailPageHeader";
 import { formatTimeAgo, formatTimeStamp, formatMoney } from "../utils/format";
 import { preserveLineBreaks } from "../utils/textFormat";
+import AdBanner from "../components/AdBanner";
 function VacancyView() {
   const [jobData, setJobData] = useState(null);
   const { id } = useParams();
@@ -21,6 +23,7 @@ function VacancyView() {
       setJobData(response.data);
     } catch (error) {
       console.error("Error fetching job data:", error);
+      setJobData({ error: true });
     }
   };
 
@@ -28,17 +31,50 @@ function VacancyView() {
     if (id) fetchJobData();
   }, [id]);
 
-  if (!jobData) return null; // or a loading spinner
+  if (!jobData)
+    return (
+      <>
+        <SEO
+          title="Loading vacancy... | Kopalet"
+          description="Loading vacancy details on Kopalet."
+          url={`/vacancy/${id}`}
+          type="article"
+        />
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <Typography>Loading vacancy...</Typography>
+        </Box>
+      </>
+    );
+
+  if (jobData.error)
+    return (
+      <>
+        <SEO
+          title="Vacancy Not Found - Kopalet"
+          description="The requested vacancy could not be loaded."
+          url={`/vacancy/${id}`}
+          type="article"
+        />
+        <Box sx={{ p: 2 }}>
+          <Typography color="error">Could not load vacancy.</Typography>
+        </Box>
+      </>
+    );
 
   const { author, employer, listing } = jobData.data;
+  const vacancyDescription = truncateText(listing.body, 160);
 
   return (
     <Box>
-      <Helmet>
-        <title>{listing.title} - Kopalet</title>
-        <meta name="description" content="Details of the selected vacancy" />
-      </Helmet>
+      <SEO
+        title={`${listing.title} at ${employer.name}`}
+        description={vacancyDescription}
+        image={employer.logo_url || "/default-company-logo.png"}
+        url={`/vacancy/${id}`}
+        type="article"
+      />
       <DetailPageHeader heading="Vacancy Details" />
+      <AdBanner />
       <Stack direction="column" gap="var(--space-sm)">
         <Typography variant="h5">{listing.title}</Typography>
 

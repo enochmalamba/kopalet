@@ -5,14 +5,27 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
+import { useShare } from "../hooks/useShare";
 import { formatTimeAgo } from "../utils/format";
 
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorder";
 import Share from "@mui/icons-material/Share";
+import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
+import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
+import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 function JobCard({ job }) {
   const navigate = useNavigate();
+  const { share } = useShare();
   const handleNavigate = (id) => navigate(`/vacancy/${id}`);
 
+  const handleShare = (e) => {
+    e.stopPropagation();
+    share({
+      title: vacancy.title,
+      text: `${vacancy.title} at ${employer.name}`,
+      url: `https://kopalet.com/vacancy/${job.id}`,
+    });
+  };
   const { author, listing: vacancy, id: jobId, employer } = job;
   return (
     <Box
@@ -21,23 +34,22 @@ function JobCard({ job }) {
         flexDirection: "column",
         gap: "var(--space-md)",
         width: "min(550px, 100%)",
-        background: " var(--surface)",
-        // borderRadius: "var(--radius-md)",
-        padding: "var(--space-sm) var(--space-lg)",
+        borderBottom: "1px solid var(--border)",
+        padding: "var(--space-sm) var(--space-md)",
       }}
     >
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: "60px 1fr auto",
+          gridTemplateColumns: "50px 1fr auto",
           gap: "var(--space-sm)",
           alignItems: "start",
         }}
       >
         <Box
           sx={{
-            width: "60px",
-            height: "60px",
+            width: "50px",
+            height: "50px",
             overflow: "hidden",
             borderRadius: "var(--radius-md)",
           }}
@@ -67,7 +79,7 @@ function JobCard({ job }) {
             {employer.name}
           </Typography>
         </Box>
-        <Box sx={{ border: ".5px solid var(--border)", background: "red" }}>
+        <Box sx={{ border: ".5px solid var(--border)" }}>
           <IconButton>
             <BookmarkBorderOutlinedIcon />
           </IconButton>
@@ -92,14 +104,21 @@ function JobCard({ job }) {
           alignItems: "center",
         }}
       >
-        <Chip label={vacancy.job_type} size="small" />
-        <Chip label={vacancy.work_mode} size="small" />
-        <Chip label={vacancy.location} size="small" />
-        {/* 
-          <GetChip>{listing.job_type}</GetChip>
-            <GetChip>{listing.work_mode}</GetChip>
-            <GetChip>{listing.experience_level}</GetChip>
-        */}
+        <Chip
+          icon={<UpdateOutlinedIcon />}
+          label={vacancy.job_type}
+          variant="outlined"
+        />
+        <Chip
+          icon={<HomeWorkOutlinedIcon />}
+          label={vacancy.work_mode}
+          variant="outlined"
+        />
+        <Chip
+          icon={<FmdGoodOutlinedIcon />}
+          label={vacancy.location}
+          variant="outlined"
+        />
       </Box>
       <Divider />
       <Box
@@ -116,7 +135,7 @@ function JobCard({ job }) {
         <Box
           sx={{ display: "flex", alignItems: "center", gap: "var(--space-sm)" }}
         >
-          <IconButton variant="secondary" size="small">
+          <IconButton variant="secondary" size="small" onClick={handleShare}>
             <Share />
           </IconButton>
           <Button variant="outlined" onClick={() => handleNavigate(job.id)}>

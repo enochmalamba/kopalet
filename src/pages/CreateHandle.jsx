@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateJobPost from "../components/CreateJobPost";
+import SEO from "../components/SEO";
 import CreateMarketItem from "../components/CreateMarketItem";
 import CreateGeneralPost from "../components/CreateGeneralPost";
 import Tabs from "@mui/material/Tabs";
@@ -40,6 +41,11 @@ const CreateHandle = () => {
 
   return (
     <>
+      <SEO
+        title="Create Listing - Kopalet"
+        description="Post a vacancy, marketplace item, or community update on Kopalet."
+        url="/create"
+      />
       <Box
         sx={{
           width: "100%",

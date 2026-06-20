@@ -2,6 +2,7 @@ import { useSession } from "../context/sessionContext";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 import Icon from "../components/Icon";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -34,6 +35,11 @@ function Signup() {
 
   return (
     <>
+      <SEO
+        title="Sign Up - Kopalet"
+        description="Create a free Kopalet account to post jobs, list market items, and connect with opportunities."
+        url="/signup"
+      />
       <div className="auth-container">
         <Snackbar
           open={!!authError}

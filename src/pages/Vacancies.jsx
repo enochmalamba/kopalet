@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 import axiosInstance from "../api/axios";
 import JobCard from "../components/JobCard";
 import LoadingStates from "../components/LoadingStates";
@@ -30,9 +30,11 @@ function Vacancies() {
   }, []);
   return (
     <>
-      <Helmet>
-        <title>Vacancies - Kopalet</title>
-      </Helmet>{" "}
+      <SEO
+        title="Vacancies - Kopalet"
+        description="Browse the latest job vacancies on Kopalet and apply to opportunities that fit your skills."
+        url="/vacancies"
+      />
       {loadingFeed && (
         <>
           <Box

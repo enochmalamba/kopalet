@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import { Helmet } from "react-helmet-async";
 import { useState, useEffect } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import DetailPageHeader from "../components/DetailPageHeader.jsx";
+import SEO from "../components/SEO";
+import { truncateText } from "../utils/seo";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -64,27 +65,51 @@ function ProductView() {
   // 🔹 Loading UI
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-        <CircularProgress />
-      </Box>
+      <>
+        <SEO
+          title="Loading product... | Kopalet"
+          description="Loading marketplace product details on Kopalet."
+          url={`/marketplace/product/${productId}`}
+          type="article"
+        />
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <CircularProgress />
+        </Box>
+      </>
     );
   }
 
   // 🔹 Error UI
   if (error) {
     return (
-      <Box sx={{ p: 2 }}>
-        <Alert severity="error">{error}</Alert>
-      </Box>
+      <>
+        <SEO
+          title="Product Not Found - Kopalet"
+          description="The requested product could not be loaded."
+          url={`/marketplace/product/${productId}`}
+          type="article"
+        />
+        <Box sx={{ p: 2 }}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      </>
     );
   }
 
   // 🔹 Not found
   if (!product) {
     return (
-      <Box sx={{ p: 2 }}>
-        <Typography>Product not found</Typography>
-      </Box>
+      <>
+        <SEO
+          title="Product Not Found - Kopalet"
+          description="The requested marketplace product could not be found."
+          url={`/marketplace/product/${productId}`}
+          type="article"
+        />
+        <Box sx={{ p: 2 }}>
+          <Typography>Product not found</Typography>
+        </Box>
+      </>
     );
   }
 
@@ -111,13 +136,13 @@ Phone: Not provided`;
 
   return (
     <>
-      <Helmet>
-        <title>{title} - Marketplace</title>
-        <meta
-          name="description"
-          content={description?.slice(0, 160) || "Product details"}
-        />
-      </Helmet>
+      <SEO
+        title={`${title} - Marketplace`}
+        description={truncateText(description, 160) || "Product details"}
+        image={primaryImage}
+        url={`/marketplace/product/${productId}`}
+        type="article"
+      />
 
       <Box>
         <DetailPageHeader heading={title} />

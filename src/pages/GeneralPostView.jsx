@@ -7,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import GeneralPost from "../components/GeneralPost";
 import Comment from "../components/Comment";
 import LoadingStates from "../components/LoadingStates";
+import SEO from "../components/SEO";
+import { truncateText } from "../utils/seo";
 
 function GeneralPostView() {
   const [post, setPost] = useState(null);
@@ -35,28 +37,65 @@ function GeneralPostView() {
     fetchPost();
   }, [postId]);
 
-  return (
-    <>
-      {isFetchingPost ? (
+  if (isFetchingPost) {
+    return (
+      <>
+        <SEO
+          title="Loading post... | Kopalet"
+          description="Loading post details on Kopalet."
+          url={`/post/${postId}`}
+          type="article"
+        />
         <Box sx={{ marginTop: "50px" }}>
           <LoadingStates component="spinner" />
         </Box>
-      ) : (
-        <>
-          <GeneralPost post={post} />
+      </>
+    );
+  }
 
-          <TextField
-            fullWidth
-            label="Add comment"
-            placeholder="Share your thoughts"
-            multiline
-            minRows={1}
-            maxRows={4}
-          />
+  if (postFetchError) {
+    return (
+      <>
+        <SEO
+          title="Post Not Found - Kopalet"
+          description="The requested post could not be loaded."
+          url={`/post/${postId}`}
+          type="article"
+        />
+        <Box sx={{ p: 2 }}>
+          <Typography color="error">{postFetchError}</Typography>
+        </Box>
+      </>
+    );
+  }
 
-          {isFetchingComments && <LoadingStates component="spinner" />}
-        </>
-      )}
+  const postDescription = truncateText(
+    post?.body || post?.title || "Kopalet post details",
+    160,
+  );
+
+  return (
+    <>
+      <SEO
+        title={`${post?.title || "Post"} - Kopalet`}
+        description={postDescription}
+        image={post?.media?.[0]?.url}
+        url={`/post/${postId}`}
+        type="article"
+      />
+      <GeneralPost post={post} />
+
+      <TextField
+        fullWidth
+        label="Add comment"
+        placeholder="Share your thoughts"
+        multiline
+        minRows={1}
+        maxRows={4}
+      />
+
+      {isFetchingComments && <LoadingStates component="spinner" />}
+
       {/* <Typography variant="body" color="var(--muted)">
         Comments
       </Typography>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { useShare } from "../hooks/useShare";
 import PostHeader from "./PostHeader";
 import PostActions from "./PostActions";
 
@@ -32,6 +32,7 @@ const imageSx = {
 
 const GeneralPost = React.memo(({ post }) => {
   const navigate = useNavigate();
+  const { share } = useShare();
   const location = useLocation();
 
   const [open, setOpen] = React.useState(false);
@@ -122,6 +123,14 @@ const GeneralPost = React.memo(({ post }) => {
     navigate("/post/" + postId);
   }, [isPostView, navigate, postId]);
 
+  const onShare = React.useCallback(() => {
+    share({
+      title: postTitle || "Check this out on Kopalet",
+      text: postBody ? postBody.slice(0, 120) : postTitle,
+      url: `https://kopalet.com/post/${postId}`,
+    });
+  }, [share, postTitle, postBody, postId]);
+
   const onPointerDown = React.useCallback((e) => {
     const el = scrollerRef.current;
     if (!el) return;
@@ -177,7 +186,7 @@ const GeneralPost = React.memo(({ post }) => {
     <Box
       sx={{
         width: "100%",
-        // background: "var(--surface)",
+
         borderBottom: "1px solid var(--border)",
         padding: "var(--space-sm) var(--space-md)",
         display: "flex",
@@ -355,6 +364,7 @@ const GeneralPost = React.memo(({ post }) => {
         userReactions={displayReactions.user}
         handleNavigate={handleNavigate}
         handleVoteClick={handleVoteClick}
+        onShare={onShare}
         isVoting={isVoting}
       />
     </Box>
