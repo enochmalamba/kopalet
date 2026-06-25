@@ -13,6 +13,7 @@ const SessionProvider = ({ children }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [authError, setAuthError] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // modal for login and register when user
   // is not authenticated and tries to access a protected route
@@ -42,6 +43,7 @@ const SessionProvider = ({ children }) => {
       setUser(null);
     } finally {
       setIsLoading(false);
+      setIsInitialized(true);
     }
   };
 
@@ -152,6 +154,7 @@ const SessionProvider = ({ children }) => {
     isLoggingIn,
     authModalOpen,
     authModalReason,
+    isInitialized,
     setUser,
     setAuthModalOpen,
     setAuthModalReason,

@@ -12,6 +12,8 @@ import MarketPlace from "./pages/MarketPlace.jsx";
 import ProductView from "./pages/ProductView.jsx";
 import VacancyView from "./pages/VacancyView.jsx";
 import GeneralPostView from "./pages/GeneralPostView.jsx";
+import Resources from "./pages/Resources.jsx";
+import Saved from "./pages/Saved.jsx";
 import LandingGuard from "./components/LandingGuard.jsx";
 
 import "./App.css";
@@ -39,6 +41,8 @@ function App() {
           <Route path="communities" element={<Communities />} />
           <Route path="vacancies" element={<Vacancies />} />
           <Route path="marketplace" element={<MarketPlace />} />
+          <Route path="resources" element={<Resources />} />
+          <Route path="saved-items" element={<Saved />} />
           <Route path="marketplace/product/:id" element={<ProductView />} />
           <Route path="vacancy/:id" element={<VacancyView />} />
           <Route path="post/:id" element={<GeneralPostView />} />

@@ -122,10 +122,8 @@ export default function PostActions({
           <ButtonGroup variant="outlined" disableElevation sx={groupStyles}>
             <Button
               size="small"
-              onClick={handleNavigate}
               onClick={(e) => {
                 e.stopPropagation();
-
                 if (typeof onComment === "function") {
                   requireAuth(onComment, "comment");
                 }

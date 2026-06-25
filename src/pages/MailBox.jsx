@@ -1,15 +1,15 @@
 import SEO from "../components/SEO";
+import UnderDevelopment from "../components/UnderDevelopment";
 
 export default function MailBox() {
   return (
     <div>
       <SEO
-        title="Inbox - Kopalet"
-        description="View your Kopalet messages and notifications in the mailbox."
+        title="Mailbox - Kopalet"
+        description="Send and receive mails to and fro with fellow Kopalet users."
         url="/mailbox"
       />
-      <h1>MailBox</h1>
-      <p>This is the mailbox page</p>
+      <UnderDevelopment page={"Mailbox"} />
     </div>
   );
 }

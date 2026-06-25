@@ -24,7 +24,7 @@ function Header({ handleNavClick, isNavOpen }) {
 
   return (
     <>
-      <header>
+      <header style={{ maxWidth: "1200px" }}>
         <div className="header-left">
           <button className="menu-button" onClick={handleNavClick}>
             <Icon>{isNavOpen ? "close" : "density_medium"}</Icon>

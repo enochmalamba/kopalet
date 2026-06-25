@@ -46,43 +46,6 @@ function Nav({ isNavOpen }) {
           </NavLink>
         </li>
       </ul>
-      <div className="divider"></div>
-      <ul>
-        <li className="advertise-link">
-          <NavLink to="/advertise" className="nav-link">
-            <Icon>campaign</Icon>
-            Advertise
-          </NavLink>
-        </li>
-      </ul>
-      <div className="divider"></div>
-      <div className="nav-footer">
-        <div>
-          {" "}
-          <a href="/" target="_blank" className="nav-footer-link">
-            How Kopalet works <Icon>open_in_new</Icon>
-          </a>
-          <a href="/" className="nav-footer-link" target="blank">
-            Privacy <Icon>open_in_new</Icon>
-          </a>
-          <a href="/" className="nav-footer-link" target="blank">
-            Terms <Icon>open_in_new</Icon>
-          </a>
-          <a href="/" className="nav-footer-link" target="blank">
-            About <Icon>open_in_new</Icon>
-          </a>
-          {/* <a href="/" className="nav-footer-link" target="blank">
-            Help <Icon>open_in_new</Icon>
-          </a> */}
-          <a href="/" target="_blank" className="nav-footer-link">
-            Contact us <Icon>open_in_new</Icon>
-          </a>
-          <a href="/" target="_blank" className="nav-footer-link">
-            Press <Icon>open_in_new</Icon>
-          </a>
-        </div>
-        <p>&copy; 2025 Kopalet</p>
-      </div>
     </nav>
   );
 }

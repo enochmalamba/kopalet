@@ -2,16 +2,14 @@ import { useEffect } from "react";
 import { useSession } from "../context/sessionContext";
 
 export default function VisitGuard() {
-  const { user, isLoading, setAuthModalOpen, setAuthModalReason } =
+  const { user, isInitialized, setAuthModalOpen, setAuthModalReason } =
     useSession();
 
   useEffect(() => {
-    if (isLoading) return;
+    if (!isInitialized) return;
 
-    // They're in the app — mark as visited
     localStorage.setItem("cab_visited", "true");
 
-    // If guest, show modal once this session
     if (!user) {
       const alreadyPrompted = sessionStorage.getItem("cab_auth_prompted");
       if (!alreadyPrompted) {
@@ -20,7 +18,7 @@ export default function VisitGuard() {
         setAuthModalOpen(true);
       }
     }
-  }, [isLoading]);
+  }, [isInitialized]);
 
   return null;
 }

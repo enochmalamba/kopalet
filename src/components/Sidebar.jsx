@@ -2,7 +2,7 @@ import "./Sidebar.css";
 function Sidebar() {
   return (
     <div className="sidebar">
-      {" "}
+      {/* {" "}
       <div className="sidebar-ad">
         <img
           src="https://i.ytimg.com/vi/OTfJDFt2TLY/maxresdefault.jpg"
@@ -19,7 +19,7 @@ function Sidebar() {
           src="https://www.adobe.com/express/create/media_1345301ee7fa6c13e893b06604aa5a5d926c8cc62.png?width=750&format=png&optimize=medium"
           alt="Ad"
         />
-      </div>
+      </div> */}
     </div>
   );
 }
