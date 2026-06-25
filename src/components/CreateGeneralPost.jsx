@@ -17,10 +17,7 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import Alert from "@mui/material/Alert";
-
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
+import { toast } from "sonner";
 
 function CreateGeneralPost() {
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -32,18 +29,11 @@ function CreateGeneralPost() {
   const [imageAttachments, setImageAttachments] = useState([]);
   const [docAttachments, setDocAttachments] = useState([]);
   const [isPosting, setIsPosting] = useState(false);
-  const [errors, setErrors] = useState({
-    general: null, // string: shown in an Alert
-    fields: {}, // object: keyed by field name for inline field errors
-  });
-
-  const clearErrors = () => setErrors({ general: null, fields: {} });
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    clearErrors();
 
     if (
       !postTopic.trim() &&
@@ -51,23 +41,27 @@ function CreateGeneralPost() {
       imageAttachments.length === 0 &&
       docAttachments.length === 0
     ) {
-      setErrors({
-        general: "Please add a topic, content, or attachment before posting.",
-        fields: {},
-      });
+      toast.error("Please add a topic, content, or attachment before posting.");
       return;
     }
 
     setIsPosting(true);
-    const topic = DOMPurify.sanitize(postTopic).replace(/\n/g, "<br>");
-    const content = DOMPurify.sanitize(postContent).replace(/\n/g, "<br>");
-    const media = [...imageAttachments, ...docAttachments];
+    const toastId = toast.loading("Publishing your post...");
 
     const formData = new FormData();
-    formData.append("title", topic);
+    formData.append(
+      "title",
+      DOMPurify.sanitize(postTopic).replace(/\n/g, "<br>")
+    );
+    formData.append(
+      "body",
+      DOMPurify.sanitize(postContent).replace(/\n/g, "<br>")
+    );
     formData.append("post_type", "regular");
-    formData.append("body", content);
-    media.forEach((file) => formData.append("media[]", file));
+
+    [...imageAttachments, ...docAttachments].forEach((file) => {
+      formData.append("media[]", file);
+    });
 
     axiosInstance
       .post("/v1/listings/post", formData, {
@@ -75,19 +69,25 @@ function CreateGeneralPost() {
       })
       .then((response) => {
         setIsPosting(false);
-        const postId = response.data.post.id;
+        toast.success("Post published.", { id: toastId });
+        const postId = response.data.data.id;
         navigate(`/post/${postId}`);
       })
       .catch((error) => {
         setIsPosting(false);
 
-        if (!error.response) {
-          // No response: network down, CORS, timeout
-          setErrors({
-            general:
-              "Could not reach the server. Check your connection and try again.",
-            fields: {},
+        if (error instanceof TypeError) {
+          toast.error("Unexpected response from server. Please try again.", {
+            id: toastId,
           });
+          return;
+        }
+
+        if (!error.response) {
+          toast.error(
+            "Could not reach the server. Check your connection and try again.",
+            { id: toastId }
+          );
           return;
         }
 
@@ -95,48 +95,39 @@ function CreateGeneralPost() {
 
         switch (status) {
           case 422:
-            // Laravel validation — data.errors is { field: ["message", ...] }
-            setErrors({
-              general:
-                data.message ||
+            toast.error(
+              data.message ||
                 "Some fields have errors. Please review and try again.",
-              fields: data.errors || {},
-            });
+              { id: toastId }
+            );
             break;
           case 401:
-            setErrors({
-              general: "Your session has expired. Please log in again.",
-              fields: {},
+            toast.error("Your session has expired. Please log in again.", {
+              id: toastId,
             });
             break;
           case 403:
-            setErrors({
-              general: "You do not have permission to post.",
-              fields: {},
-            });
+            toast.error("You do not have permission to post.", { id: toastId });
             break;
           case 413:
-            setErrors({
-              general:
-                "Your upload is too large. Maximum total size is 10MB per file.",
-              fields: {},
-            });
+            toast.error(
+              "Your upload is too large. Maximum total size is 10MB per file.",
+              { id: toastId }
+            );
             break;
           case 429:
-            setErrors({
-              general:
-                "You are posting too fast. Please wait a moment and try again.",
-              fields: {},
-            });
+            toast.error(
+              "You are posting too fast. Please wait a moment and try again.",
+              { id: toastId }
+            );
             break;
           case 500:
           default:
-            setErrors({
-              general:
-                data?.message ||
+            toast.error(
+              data?.message ||
                 "Something went wrong on our end. Please try again later.",
-              fields: {},
-            });
+              { id: toastId }
+            );
         }
       });
   };
@@ -154,48 +145,39 @@ function CreateGeneralPost() {
     if (docAttachments.length > 0) return;
 
     const files = Array.from(e.target.files);
-
     const validFiles = files.filter((file) => {
       if (!file.type.startsWith("image/")) {
-        console.warn(`${file.name} is not an image`);
+        toast.error(`${file.name} is not a valid image.`);
         return false;
       }
-
       if (file.size > MAX_FILE_SIZE) {
-        console.warn(`${file.name} is larger than 10MB`);
+        toast.error(`${file.name} exceeds the 10MB limit.`);
         return false;
       }
-
       return true;
     });
 
-    const newFiles = [...imageAttachments, ...validFiles].slice(0, 4);
-
-    setImageAttachments(newFiles);
+    setImageAttachments([...imageAttachments, ...validFiles].slice(0, 4));
     e.target.value = null;
   };
 
   const handleDocs = (e) => {
     if (imageAttachments.length > 0) return;
-    const files = Array.from(e.target.files);
 
+    const files = Array.from(e.target.files);
     const validFiles = files.filter((file) => {
       if (!allowedDocTypes.includes(file.type)) {
-        console.warn(`${file.name} is not a supported document`);
+        toast.error(`${file.name} is not a supported document type.`);
         return false;
       }
-
       if (file.size > MAX_FILE_SIZE) {
-        console.warn(`${file.name} is larger than 10MB`);
+        toast.error(`${file.name} exceeds the 10MB limit.`);
         return false;
       }
-
       return true;
     });
 
-    const newFiles = [...docAttachments, ...validFiles].slice(0, 4);
-
-    setDocAttachments(newFiles);
+    setDocAttachments([...docAttachments, ...validFiles].slice(0, 4));
     e.target.value = null;
   };
   const removeImage = (index) => {
@@ -220,21 +202,6 @@ function CreateGeneralPost() {
   return (
     <>
       <form className="create-post-form" onSubmit={handleSubmit}>
-        {errors.general && (
-          <Alert
-            severity="error"
-            onClose={clearErrors}
-            sx={{ marginBottom: "var(--space-sm)" }}
-          >
-            {errors.general}
-          </Alert>
-        )}
-        <Backdrop
-          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-          open={isPosting}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
         {/* hidden inputs start */}
 
         <input
