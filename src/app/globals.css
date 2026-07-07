@@ -185,7 +185,10 @@
     @apply bg-background text-foreground;
     font-size: var(--fs-base);
     height: 100%;
-    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+    transition:
+      background 0.3s,
+      color 0.3s;
   }
 }
 
