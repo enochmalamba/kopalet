@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${orbitron.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col w-[100vw]">
+      <body className="min-h-full flex flex-col w-screen">
         <Providers>
           <Navbar />
           {children}

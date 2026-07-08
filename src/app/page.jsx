@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Section from "@/components/ui/section";
 import { H1, H2, H3, P } from "@/components/ui/typography";
 import VacancyCard from "@/components/ui/vacancy-card";
 import {
@@ -39,10 +40,21 @@ export default function Home() {
       desc: "Reach out, apply, or close the deal directly",
     },
   ];
+  const vacancy = {
+    id: 1,
+    slug: "engineer-electrical-distribution-escom",
+    title: "Engineer - Electrical Distribution",
+    company: "Electricity Supply Corporation of Malawi (ESCOM)",
+    companyLogo: "/escom.jpg",
+    location: "Lilongwe, Malawi",
+    jobType: "full-time",
+    salaryRange: "MWK 800,000 - 1,200,000",
+    deadline: "2026-08-15",
+  };
 
   return (
-    <main className="flex flex-col px-8 py-4 lg:min-w-300 max-w-300 justify-start  mx-auto">
-      <section className="flex flex-col items-center justify-center gap-10 lg:min-h-[60vh] pt-10 pb-20 ">
+    <main className="w-full min-h-screen flex flex-col justify-start">
+      <Section className="flex flex-col items-center justify-center gap-10 lg:min-h-[60vh] pt-10 pb-20 ">
         <div className="flex justify-center -space-x-2.5">
           {heroIcons.map(({ icon: Icon, bg, ring }, i) => (
             <div
@@ -66,7 +78,7 @@ export default function Home() {
             Latest vacancies and job opportunities in Malawi. Find your dream
             job or hire the best talent for your company.
           </P>
-          <div className="flex  justify-center items-center gap-3 mt-6 mb-10">
+          <div className="flex  flex-wrap justify-center items-center gap-3 mt-6 mb-10">
             <Button asChild size="lg">
               <Link href="/" className="p-4">
                 Create a free account
@@ -77,14 +89,28 @@ export default function Home() {
             </Button>
           </div>
         </div>
-      </section>
-      <section className="w-full">
+      </Section>
+      <Section className="w-full py-10 lg:py-20">
         <H2>Latest job vacancies in Malawi</H2>
-        <div>
-          <VacancyCard />
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-2 mt-2">
+          <P>See the latest job opportunities in Malawi.</P>{" "}
+          <Link href="/" className="text-primary underline">
+            View all vacancies
+          </Link>
         </div>
-      </section>
-      <section className="lg:mt-20 md:mt-8 w-full flex-1">
+        <div className="grid grid-cols-1 gap-0 md:gap-4 lg:grid-cols-3 mt-4 w-full">
+          <VacancyCard vacancy={vacancy} />
+          <VacancyCard vacancy={vacancy} />
+          <VacancyCard vacancy={vacancy} />
+          <VacancyCard vacancy={vacancy} />
+          <VacancyCard vacancy={vacancy} />
+          <VacancyCard vacancy={vacancy} />
+        </div>
+        <Button asChild size="lg" className="mt-7 w-fit mx-auto">
+          <Link href="/">View all vacancies</Link>
+        </Button>
+      </Section>
+      <Section className="lg:mt-20 md:mt-8 w-full flex-1">
         <H2 className="font-bold lg:text-4xl max-w-150">
           Kopalet is where HRs' and Job Seekers meet and connect
         </H2>
@@ -123,8 +149,8 @@ export default function Home() {
             </div>
           </Card>
         </div>
-      </section>
-      <section className="mt-10 bg-black text-white px-8 py-20  ">
+      </Section>
+      <Section className="mt-10 bg-black text-white px-8 py-20  ">
         <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 relative  ">
           {/* Left column */}
           <div>
@@ -156,7 +182,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </Section>
     </main>
   );
 }

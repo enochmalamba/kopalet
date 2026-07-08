@@ -102,9 +102,10 @@ export function Navbar() {
           </Button>
           <Sheet>
             <SheetTrigger asChild>
-              <button className="*:reset" aria-label="Open menu">
-                <Menu className="h-10 w-10" />
-              </button>
+              <Button aria-label="Open menu">
+                {/* <Menu className="h-10 w-10" /> */}
+                Menu Open
+              </Button>
             </SheetTrigger>
             <SheetContent
               side="right"
