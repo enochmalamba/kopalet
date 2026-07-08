@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import Section from "@/components/ui/section";
 import { H1, H2, H3, P } from "@/components/ui/typography";
 import VacancyCard from "@/components/ui/vacancy-card";
@@ -110,76 +109,149 @@ export default function Home() {
           <Link href="/">View all vacancies</Link>
         </Button>
       </Section>
-      <Section className="lg:mt-20 md:mt-8 w-full flex-1">
-        <H2 className="font-bold lg:text-4xl max-w-150">
-          Kopalet is where HRs' and Job Seekers meet and connect
-        </H2>
-        <div className="flex flex-col lg:flex-row gap-10 mt-5">
-          <Card className="w-full lg:w-[50%]">
-            <Image
-              src="/hero.webp"
-              alt="Hero Image"
-              width={800}
-              height={400}
-              className="w-full h-auto rounded-lg"
-            />
-            <div className="flex flex-col gap-2 p-3">
-              <H3>Corporate and casual jobs, all in one place</H3>
-              <P>Filter by qualifications, location, or job type and apply.</P>
-              <Button asChild size="lg">
-                <Link href="/">Browse latest jobs</Link>
-              </Button>
-            </div>
-          </Card>
 
-          <Card className="w-full lg:w-[50%]">
-            <Image
-              src="/hero.webp"
-              alt="Hero Image"
-              width={800}
-              height={400}
-              className="w-full h-auto rounded-lg"
-            />
-            <div className="flex flex-col gap-2 p-3">
-              <H3>Individuals, companies, or businesses can hire</H3>
-              <P>Post a vacancy and reach candidates ready to work.</P>
-              <Button asChild size="lg">
-                <Link href="/">Learn how to hire </Link>
+      {/* For Employers - dark banner */}
+      <Section className="mt-10">
+        <div className="w-full bg-neutral-900 text-white rounded-2xl px-8 py-14 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <p className="text-neutral-400 text-sm font-medium mb-3">
+                For employers
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold leading-tight mb-4">
+                Let Kopalet connect you with the right candidates
+              </h2>
+              <ul className="space-y-2 text-neutral-300 text-sm mb-6">
+                <li>
+                  Post a vacancy and reach thousands of job seekers across
+                  Malawi
+                </li>
+                <li>
+                  Filter applicants by qualification, location, and experience
+                </li>
+                <li>
+                  Hire with confidence — every profile is reviewed before it
+                  goes live
+                </li>
+              </ul>
+              <Button asChild size="lg" variant="secondary">
+                <Link href="/">Post a job for free</Link>
               </Button>
+              <p className="text-xs text-neutral-500 mt-3">
+                No card required to post your first vacancy
+              </p>
             </div>
-          </Card>
+            <div className="flex items-center justify-center">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-6 w-full max-w-80 text-center">
+                <p className="text-4xl font-bold">1,200+</p>
+                <p className="text-neutral-400 text-sm mt-1">
+                  vacancies posted this year
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </Section>
-      <Section className="mt-10 bg-black text-white px-8 py-20  ">
-        <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 relative  ">
-          {/* Left column */}
-          <div>
-            <p className="text-neutral-400 text-sm font-medium mb-3">
-              How it works
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold leading-tight">
-              Simple enough to start today, powerful enough to grow with you.
+
+      {/* Marketplace - light banner */}
+      <Section className="mt-10">
+        <div className="w-full border border-black/10 rounded-2xl px-8 py-14 lg:py-20 bg-neutral-50">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="order-2 lg:order-1 flex items-center justify-center">
+              <div className="grid grid-cols-2 gap-4 w-full max-w-80">
+                {[GraduationCap, ShoppingBag, HardHat, Handshake].map(
+                  (Icon, i) => (
+                    <div
+                      key={i}
+                      className="aspect-square rounded-xl bg-white border border-black/10 flex items-center justify-center"
+                    >
+                      <Icon className="w-8 h-8 text-neutral-700" />
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="text-3xl sm:text-4xl font-bold leading-tight mb-4">
+                More than job hunting — a marketplace for every hustle
+              </h2>
+              <P className="text-neutral-600 mb-6">
+                From casual gigs and scholarships to second-hand goods, Kopalet
+                connects Malawians with opportunity in every corner of the
+                informal and formal economy.
+              </P>
+              <Button asChild size="lg">
+                <Link href="/">Explore the marketplace</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Section>
+      {/* Value props grid - 4 cards, Malawi flag palette */}
+      <Section className="mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Card 1 - blended gradient (black/red/green) */}
+          <div className="rounded-2xl p-8 flex flex-col justify-end min-h-[280px] bg-linear-to-br from-green-900 via-red-800 to-neutral-800 text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold leading-snug">
+              Kopalet is where everything — and everyone — connects.
             </h2>
           </div>
 
-          {/* Right column */}
-          <div className="flex flex-col">
-            {howItWorks.map((item, i, arr) => (
-              <div
-                key={item.desc}
-                className={`flex gap-6 py-6 ${
-                  i !== arr.length - 1 ? "border-b border-white/10" : ""
-                }`}
-              >
-                <span className="text-2xl font-semibold text-white/90 w-6 shrink-0">
-                  {/* {item.step} */}
-                </span>
-                <div>
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-neutral-400 text-sm mt-1">{item.desc}</p>
-                </div>
-              </div>
-            ))}
+          {/* Card 2 - solid black */}
+          <div className="rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-neutral-900 text-white">
+            <div>
+              <h3 className="text-2xl font-bold mb-3">Find jobs, for free</h3>
+              <P className="text-white/80">
+                No hidden fees to search or apply. Browse thousands of vacancies
+                across every industry in Malawi.
+              </P>
+            </div>
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="w-fit mt-6"
+            >
+              <Link href="/">Find jobs</Link>
+            </Button>
+          </div>
+
+          {/* Card 3 - solid red */}
+          <div className="rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-red-800 text-white">
+            <div>
+              <h3 className="text-2xl font-bold mb-3">Hire talent, fast</h3>
+              <P className="text-white/80">
+                From casual work to skilled professionals — post a vacancy and
+                reach candidates ready to start.
+              </P>
+            </div>
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="w-fit mt-6"
+            >
+              <Link href="/">Hire talent</Link>
+            </Button>
+          </div>
+
+          {/* Card 4 - solid green */}
+          <div className="rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-green-800 text-white">
+            <div>
+              <h3 className="text-2xl font-bold mb-3">Share what you know</h3>
+              <P className="text-white/80">
+                Trade ideas and tips shaping Malawi's job market with people
+                navigating the same industry.
+              </P>
+            </div>
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="w-fit mt-6"
+            >
+              <Link href="/">Read insights</Link>
+            </Button>
           </div>
         </div>
       </Section>
