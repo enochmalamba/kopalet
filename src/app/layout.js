@@ -3,7 +3,7 @@ import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/nav-bar";
-import Footer from "@/components/ui/footer";
+import Footer from "@/components/layout/footer";
 
 const inter = Inter({ variable: "--font-sans", subsets: ["latin"] });
 const orbitron = Orbitron({ variable: "--font-orbitron", subsets: ["latin"] });
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col w-screen">
         <Providers>
           <Navbar />
-          {children}`
+          <main className="w-full flex flex-col justify-start">{children}</main>
           <Footer />
         </Providers>
       </body>

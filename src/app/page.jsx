@@ -10,6 +10,12 @@ import {
   Handshake,
   HardHat,
 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -52,7 +58,7 @@ export default function Home() {
   };
 
   return (
-    <main className="w-full min-h-screen flex flex-col justify-start">
+    <>
       <Section className="flex flex-col items-center justify-center gap-10 lg:min-h-[60vh] pt-10 pb-20 ">
         <div className="flex justify-center -space-x-2.5">
           {heroIcons.map(({ icon: Icon, bg, ring }, i) => (
@@ -89,15 +95,25 @@ export default function Home() {
           </div>
         </div>
       </Section>
+      {/* latest vacancies  */}
       <Section className="w-full py-10 lg:py-20">
-        <H2>Latest job vacancies in Malawi</H2>
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-2 mt-2">
-          <P>See the latest job opportunities in Malawi.</P>{" "}
-          <Link href="/" className="text-primary underline">
-            View all vacancies
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+          <div>
+            <H2>Latest job vacancies in Malawi</H2>
+            <P className="text-muted-foreground mt-1">
+              Fresh opportunities from employers across the country, updated
+              daily.
+            </P>
+          </div>
+          <Link
+            href="/"
+            className="hidden sm:inline text-sm font-medium text-primary underline underline-offset-4 shrink-0"
+          >
+            See more vacancies
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-0 md:gap-4 lg:grid-cols-3 mt-4 w-full">
+
+        <div className="grid grid-cols-1 gap-0 md:gap-4 lg:grid-cols-3 mt-6 w-full">
           <VacancyCard vacancy={vacancy} />
           <VacancyCard vacancy={vacancy} />
           <VacancyCard vacancy={vacancy} />
@@ -105,8 +121,9 @@ export default function Home() {
           <VacancyCard vacancy={vacancy} />
           <VacancyCard vacancy={vacancy} />
         </div>
+
         <Button asChild size="lg" className="mt-7 w-fit mx-auto">
-          <Link href="/">View all vacancies</Link>
+          <Link href="/">See more vacancies</Link>
         </Button>
       </Section>
 
@@ -153,52 +170,18 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Marketplace - light banner */}
-      <Section className="mt-10">
-        <div className="w-full border border-black/10 rounded-2xl px-8 py-14 lg:py-20 bg-neutral-50">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div className="order-2 lg:order-1 flex items-center justify-center">
-              <div className="grid grid-cols-2 gap-4 w-full max-w-80">
-                {[GraduationCap, ShoppingBag, HardHat, Handshake].map(
-                  (Icon, i) => (
-                    <div
-                      key={i}
-                      className="aspect-square rounded-xl bg-white border border-black/10 flex items-center justify-center"
-                    >
-                      <Icon className="w-8 h-8 text-neutral-700" />
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="text-3xl sm:text-4xl font-bold leading-tight mb-4">
-                More than job hunting — a marketplace for every hustle
-              </h2>
-              <P className="text-neutral-600 mb-6">
-                From casual gigs and scholarships to second-hand goods, Kopalet
-                connects Malawians with opportunity in every corner of the
-                informal and formal economy.
-              </P>
-              <Button asChild size="lg">
-                <Link href="/">Explore the marketplace</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Section>
       {/* Value props grid - 4 cards, Malawi flag palette */}
       <Section className="mt-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex sm:grid sm:grid-cols-2 gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
           {/* Card 1 - blended gradient (black/red/green) */}
-          <div className="rounded-2xl p-8 flex flex-col justify-end min-h-[280px] bg-linear-to-br from-green-900 via-red-800 to-neutral-800 text-white">
+          <div className="shrink-0 w-[85%] sm:w-auto snap-center rounded-2xl p-8 flex flex-col justify-end min-h-[280px] bg-linear-to-br from-green-900 via-red-800 to-neutral-800 text-white">
             <h2 className="text-2xl sm:text-3xl font-bold leading-snug">
               Kopalet is where everything — and everyone — connects.
             </h2>
           </div>
 
-          {/* Card 2 - solid black */}
-          <div className="rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-neutral-900 text-white">
+          {/* Card 2 - black gradient */}
+          <div className="shrink-0 w-[85%] sm:w-auto snap-center rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-linear-to-br from-neutral-800 to-neutral-950 text-white">
             <div>
               <h3 className="text-2xl font-bold mb-3">Find jobs, for free</h3>
               <P className="text-white/80">
@@ -216,8 +199,8 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* Card 3 - solid red */}
-          <div className="rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-red-800 text-white">
+          {/* Card 3 - red gradient */}
+          <div className="shrink-0 w-[85%] sm:w-auto snap-center rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-linear-to-br from-red-700 to-red-950 text-white">
             <div>
               <h3 className="text-2xl font-bold mb-3">Hire talent, fast</h3>
               <P className="text-white/80">
@@ -235,8 +218,8 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* Card 4 - solid green */}
-          <div className="rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-green-800 text-white">
+          {/* Card 4 - green gradient */}
+          <div className="shrink-0 w-[85%] sm:w-auto snap-center rounded-2xl p-8 flex flex-col justify-between min-h-[280px] bg-linear-to-br from-green-700 to-green-950 text-white">
             <div>
               <h3 className="text-2xl font-bold mb-3">Share what you know</h3>
               <P className="text-white/80">
@@ -255,6 +238,79 @@ export default function Home() {
           </div>
         </div>
       </Section>
-    </main>
+      {/* FAQ */}
+      <Section className="mt-10 lg:mt-20 py-10 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24">
+          <div>
+            <p className="text-neutral-500 text-sm font-medium mb-4">FAQ</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight max-w-100">
+              Questions people ask before joining Kopalet
+            </h2>
+          </div>
+
+          <Accordion
+            type="single"
+            defaultValue="item-1"
+            collapsible
+            className="w-full"
+          >
+            <AccordionItem value="item-1" className="py-2">
+              <AccordionTrigger className="text-left text-xl sm:text-2xl font-semibold py-6">
+                Is it really free to use?
+              </AccordionTrigger>
+              <AccordionContent className="text-base sm:text-lg text-muted-foreground leading-relaxed pb-6">
+                Yes. Creating an account, browsing vacancies, and applying to
+                jobs is completely free for job seekers. Employers can post
+                their first vacancy for free too.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-2" className="py-2">
+              <AccordionTrigger className="text-left text-xl sm:text-2xl font-semibold py-6">
+                How do I know a job listing is legitimate?
+              </AccordionTrigger>
+              <AccordionContent className="text-base sm:text-lg text-muted-foreground leading-relaxed pb-6">
+                Every employer profile goes through a review process before
+                vacancies go live. If something looks off, you can report it
+                directly from the listing.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3" className="py-2">
+              <AccordionTrigger className="text-left text-xl sm:text-2xl font-semibold py-6">
+                Can I sell goods or offer services, not just find a job?
+              </AccordionTrigger>
+              <AccordionContent className="text-base sm:text-lg text-muted-foreground leading-relaxed pb-6">
+                Yes. Kopalet's marketplace lets you list goods for sale, casual
+                gigs, and services alongside formal job listings.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-4" className="py-2">
+              <AccordionTrigger className="text-left text-xl sm:text-2xl font-semibold py-6">
+                How do employers reach me after I apply?
+              </AccordionTrigger>
+              <AccordionContent className="text-base sm:text-lg text-muted-foreground leading-relaxed pb-6">
+                Employers can message you directly through Kopalet or reach out
+                using the contact details on your profile, depending on your
+                privacy settings.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      </Section>
+
+      {/* Final CTA */}
+      <Section className="mt-10">
+        <div className="w-full bg-black text-white rounded-2xl px-8 py-16 lg:py-24 text-center flex flex-col items-center gap-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold max-w-2xl">
+            Malawi's jobs and marketplace, in one place. Free to join.
+          </h2>
+          <Button asChild size="lg" variant="secondary" className="mt-2">
+            <Link href="/">Create a free account</Link>
+          </Button>
+        </div>
+      </Section>
+    </>
   );
 }
