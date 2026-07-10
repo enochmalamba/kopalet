@@ -16,9 +16,10 @@ import {
 } from "@/components/ui/sheet";
 
 const NAV_LINKS = [
+  { href: "/", label: "Home" },
   { href: "/find-talent", label: "Hire Talent" },
   { href: "/find-jobs", label: "Find Jobs" },
-  { href: "/marketplace", label: "Buy & Sell locally" },
+  { href: "/marketplace", label: "Marketplace" },
   { href: "/why-kopalet", label: "Why Kopalet?" },
   { href: "/solutions", label: "Solutions" },
 ];
@@ -51,7 +52,7 @@ export function Navbar() {
                 className={cn(
                   "text-sm font-medium text-black/60 transition-colors hover:text-black dark:text-white/60 dark:hover:text-white",
                   isActive(link.href) &&
-                    "font-semibold text-black dark:text-white"
+                    "font-semibold text-black dark:text-white",
                 )}
               >
                 {link.label}
@@ -118,7 +119,7 @@ export function Navbar() {
                       className={cn(
                         "rounded-md px-3 py-2.5 text-lg font-large text-black/70 hover:bg-black/5 dark:text-white/70 dark:hover:bg-white/10 mb-4",
                         isActive(link.href) &&
-                          "font-semibold text-black dark:text-white"
+                          "font-semibold text-black dark:text-white",
                       )}
                     >
                       {link.label}

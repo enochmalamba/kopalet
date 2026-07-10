@@ -170,6 +170,41 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* Marketplace - light banner */}
+      <Section className="mt-10">
+        <div className="w-full border border-black/10 rounded-2xl px-8 py-14 lg:py-20 bg-neutral-50">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="order-2 lg:order-1 flex items-center justify-center">
+              <div className="grid grid-cols-2 gap-4 w-full max-w-80">
+                {[GraduationCap, ShoppingBag, HardHat, Handshake].map(
+                  (Icon, i) => (
+                    <div
+                      key={i}
+                      className="aspect-square rounded-xl bg-white border border-black/10 flex items-center justify-center"
+                    >
+                      <Icon className="w-8 h-8 text-neutral-700" />
+                    </div>
+                  ),
+                )}
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h2 className="text-3xl sm:text-4xl font-bold leading-tight mb-4">
+                More than job hunting — a marketplace for every hustle
+              </h2>
+              <P className="text-neutral-600 mb-6">
+                From casual gigs and scholarships to second-hand goods, Kopalet
+                connects Malawians with opportunity in every corner of the
+                informal and formal economy.
+              </P>
+              <Button asChild size="lg">
+                <Link href="/">Explore the marketplace</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Value props grid - 4 cards, Malawi flag palette */}
       <Section className="mt-10">
         <div className="flex sm:grid sm:grid-cols-2 gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
