@@ -4,8 +4,16 @@ import { Input } from "@/components/ui/input";
 import Section from "@/components/ui/section";
 import { H1, H2, P } from "@/components/ui/typography";
 import VacancyCard from "@/components/ui/vacancy-card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Search } from "lucide-react";
-import Link from "next/link";
 
 const PER_PAGE = 9;
 
@@ -71,7 +79,7 @@ const FAKE_VACANCIES = [
     slug: "clerk-registrar-general",
     title: "Records Clerk",
     company: "Registrar General's Department",
-    companyLogo: "/escom.j",
+    companyLogo: "/escom.jpg",
     location: "Zomba, Malawi",
     jobType: "full-time",
     salaryRange: "MWK 350,000 - 450,000",
@@ -137,7 +145,7 @@ const FAKE_VACANCIES = [
     slug: "warehouse-clerk-illovo",
     title: "Warehouse Clerk",
     company: "Illovo Sugar Malawi",
-    companyLogo: "/escom.jjpg",
+    companyLogo: "/escom.jpg",
     location: "Chikwawa, Malawi",
     jobType: "full-time",
     salaryRange: "MWK 300,000 - 400,000",
@@ -229,7 +237,7 @@ export default function FindJobsPage({ searchParams }) {
         )}
 
         {meta.last_page > 1 && (
-          <Pagination
+          <JobsPagination
             currentPage={meta.current_page}
             lastPage={meta.last_page}
             query={query}
@@ -240,38 +248,86 @@ export default function FindJobsPage({ searchParams }) {
   );
 }
 
-function Pagination({ currentPage, lastPage, query }) {
-  const buildHref = (page) => {
-    const params = new URLSearchParams();
-    if (query) params.set("q", query);
-    params.set("page", String(page));
-    return `/find-jobs?${params.toString()}`;
-  };
+function buildHref(page, query) {
+  const params = new URLSearchParams();
+  if (query) params.set("q", query);
+  params.set("page", String(page));
+  return `/find-jobs?${params.toString()}`;
+}
 
+// Builds a compact page list: 1 … currentPage-1, currentPage, currentPage+1 … lastPage
+function getPageRange(current, last) {
+  const delta = 1;
+  const range = [];
+  const rangeWithDots = [];
+  let l;
+
+  for (let i = 1; i <= last; i++) {
+    if (
+      i === 1 ||
+      i === last ||
+      (i >= current - delta && i <= current + delta)
+    ) {
+      range.push(i);
+    }
+  }
+
+  for (const i of range) {
+    if (l) {
+      if (i - l === 2) {
+        rangeWithDots.push(l + 1);
+      } else if (i - l !== 1) {
+        rangeWithDots.push("ellipsis");
+      }
+    }
+    rangeWithDots.push(i);
+    l = i;
+  }
+
+  return rangeWithDots;
+}
+
+function JobsPagination({ currentPage, lastPage, query }) {
+  const pages = getPageRange(currentPage, lastPage);
   const prevDisabled = currentPage <= 1;
   const nextDisabled = currentPage >= lastPage;
 
   return (
-    <div className="flex items-center justify-center gap-4 mt-10">
-      <Button asChild variant="outline" size="sm" disabled={prevDisabled}>
-        {prevDisabled ? (
-          <span>Previous</span>
-        ) : (
-          <Link href={buildHref(currentPage - 1)}>Previous</Link>
-        )}
-      </Button>
+    <Pagination className="mt-10">
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href={prevDisabled ? undefined : buildHref(currentPage - 1, query)}
+            aria-disabled={prevDisabled}
+            className={prevDisabled ? "pointer-events-none opacity-50" : ""}
+          />
+        </PaginationItem>
 
-      <P className="text-sm text-muted-foreground">
-        Page {currentPage} of {lastPage}
-      </P>
-
-      <Button asChild variant="outline" size="sm" disabled={nextDisabled}>
-        {nextDisabled ? (
-          <span>Next</span>
-        ) : (
-          <Link href={buildHref(currentPage + 1)}>Next</Link>
+        {pages.map((page, i) =>
+          page === "ellipsis" ? (
+            <PaginationItem key={`ellipsis-${i}`}>
+              <PaginationEllipsis />
+            </PaginationItem>
+          ) : (
+            <PaginationItem key={page}>
+              <PaginationLink
+                href={buildHref(page, query)}
+                isActive={page === currentPage}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ),
         )}
-      </Button>
-    </div>
+
+        <PaginationItem>
+          <PaginationNext
+            href={nextDisabled ? undefined : buildHref(currentPage + 1, query)}
+            aria-disabled={nextDisabled}
+            className={nextDisabled ? "pointer-events-none opacity-50" : ""}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 }

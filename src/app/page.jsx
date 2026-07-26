@@ -159,11 +159,14 @@ export default function Home() {
               </p>
             </div>
             <div className="flex items-center justify-center">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6 w-full max-w-80 text-center">
-                <p className="text-4xl font-bold">1,200+</p>
-                <p className="text-neutral-400 text-sm mt-1">
-                  vacancies posted this year
-                </p>
+              <div className="relative rounded-xl overflow-hidden w-full max-w-80 aspect-square">
+                <Image
+                  src="/static/images/for-employers.webp"
+                  alt="Employers hiring on Kopalet"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 320px, 90vw"
+                />
               </div>
             </div>
           </div>
@@ -175,17 +178,14 @@ export default function Home() {
         <div className="w-full border border-black/10 rounded-2xl px-8 py-14 lg:py-20 bg-neutral-50">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="order-2 lg:order-1 flex items-center justify-center">
-              <div className="grid grid-cols-2 gap-4 w-full max-w-80">
-                {[GraduationCap, ShoppingBag, HardHat, Handshake].map(
-                  (Icon, i) => (
-                    <div
-                      key={i}
-                      className="aspect-square rounded-xl bg-white border border-black/10 flex items-center justify-center"
-                    >
-                      <Icon className="w-8 h-8 text-neutral-700" />
-                    </div>
-                  ),
-                )}
+              <div className="relative rounded-xl overflow-hidden w-full max-w-80 aspect-square border border-black/10">
+                <Image
+                  src="/static/images/for-all-hustles.webp"
+                  alt="Kopalet marketplace"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 320px, 90vw"
+                />
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -204,7 +204,6 @@ export default function Home() {
           </div>
         </div>
       </Section>
-
       {/* Value props grid - 4 cards, Malawi flag palette */}
       <Section className="mt-10">
         <div className="flex sm:grid sm:grid-cols-2 gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">

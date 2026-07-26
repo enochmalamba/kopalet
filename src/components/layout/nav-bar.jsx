@@ -21,7 +21,6 @@ const NAV_LINKS = [
   { href: "/find-jobs", label: "Find Jobs" },
   { href: "/marketplace", label: "Marketplace" },
   { href: "/why-kopalet", label: "Why Kopalet?" },
-  { href: "/solutions", label: "Solutions" },
 ];
 
 export function Navbar() {

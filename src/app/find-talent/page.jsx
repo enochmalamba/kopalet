@@ -1,7 +1,7 @@
 // app/find-talent/page.jsx
 import { Button } from "@/components/ui/button";
 import Section from "@/components/ui/section";
-import { H1, H2, P, Lead } from "@/components/ui/typography";
+import { H1, H2, H3, P, Lead } from "@/components/ui/typography";
 import {
   Card,
   CardContent,
@@ -20,24 +20,24 @@ import Link from "next/link";
 import { HardHat, Briefcase, Users, Handshake } from "lucide-react";
 
 const categories = [
-  { label: "Drivers", weight: "lg" },
-  { label: "House Help", weight: "lg" },
-  { label: "Security Guards", weight: "md" },
-  { label: "Waiters", weight: "md" },
+  { label: "Drivers", weight: "sm" },
+  { label: "House Help", weight: "sm" },
+  { label: "Security Guards", weight: "sm" },
+  { label: "Waiters", weight: "sm" },
   { label: "Clerks", weight: "sm" },
   { label: "Gardeners", weight: "sm" },
-  { label: "Cooks", weight: "md" },
-  { label: "Cleaners", weight: "lg" },
+  { label: "Cooks", weight: "sm" },
+  { label: "Cleaners", weight: "sm" },
   { label: "Tailors", weight: "sm" },
-  { label: "Electricians", weight: "md" },
+  { label: "Electricians", weight: "sm" },
   { label: "Plumbers", weight: "sm" },
   { label: "Nannies", weight: "sm" },
-  { label: "Mechanics", weight: "md" },
+  { label: "Mechanics", weight: "sm" },
   { label: "Painters", weight: "sm" },
 ];
 
 const weightClasses = {
-  lg: "text-lg md:text-xl px-6 py-3 font-semibold",
+  sm: "text-lg md:text-xl px-6 py-3 font-semibold",
   md: "text-base md:text-lg px-5 py-2.5 font-medium",
   sm: "text-sm md:text-base px-4 py-2 font-normal",
 };
@@ -203,20 +203,17 @@ function HowItWorks() {
         {steps.map((step, i) => (
           <Card
             key={step.title}
-            className="relative overflow-visible border-black/10 pt-6"
+            className="relative overflow-visible border-black/10 "
           >
-            <div className="absolute -top-5 left-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-semibold text-white">
-              {i + 1}
-            </div>
-            <CardContent className="flex flex-col items-center gap-4 pt-4 text-center">
-              <div className="flex h-40 w-full items-center justify-center rounded-lg bg-neutral-100">
-                <span className="text-sm text-neutral-400">
-                  step {i + 1} illustration
-                </span>
-              </div>
-              <CardHeader className="p-0">
-                <CardTitle className="text-lg">{step.title}</CardTitle>
-              </CardHeader>
+            <Image
+              src="/hero.webp"
+              width={400}
+              height={400}
+              className="w-full h-75 rounded-t-lg object-cover"
+              alt={`How to get started with Kopalet | Step ${i + 1} illustration`}
+            />
+            <CardContent className="flex flex-col gap-4 text-center">
+              <CardTitle className="p-0">{step.title}</CardTitle>
               <CardDescription>{step.desc}</CardDescription>
             </CardContent>
           </Card>
