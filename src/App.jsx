@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout.jsx";
 import Home from "./pages/Home.jsx";
-import Landing from "./pages/Landing/Landing.jsx";
+
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import CreateHandle from "./pages/CreateHandle.jsx";
@@ -14,27 +14,19 @@ import VacancyView from "./pages/VacancyView.jsx";
 import GeneralPostView from "./pages/GeneralPostView.jsx";
 import Resources from "./pages/Resources.jsx";
 import Saved from "./pages/Saved.jsx";
-import LandingGuard from "./components/LandingGuard.jsx";
 
 import "./App.css";
 import "./assets/style/auth.css";
+import { AppLayout } from "./components/layouts";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <LandingGuard />
-              <Landing />
-            </>
-          }
-        />
-
         {/* Pages that use MainLayout */}
         <Route path="/" element={<MainLayout />}>
+          {" "}
+          <Route path="/" element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="create" element={<CreateHandle />} />
           <Route path="mailbox" element={<MailBox />} />
@@ -47,7 +39,9 @@ function App() {
           <Route path="vacancy/:id" element={<VacancyView />} />
           <Route path="post/:id" element={<GeneralPostView />} />
         </Route>
-
+        <Route path="v2/" element={<AppLayout />}>
+          <Route path="home" element={<Home />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

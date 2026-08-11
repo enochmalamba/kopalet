@@ -1,0 +1,38 @@
+.icon-btn {
+  --size: 44px;
+
+  width: var(--size);
+  height: var(--size);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  outline: none;
+  border-radius: var(--radius-full);
+
+  background: transparent;
+  color: var(--text);
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease;
+}
+
+.icon-btn:hover {
+  background: var(--interactive-hover);
+}
+
+.icon-btn:active {
+  transform: scale(0.94);
+}
+
+.icon-btn ion-icon {
+  font-size: 22px;
+  pointer-events: none;
+}

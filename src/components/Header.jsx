@@ -23,42 +23,40 @@ function Header({ handleNavClick, isNavOpen }) {
   const goToMailBox = () => navigate("/mailbox");
 
   return (
-    <>
-      <header style={{ maxWidth: "1200px" }}>
-        <div className="header-left">
-          <button className="menu-button" onClick={handleNavClick}>
-            <Icon>{isNavOpen ? "close" : "density_medium"}</Icon>
-          </button>
+    <header className="header">
+      <div className="header-left">
+        <button className="menu-button" onClick={handleNavClick}>
+          <Icon>{isNavOpen ? "close" : "density_medium"}</Icon>
+        </button>
 
-          <div className="logo">kopalet</div>
+        <div className="logo">kopalet</div>
+      </div>
+      <div className="actions">
+        <button onClick={goToMailBox}>
+          <Icon>mail</Icon>
+        </button>
+
+        <button onClick={goToCreatePage}>
+          <Icon>add_box</Icon>
+          <div>Create</div>
+        </button>
+
+        <div className="header-avatar">
+          <Avatar
+            src={isAuthenticated ? user.avatar_url : "/src/assets/user.jpeg"}
+            alt={isAuthenticated ? user.username : "Profile"}
+            onClick={handleAvatarClick}
+            sx={{ width: 30, height: 30 }}
+          />
+
+          <AvatarMenu
+            anchorMenu={anchorMenu}
+            menuOpen={menuOpen}
+            setAnchorMenu={setAnchorMenu}
+          />
         </div>
-        <div className="actions">
-          <button onClick={goToMailBox}>
-            <Icon>mail</Icon>
-          </button>
-
-          <button onClick={goToCreatePage}>
-            <Icon>add_box</Icon>
-            <div>Create</div>
-          </button>
-
-          <div className="header-avatar">
-            <Avatar
-              src={isAuthenticated ? user.avatar_url : "/src/assets/user.jpeg"}
-              alt={isAuthenticated ? user.username : "Profile"}
-              onClick={handleAvatarClick}
-              sx={{ width: 30, height: 30 }}
-            />
-
-            <AvatarMenu
-              anchorMenu={anchorMenu}
-              menuOpen={menuOpen}
-              setAnchorMenu={setAnchorMenu}
-            />
-          </div>
-        </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }
 

@@ -14,21 +14,76 @@ import axiosInstance from "../api/axios";
 
 import { preserveLineBreaks } from "../utils/textFormat";
 import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Download from "yet-another-react-lightbox/plugins/download";
 import "yet-another-react-lightbox/styles.css";
 
-const CAROUSEL_HEIGHT = "320px";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import GridOnOutlinedIcon from "@mui/icons-material/GridOnOutlined";
+import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
-const imageSx = {
-  flex: "0 0 85%",
-  minWidth: "85%",
-  height: CAROUSEL_HEIGHT,
-  objectFit: "cover",
-  objectPosition: "center",
-  borderRadius: "var(--radius-md)",
-  cursor: "pointer",
-  scrollSnapAlign: "start",
-  display: "block",
+const IMAGE_MIME_PREFIX = "image/";
+// Height cap: 480px on tall screens, but never more than 55% of the
+// viewport, so a single portrait image can't dominate the screen.
+const MAX_MEDIA_HEIGHT_CSS = "min(480px, 55vh)";
+
+// True ratio only — no artificial min/max shape forced onto the box.
+// The box always shrinks to the image's real shape (bounded by height
+// cap + container width), so contain/cover never have to compensate.
+// The `|| 1` is just divide-by-zero protection for corrupt metadata,
+// not a "look" clamp.
+function getImageRatio(media) {
+  if (media?.width && media?.height) return media.width / media.height;
+  const parsed = parseFloat(media?.aspect_ratio);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+const DOCUMENT_META = {
+  "application/pdf": { label: "PDF", Icon: PictureAsPdfOutlinedIcon },
+  "application/msword": { label: "DOC", Icon: DescriptionOutlinedIcon },
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+    label: "DOCX",
+    Icon: DescriptionOutlinedIcon,
+  },
+  "application/vnd.ms-excel": { label: "XLS", Icon: GridOnOutlinedIcon },
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+    label: "XLSX",
+    Icon: GridOnOutlinedIcon,
+  },
+  "application/vnd.ms-powerpoint": {
+    label: "PPT",
+    Icon: SlideshowOutlinedIcon,
+  },
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
+    label: "PPTX",
+    Icon: SlideshowOutlinedIcon,
+  },
 };
+
+function getDocumentMeta(mimeType) {
+  return (
+    DOCUMENT_META[mimeType] || {
+      label: "FILE",
+      Icon: InsertDriveFileOutlinedIcon,
+    }
+  );
+}
+
+function formatBytes(bytes) {
+  if (bytes === null || bytes === undefined) return null;
+  if (bytes < 1024) return `${bytes} B`;
+  const units = ["KB", "MB", "GB"];
+  let val = bytes / 1024;
+  let i = 0;
+  while (val >= 1024 && i < units.length - 1) {
+    val /= 1024;
+    i++;
+  }
+  return `${val.toFixed(val < 10 ? 1 : 0)} ${units[i]}`;
+}
 
 const GeneralPost = React.memo(({ post }) => {
   const navigate = useNavigate();
@@ -62,13 +117,25 @@ const GeneralPost = React.memo(({ post }) => {
     user_reactions: userReactions,
   } = post || {};
 
+  const images = React.useMemo(
+    () =>
+      postMedia?.filter((m) => m.mime_type?.startsWith(IMAGE_MIME_PREFIX)) ||
+      [],
+    [postMedia],
+  );
+
+  const documents = React.useMemo(
+    () =>
+      postMedia?.filter((m) => !m.mime_type?.startsWith(IMAGE_MIME_PREFIX)) ||
+      [],
+    [postMedia],
+  );
+
   const slides = React.useMemo(() => {
-    return (
-      postMedia
-        ?.filter((_, i) => mediaStatus[i] !== "error")
-        .map((m) => ({ src: m.url })) || []
-    );
-  }, [postMedia, mediaStatus]);
+    return images
+      .filter((_, i) => mediaStatus[i] !== "error")
+      .map((m) => ({ src: m.url }));
+  }, [images, mediaStatus]);
 
   React.useEffect(() => {
     if (index >= slides.length) setIndex(0);
@@ -205,7 +272,7 @@ const GeneralPost = React.memo(({ post }) => {
               ...(!isPostView && {
                 display: "-webkit-box",
 
-                WebkitLineClamp: 1,
+                WebkitLineClamp: 3,
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -222,7 +289,7 @@ const GeneralPost = React.memo(({ post }) => {
               fontWeight: "var(--fw-regular) ",
               ...(!isPostView && {
                 display: "-webkit-box",
-                WebkitLineClamp: 2,
+                WebkitLineClamp: 3,
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -234,7 +301,7 @@ const GeneralPost = React.memo(({ post }) => {
         )}
       </Box>
 
-      {postMedia?.length > 0 && (
+      {images.length > 0 && (
         <>
           <Box
             ref={scrollerRef}
@@ -245,24 +312,40 @@ const GeneralPost = React.memo(({ post }) => {
             sx={{
               display: "flex",
               gap: 1,
-              height: CAROUSEL_HEIGHT,
               overflowX: "auto",
               scrollSnapType: "x mandatory",
               WebkitOverflowScrolling: "touch",
               cursor: "grab",
               userSelect: "none",
+              justifyContent: "flex-start",
               "&::-webkit-scrollbar": { display: "none" },
             }}
           >
-            {postMedia.map((media, i) => {
+            {images.map((media, i) => {
               const status = mediaStatus[i] || "loading";
+              const ratio = getImageRatio(media);
+
+              // Shrink-to-fit, like dragging a corner handle in Canva:
+              // height is capped, width is capped to the container, and
+              // whichever limit is hit first wins — the other dimension
+              // shrinks with it via aspectRatio. Modern browsers resolve
+              // aspect-ratio + max-width + fixed height together, so this
+              // never crops and never leaves empty space around the image.
+              const boxSx = {
+                maxHeight: MAX_MEDIA_HEIGHT_CSS,
+                width: "auto",
+                aspectRatio: ratio,
+                maxWidth: "100%",
+                flexShrink: 0,
+              };
 
               if (status === "error") {
                 return (
                   <Box
                     key={media.id || i}
                     sx={{
-                      ...imageSx,
+                      ...boxSx,
+                      height: "320px",
                       cursor: "default",
                       display: "flex",
                       flexDirection: "column",
@@ -271,7 +354,9 @@ const GeneralPost = React.memo(({ post }) => {
                       gap: "var(--space-xs)",
                       backgroundColor: "var(--surface-alt, #1e1e1e)",
                       border: "1px solid var(--border, #2c2c2c)",
+                      borderRadius: "var(--radius-md)",
                       color: "var(--muted)",
+                      scrollSnapAlign: "start",
                     }}
                   >
                     <ImageNotSupportedOutlinedIcon
@@ -291,17 +376,17 @@ const GeneralPost = React.memo(({ post }) => {
                 <Box
                   key={media.id || i}
                   sx={{
+                    ...boxSx,
+
                     position: "relative",
-                    flex: "0 0 85%",
-                    minWidth: "85%",
-                    height: CAROUSEL_HEIGHT,
                     borderRadius: "var(--radius-md)",
                     overflow: "hidden",
                     scrollSnapAlign: "start",
-                    flexShrink: 0,
+                    backgroundColor:
+                      media.dominant_color || "var(--surface-alt, #1e1e1e)",
                   }}
                 >
-                  {status === "loading" && (
+                  {status === "loading" && !media.dominant_color && (
                     <Box
                       sx={{
                         position: "absolute",
@@ -329,10 +414,13 @@ const GeneralPost = React.memo(({ post }) => {
                     onClick={() => handleImageClick(i)}
                     draggable={false}
                     sx={{
-                      ...imageSx,
-                      flex: "unset",
-                      minWidth: "unset",
                       width: "100%",
+                      height: "100%",
+
+                      objectFit: "contain",
+                      objectPosition: "left",
+                      display: "block",
+                      cursor: "pointer",
                       opacity: status === "loaded" ? 1 : 0,
                       transition: "opacity 0.25s ease",
                     }}
@@ -355,8 +443,63 @@ const GeneralPost = React.memo(({ post }) => {
             }}
             animation={{ fade: 0.2 }}
             carousel={{ finite: true }}
+            plugins={[Zoom, Download]}
+            zoom={{
+              maxZoomPixelRatio: 3,
+              scrollToZoom: true,
+            }}
           />
         </>
+      )}
+
+      {documents.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-xs)",
+          }}
+        >
+          {documents.map((doc, i) => {
+            const { label, Icon } = getDocumentMeta(doc.mime_type);
+            const size = formatBytes(doc.size_bytes);
+            return (
+              <Box
+                key={doc.id || i}
+                component="a"
+                href={doc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+
+                  gap: "var(--space-sm)",
+                  padding: "var(--space-sm) var(--space-md)",
+                  borderRadius: "var(--radius-md)",
+                  border: "1px solid var(--border)",
+                  textDecoration: "none",
+                  color: "var(--text)",
+                  "&:hover": {
+                    backgroundColor: "var(--surface-hover, #2a2a2a)",
+                  },
+                }}
+              >
+                <Icon sx={{ fontSize: 28, flexShrink: 0, opacity: 0.8 }} />
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: "var(--fw-bold)", flex: 1, minWidth: 0 }}
+                >
+                  {label} document{size ? ` · ${size}` : ""}
+                </Typography>
+                <FileDownloadOutlinedIcon
+                  sx={{ fontSize: 22, opacity: 0.6, flexShrink: 0 }}
+                />
+              </Box>
+            );
+          })}
+        </Box>
       )}
 
       <PostActions

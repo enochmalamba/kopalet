@@ -26,12 +26,12 @@ function MainLayout() {
     <>
       <VisitGuard />
       <Header handleNavClick={handleNavClick} isNavOpen={isNavOpen} />
-      <main>
+      <main className="main-layout">
         <Nav isNavOpen={isNavOpen} />
         <section className="app-outlet-section" ref={scrollRef}>
           <Outlet />
         </section>
-        <Sidebar />
+        {/* <Sidebar /> */}
       </main>{" "}
       <BottomNav />
     </>

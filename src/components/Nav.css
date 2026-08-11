@@ -1,4 +1,4 @@
-nav {
+.nav {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -8,21 +8,21 @@ nav {
   background: var(--bg);
   border-right: 1px solid var(--border);
   position: sticky;
-  top: var(--header-height);
+  top: 0;
 }
 
-nav ul {
+.nav ul {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-lg);
 }
 
-nav .divider {
+.nav .divider {
   width: 100%;
   border-bottom: 1px solid var(--border);
 }
 
-nav ul li {
+.nav ul li {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -33,18 +33,17 @@ nav ul li {
   transition: all 0.2s ease-in-out;
 }
 
-nav ul li:hover {
+.nav ul li:hover {
   background: var(--surface);
   color: var(--primary);
 }
 
-nav ul li:has(.nav-link.active) {
+.nav ul li:has(.nav-link.active) {
   /* border: 1px solid var(--primary-bg); */
   background: var(--primary-bg);
 }
 
-
-nav .nav-link {
+.nav .nav-link {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
@@ -53,11 +52,11 @@ nav .nav-link {
   color: var(--text);
 }
 
-nav .nav-link span {
+.nav .nav-link span {
   font-size: var(--fs-xl);
 }
 
-nav .advertise-link .nav-link {
+.nav .advertise-link .nav-link {
   color: var(--primary);
 }
 
@@ -97,7 +96,7 @@ nav .advertise-link .nav-link {
 }
 
 @media (max-width: 1000px) {
-  nav {
+  .nav {
     transform: translateX(-140%);
     transform-origin: top left;
     position: fixed;
@@ -108,7 +107,7 @@ nav .advertise-link .nav-link {
     transition: all 0.2s ease-in-out;
   }
 
-  nav.visible {
+  .nav.visible {
     transform: translate(0);
   }
 }

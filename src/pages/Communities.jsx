@@ -1,6 +1,5 @@
-import CommunityCard from "../components/CommunityCard";
-import AdBanner from "../components/AdBanner";
 import SEO from "../components/SEO";
+import UnderDevelopment from "../components/UnderDevelopment";
 
 function Communities() {
   const community = {
@@ -20,10 +19,7 @@ function Communities() {
         description="Explore Kopalet communities, join discussions, and connect with professionals."
         url="/communities"
       />
-      <h2>Communities</h2>
-      <CommunityCard community={community} />
-      <CommunityCard community={community} />
-      <AdBanner />
+      <UnderDevelopment page={"Communities"} />
     </>
   );
 }

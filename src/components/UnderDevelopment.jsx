@@ -30,7 +30,12 @@ export default function UnderDevelopment({
         component="img"
         src={illustration}
         alt="Under development"
-        sx={{ width: "100%", maxWidth: 300, height: "auto" }}
+        sx={{
+          width: "100%",
+          maxWidth: 300,
+          height: "auto",
+          background: "white",
+        }}
       />
 
       <Box

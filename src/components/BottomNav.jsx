@@ -54,7 +54,7 @@ function BottomNav() {
       sx={{
         display: {
           xs: "block", // mobile
-          sm: "none", // tablet
+          sm: "block", // tablet
           md: "none", // desktop
           lg: "none", // wide
         },

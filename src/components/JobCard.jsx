@@ -33,7 +33,7 @@ function JobCard({ job }) {
         display: "flex",
         flexDirection: "column",
         gap: "var(--space-md)",
-        width: "min(550px, 100%)",
+        width: "100%",
         borderBottom: "1px solid var(--border)",
         padding: "var(--space-sm) var(--space-md)",
       }}

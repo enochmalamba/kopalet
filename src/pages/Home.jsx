@@ -7,8 +7,11 @@ import LoadingStates from "../components/LoadingStates";
 import MarketplaceBanner from "../components/MarketplaceBanner";
 import AdBanner from "../components/AdBanner";
 import SEO from "../components/SEO";
-import { Button, Typography } from "@mui/material";
-
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import PageWrapper from "../components/layouts/PageWrapper/PageWrapper";
+import { TextField } from "@mui/material";
 const INSERT_EVERY = 5;
 
 function Home() {
@@ -132,60 +135,64 @@ function Home() {
         description="Discover jobs, market items, posts, and opportunities on Kopalet."
         url="/home"
       />
-      <PageFilters />
-      {loadingFeed && (
-        <>
-          <LoadingStates type="post" />
-          <LoadingStates type="post" />
-        </>
-      )}
-      {!loadingFeed && feedError && (
-        <div className="empty-state">
-          <Typography variant="h4">Ooops!</Typography>
-          <Typography>Something went wrong. We're working on it.</Typography>
-          <Button
-            variant="outlined"
-            onClick={retryInitial}
-            sx={{ fontSize: "var(--fs-lg)", mt: 5 }}
-          >
-            Retry
-          </Button>
-        </div>
-      )}
-      {!loadingFeed && !feedError && feed.length === 0 && (
-        <div className="empty-state">
-          <Typography variant="h4">No posts yet</Typography>
-          <Typography>
-            Be the first to share an update or opportunity.
-          </Typography>
-        </div>
-      )}
-      {!loadingFeed &&
-        !feedError &&
-        renderItems.map((entry) => {
-          if (entry.kind === "marketplace_banner") {
-            return <MarketplaceBanner key={entry.key} />;
-          }
+      <PageWrapper sx={{ paddingTop: 0 }}>
+        <Card variant="outlined" sx={{}}>
+          <TextField multiline fullWidth />
+        </Card>
+        {loadingFeed && (
+          <>
+            <LoadingStates type="post" />
+            <LoadingStates type="post" />
+          </>
+        )}
+        {!loadingFeed && feedError && (
+          <div className="empty-state">
+            <Typography variant="h4">Ooops!</Typography>
+            <Typography>Something went wrong. We're working on it.</Typography>
+            <Button
+              variant="outlined"
+              onClick={retryInitial}
+              sx={{ fontSize: "var(--fs-lg)", mt: 5 }}
+            >
+              Retry
+            </Button>
+          </div>
+        )}
+        {!loadingFeed && !feedError && feed.length === 0 && (
+          <div className="empty-state">
+            <Typography variant="h4">No posts yet</Typography>
+            <Typography>
+              Be the first to share an update or opportunity.
+            </Typography>
+          </div>
+        )}
+        {!loadingFeed &&
+          !feedError &&
+          renderItems.map((entry) => {
+            if (entry.kind === "marketplace_banner") {
+              return <MarketplaceBanner key={entry.key} />;
+            }
 
-          if (entry.kind === "ad") {
-            return <AdBanner key={entry.key} />;
-          }
+            if (entry.kind === "ad") {
+              return <AdBanner key={entry.key} />;
+            }
 
-          // entry.kind === "listing"
-          const { item } = entry;
+            // entry.kind === "listing"
+            const { item } = entry;
 
-          if (item.type === "job") {
-            return <JobCard key={entry.key} job={item} />;
-          }
+            if (item.type === "job") {
+              return <JobCard key={entry.key} job={item} />;
+            }
 
-          // type === "post" (only type in use for now)
-          return <GeneralPost key={entry.key} post={item} />;
-        })}
-      {/* Sentinel for infinite scroll - stays mounted even while loading more */}
-      {!loadingFeed && !feedError && page < lastPage && (
-        <div ref={sentinelRef} style={{ height: "1px" }} />
-      )}
-      {loadingMore && <LoadingStates type="post" />}
+            // type === "post" (only type in use for now)
+            return <GeneralPost key={entry.key} post={item} />;
+          })}
+        {/* Sentinel for infinite scroll - stays mounted even while loading more */}
+        {!loadingFeed && !feedError && page < lastPage && (
+          <div ref={sentinelRef} style={{ height: "1px" }} />
+        )}
+        {loadingMore && <LoadingStates type="post" />}
+      </PageWrapper>
     </>
   );
 }

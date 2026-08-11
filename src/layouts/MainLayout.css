@@ -1,23 +1,25 @@
-main {
+.main-layout {
   height: calc(100vh - var(--header-height));
   display: flex;
   flex-direction: row;
   gap: var(--space-md);
   justify-content: space-between;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   overflow: hidden;
   overflow-y: auto;
   background: var(--bg);
 }
 section.app-outlet-section {
-  width: min(550px, 100%);
+  width: min(600px, 100%);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
   padding: var(--space-sm);
   padding-bottom: 80px;
-  overflow: hidden;
+
   background: var(--bg);
-  overflow-y: auto;
+
+  margin-right: auto;
+  margin-left: auto;
 }

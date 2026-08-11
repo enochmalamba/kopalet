@@ -1,0 +1,43 @@
+.app_header {
+  height: var(--header-height);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  padding: 0 var(--screen-padding);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.app_header .nav_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  font-size: var(--fs-lg);
+  color: var(--muted);
+}
+.app_header .nav_link ion-icon {
+  font-size: 22px;
+  color: var(--muted);
+}
+.app_header .nav_link:hover,
+.app_header .nav_link:hover ion-icon {
+  color: var(--text);
+}
+
+.app_header .nav_link.active {
+  color: var(--text);
+  font-weight: var(--fw-semibold);
+}
+
+.app_header .nav_link.active ion-icon {
+  color: var(--text);
+}
+
+.nav_actions {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-sm);
+}
