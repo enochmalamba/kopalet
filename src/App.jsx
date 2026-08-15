@@ -8,6 +8,7 @@ import CreateHandle from "./pages/CreateHandle.jsx";
 import MailBox from "./pages/MailBox.jsx";
 import Communities from "./pages/Communities.jsx";
 import Vacancies from "./pages/Vacancies.jsx";
+import Jobs from "./pages/Jobs.jsx";
 import MarketPlace from "./pages/MarketPlace.jsx";
 import ProductView from "./pages/ProductView.jsx";
 import VacancyView from "./pages/VacancyView.jsx";
@@ -23,24 +24,24 @@ function App() {
   return (
     <>
       <Routes>
-        {/* Pages that use MainLayout */}
-        <Route path="/" element={<MainLayout />}>
+        {/* Pages that use AppLayout */}
+
+        <Route path="/" element={<AppLayout />}>
           {" "}
-          <Route path="/" element={<Home />} />
-          <Route path="home" element={<Home />} />
           <Route path="create" element={<CreateHandle />} />
-          <Route path="mailbox" element={<MailBox />} />
+          <Route path="/" element={<Home />} />{" "}
           <Route path="communities" element={<Communities />} />
+          <Route path="/home" element={<Home />} />{" "}
+          <Route path="mailbox" element={<MailBox />} />
+          <Route path="jobs" element={<Jobs />} />
           <Route path="vacancies" element={<Vacancies />} />
-          <Route path="marketplace" element={<MarketPlace />} />
-          <Route path="resources" element={<Resources />} />
+          <Route path="marketplace" element={<MarketPlace />} />{" "}
           <Route path="saved-items" element={<Saved />} />
-          <Route path="marketplace/product/:id" element={<ProductView />} />
-          <Route path="vacancy/:id" element={<VacancyView />} />
+          <Route path="marketplace/:id" element={<ProductView />} />{" "}
+          <Route path="marketplace" element={<MarketPlace />} />
+          <Route path="job/:id" element={<VacancyView />} />{" "}
+          <Route path="resources" element={<Resources />} />
           <Route path="post/:id" element={<GeneralPostView />} />
-        </Route>
-        <Route path="v2/" element={<AppLayout />}>
-          <Route path="home" element={<Home />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

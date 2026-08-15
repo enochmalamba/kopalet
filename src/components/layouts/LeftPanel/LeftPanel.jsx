@@ -1,15 +1,30 @@
-import { Box, Card, CardContent, Typography, Button } from "@mui/material";
+import { Save } from "@mui/icons-material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Divider,
+} from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import "./LeftPanel.css";
+const createPostOptions = [
+  { label: "Sell an item", link: "/create#market-item" },
+  { label: "Post a job", link: "/create#vacancy" },
+  { label: "Share thoughts & tips       ", link: "/create#post" },
+];
 
+const shortcutLinks = [
+  { label: "Saved items", link: "/saved", icon: "bookmarks-outline" },
+  { label: "Resources", link: "/resources", icon: "folder-open-outline" },
+  { label: "Communities", link: "/communities", icon: "people-outline" },
+];
 function LeftPanel() {
-  const createPostOptions = [
-    { label: "List a product", link: "/create#market-item" },
-    { label: "Post a job", link: "/create#vacancy" },
-    { label: "Share thoughts & tips       ", link: "/create#post" },
-  ];
   return (
     <Box
+      component={"aside"}
       sx={{
         width: "300px",
         padding: "var(--space-md)",
@@ -36,7 +51,7 @@ function LeftPanel() {
           gap: "var(--space-md)",
           alignItems: "center",
           justifyContent: "center",
-          background: "var(--surface-alt)",
+
           padding: "var(--space-sm)",
           borderRadius: "var(--radius-lg)",
           border: "1px solid var(--border)",
@@ -73,6 +88,44 @@ function LeftPanel() {
             </Button>{" "}
           </Link>
         ))}
+      </Box>
+      <Divider />
+      <Box
+        component={"nav"}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--space-sm)",
+        }}
+      >
+        <Typography color="var(--muted)" fontWeight={"bold"}>
+          Shortcuts
+        </Typography>
+        <ul
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "var(--space-md)",
+          }}
+        >
+          {shortcutLinks.map((s) => (
+            <Link to={s.link} className="left-panel-shortcut-link">
+              <ion-icon name={s.icon} style={{ fontSize: "20px" }} />
+              <Typography>{s.label}</Typography>
+            </Link>
+          ))}
+          <Divider sx={{ mt: "var(--space-md)" }} />
+        </ul>
+        <ul>
+          <Link to={"/feeback"} className="left-panel-shortcut-link">
+            <ion-icon
+              name="chatbox-ellipses-outline"
+              style={{ fontSize: "20px" }}
+            />
+
+            <Typography> Feedback</Typography>
+          </Link>
+        </ul>
       </Box>
     </Box>
   );

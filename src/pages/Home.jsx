@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import PageFilters from "../components/PageFilters";
+import CreatePostPrompt from "../components/CreatePostPrompt";
 import axiosInstance from "../api/axios";
 import GeneralPost from "../components/GeneralPost";
 import JobCard from "../components/JobCard";
@@ -7,11 +7,12 @@ import LoadingStates from "../components/LoadingStates";
 import MarketplaceBanner from "../components/MarketplaceBanner";
 import AdBanner from "../components/AdBanner";
 import SEO from "../components/SEO";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
+import FeedbackState from "../components/FeedbackState";
+
 import PageWrapper from "../components/layouts/PageWrapper/PageWrapper";
-import { TextField } from "@mui/material";
+import { Box } from "@mui/material";
+
 const INSERT_EVERY = 5;
 
 function Home() {
@@ -21,6 +22,7 @@ function Home() {
   const [loadingFeed, setLoadingFeed] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [feedError, setFeedError] = useState(null);
+  const [loadMoreError, setLoadMoreError] = useState(false);
 
   const observerRef = useRef(null);
   const sentinelRef = useRef(null);
@@ -32,6 +34,7 @@ function Home() {
         setFeedError(null);
       } else {
         setLoadingMore(true);
+        setLoadMoreError(false);
       }
 
       const { data } = await axiosInstance.get(
@@ -48,11 +51,14 @@ function Home() {
         isInitial ? listingsOnly : [...prev, ...listingsOnly],
       );
       setLastPage(data.meta.last_page);
+      setPage(pageToFetch); // only advance page on confirmed success
     } catch (error) {
       console.error(error);
       if (isInitial) {
         setFeedError("Failed to load posts.");
         setFeed([]);
+      } else {
+        setLoadMoreError(true);
       }
     } finally {
       setLoadingFeed(false);
@@ -65,14 +71,14 @@ function Home() {
   }, []);
 
   const loadMore = useCallback(() => {
-    if (loadingMore || loadingFeed) return;
+    if (loadingMore || loadingFeed || loadMoreError) return;
     if (page >= lastPage) return;
 
-    const nextPage = page + 1;
-    setPage(nextPage);
-    fetchFeed(nextPage, false);
-  }, [page, lastPage, loadingMore, loadingFeed]);
+    fetchFeed(page + 1, false);
+  }, [page, lastPage, loadingMore, loadingFeed, loadMoreError]);
 
+  // Infinite scroll: watches the sentinel div and triggers loadMore()
+  // when it enters the viewport (400px before it's actually visible).
   useEffect(() => {
     if (!sentinelRef.current) return;
 
@@ -91,8 +97,11 @@ function Home() {
   }, [loadMore]);
 
   const retryInitial = () => {
-    setPage(1);
     fetchFeed(1, true);
+  };
+
+  const retryLoadMore = () => {
+    fetchFeed(page + 1, false);
   };
 
   // Builds the render list with the marketplace banner / ad blocks
@@ -136,36 +145,31 @@ function Home() {
         url="/home"
       />
       <PageWrapper sx={{ paddingTop: 0 }}>
-        <Card variant="outlined" sx={{}}>
-          <TextField multiline fullWidth />
-        </Card>
         {loadingFeed && (
           <>
             <LoadingStates type="post" />
             <LoadingStates type="post" />
           </>
         )}
+
         {!loadingFeed && feedError && (
-          <div className="empty-state">
-            <Typography variant="h4">Ooops!</Typography>
-            <Typography>Something went wrong. We're working on it.</Typography>
-            <Button
-              variant="outlined"
-              onClick={retryInitial}
-              sx={{ fontSize: "var(--fs-lg)", mt: 5 }}
-            >
-              Retry
-            </Button>
-          </div>
+          <FeedbackState
+            icon="cloud-offline-outline"
+            title="Couldn't load your feed"
+            description="Check your connection and try again."
+            primaryAction={{ label: "Retry", onClick: retryInitial }}
+          />
         )}
+
         {!loadingFeed && !feedError && feed.length === 0 && (
-          <div className="empty-state">
-            <Typography variant="h4">No posts yet</Typography>
-            <Typography>
-              Be the first to share an update or opportunity.
-            </Typography>
-          </div>
+          <FeedbackState
+            icon="newspaper-outline"
+            title="Your feed is empty"
+            description="Post an update, share an opportunity, or follow people to see their activity here."
+            primaryAction={{ label: "Refresh", onClick: retryInitial }}
+          />
         )}
+
         {!loadingFeed &&
           !feedError &&
           renderItems.map((entry) => {
@@ -187,11 +191,23 @@ function Home() {
             // type === "post" (only type in use for now)
             return <GeneralPost key={entry.key} post={item} />;
           })}
+
         {/* Sentinel for infinite scroll - stays mounted even while loading more */}
-        {!loadingFeed && !feedError && page < lastPage && (
+        {!loadingFeed && !feedError && page < lastPage && !loadMoreError && (
           <div ref={sentinelRef} style={{ height: "1px" }} />
         )}
+
         {loadingMore && <LoadingStates type="post" />}
+
+        {loadMoreError && (
+          <FeedbackState
+            icon="cloud-offline-outline"
+            title="Couldn't load more"
+            description="Check your connection and try again."
+            primaryAction={{ label: "Retry", onClick: retryLoadMore }}
+            sx={{ minHeight: "auto", py: 3 }}
+          />
+        )}
       </PageWrapper>
     </>
   );

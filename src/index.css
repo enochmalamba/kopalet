@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 /* logo font */
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 :root {
   /* Base */
   --base-font-size: 14px;
   --font-family: "Inter", system-ui, sans-serif;
-  --logo-font-family: "Orbitron", sans-serif;
+  --logo-font-family: "Nunito", sans-serif;
   /* Font sizes */
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
@@ -204,3 +204,9 @@ body {
 .app-toast-info {
   border-color: var(--info);
 } */
+
+/* for the /components/BottomNav  */
+
+.bottom_nav ion-icon {
+  font-size: 22px;
+}

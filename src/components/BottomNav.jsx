@@ -76,19 +76,30 @@ function BottomNav() {
           borderTop: "1px solid var(--border)",
           // height: "60px",
         }}
+        className="bottom_nav" //styled in index.css
       >
         <BottomNavigationAction
           label="Home"
           value="home"
-          icon={currentPath === "home" ? <HomeIcon /> : <HomeOutlinedIcon />}
+          icon={
+            <ion-icon
+              name={currentPath === "home" ? "home" : "home-outline"}
+            ></ion-icon>
+          }
         />
+
         <BottomNavigationAction
           label="Vacancies"
           value="vacancies"
           icon={
-            currentPath === "vacancies" ? <CasesIcon /> : <CasesOutlinedIcon />
+            <ion-icon
+              name={
+                currentPath === "vacancies" ? "briefcase" : "briefcase-outline"
+              }
+            ></ion-icon>
           }
-        />{" "}
+        />
+
         <BottomNavigationAction
           label="Create"
           value="create"
@@ -96,28 +107,47 @@ function BottomNav() {
             currentPath === "create" ? <AddBoxIcon /> : <AddBoxOutlinedIcon />
           }
         />
+
         <BottomNavigationAction
           label="Marketplace"
           value="marketplace"
           icon={
-            currentPath === "marketplace" ? (
-              <StoreMallDirectoryIcon />
-            ) : (
-              <StoreMallDirectoryOutlinedIcon />
-            )
+            <ion-icon
+              name={
+                currentPath === "marketplace"
+                  ? "storefront"
+                  : "storefront-outline"
+              }
+            ></ion-icon>
           }
         />
+
         <BottomNavigationAction
+          label="Search"
+          value="search"
+          icon={
+            <ion-icon
+              name={currentPath === "search" ? "search" : "search-outline"}
+            ></ion-icon>
+          }
+        />
+
+        {/* <BottomNavigationAction
           label={isMoreOpen ? "Close" : "More"}
           value="more"
-          icon={isMoreOpen ? <CloseOutlinedIcon /> : <MenuIcon />}
-        />
+          icon={
+            <ion-icon
+              name={isMoreOpen ? "close-outline" : "menu-outline"}
+            ></ion-icon>
+          }
+        /> */}
       </BottomNavigation>
-      <NavMore
+      {/* this has ben replaced by the search link, if needed uncomment and remove the search with the menu (cant have both together) */}
+      {/* <NavMore
         anchorMenu={anchorMenu}
         menuOpen={menuOpen}
         setAnchorMenu={handleMenuClose}
-      />
+      /> */}
     </Paper>
   );
 }

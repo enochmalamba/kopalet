@@ -17,6 +17,7 @@ function RightPanel() {
   };
   return (
     <Box
+      component={"aside"}
       sx={{
         width: "300px",
         padding: "var(--space-md)",

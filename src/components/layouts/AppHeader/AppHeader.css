@@ -41,3 +41,9 @@
 
   gap: var(--space-sm);
 }
+
+@media (max-width: 1200px) {
+  .app_header {
+    padding: 0 var(--space-md);
+  }
+}

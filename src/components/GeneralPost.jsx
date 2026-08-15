@@ -324,15 +324,12 @@ const GeneralPost = React.memo(({ post }) => {
             {images.map((media, i) => {
               const status = mediaStatus[i] || "loading";
               const ratio = getImageRatio(media);
+              const naturalHeight = media?.height;
 
-              // Shrink-to-fit, like dragging a corner handle in Canva:
-              // height is capped, width is capped to the container, and
-              // whichever limit is hit first wins — the other dimension
-              // shrinks with it via aspectRatio. Modern browsers resolve
-              // aspect-ratio + max-width + fixed height together, so this
-              // never crops and never leaves empty space around the image.
               const boxSx = {
-                maxHeight: MAX_MEDIA_HEIGHT_CSS,
+                maxHeight: naturalHeight
+                  ? `min(480px, 55vh, ${naturalHeight}px)` // definite value, no image load needed
+                  : MAX_MEDIA_HEIGHT_CSS, // fallback if metadata missing
                 width: "auto",
                 aspectRatio: ratio,
                 maxWidth: "100%",
@@ -482,7 +479,7 @@ const GeneralPost = React.memo(({ post }) => {
                   textDecoration: "none",
                   color: "var(--text)",
                   "&:hover": {
-                    backgroundColor: "var(--surface-hover, #2a2a2a)",
+                    backgroundColor: "var(--surface)",
                   },
                 }}
               >

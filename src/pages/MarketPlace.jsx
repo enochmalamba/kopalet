@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import MarketListItem from "../components/MarketListItem";
 import SEO from "../components/SEO";
+import FeedbackState from "../components/FeedbackState";
 
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -8,50 +10,58 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 import axiosInstance from "../api/axios.js";
+import PageWrapper from "../components/layouts/PageWrapper/PageWrapper.jsx";
 
 function MarketPlace() {
+  const navigate = useNavigate();
+
   const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
+  const [loadMoreError, setLoadMoreError] = useState(false);
 
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(false);
+  const fetchItems = useCallback(async (pageToFetch, isInitial = false) => {
+    try {
+      if (isInitial) {
+        setLoading(true);
+        setError(null);
+      } else {
+        setLoadingMore(true);
+        setLoadMoreError(false);
+      }
+
+      const { data } = await axiosInstance.get(
+        `/v1/market-items?page=${pageToFetch}`,
+      );
+      const newItems = data.data || [];
+
+      setItems((prev) => (isInitial ? newItems : [...prev, ...newItems]));
+      setLastPage(data.meta.last_page);
+      setPage(pageToFetch);
+    } catch (err) {
+      console.error(err);
+      if (isInitial) {
+        setError("Failed to load marketplace items.");
+        setItems([]);
+      } else {
+        setLoadMoreError(true);
+      }
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  }, []);
 
   useEffect(() => {
-    let isMounted = true;
+    fetchItems(1, true);
+  }, [fetchItems]);
 
-    if (page === 1) setLoading(true);
-    else setLoadingMore(true);
-
-    axiosInstance
-      .get(`/v1/market-items?page=${page}`)
-      .then((response) => {
-        if (!isMounted) return;
-
-        const newItems = response.data.data || [];
-
-        setItems((prev) => (page === 1 ? newItems : [...prev, ...newItems]));
-
-        const meta = response.data.meta;
-        setHasMore(meta.current_page < meta.last_page);
-
-        setLoading(false);
-        setLoadingMore(false);
-      })
-      .catch((err) => {
-        if (!isMounted) return;
-        console.log(err);
-        setError("Failed to load marketplace items.");
-        setLoading(false);
-        setLoadingMore(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [page]);
+  const retry = () => fetchItems(1, true);
+  const loadMore = () => fetchItems(page + 1, false);
 
   return (
     <>
@@ -60,63 +70,76 @@ function MarketPlace() {
         description="Explore local marketplace listings for products and services on Kopalet."
         url="/marketplace"
       />
+      <PageWrapper>
+        {loading && (
+          <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
+            <CircularProgress />
+          </Box>
+        )}
 
-      <Typography variant="h5" mb={2}>
-        Market Place
-      </Typography>
+        {!loading && error && (
+          <FeedbackState
+            icon="cloud-offline-outline"
+            title="Couldn't load the marketplace"
+            description="Check your connection and try again."
+            primaryAction={{ label: "Retry", onClick: retry }}
+          />
+        )}
 
-      {error && (
-        <div className="empty-state">
-          <Typography variant="h4">Ooops!</Typography>
-          <Typography>Something went wrong. We're working on it.</Typography>
-          <Button variant="outlined" sx={{ fontSize: "var(--fs-lg)", mt: 5 }}>
-            Retry
-          </Button>
-        </div>
-      )}
+        {!loading && !error && items.length === 0 && (
+          <FeedbackState
+            icon="pricetags-outline"
+            title="No listings yet"
+            description="Selling something? Get it in front of buyers near you."
+            primaryAction={{
+              label: "List an item",
+              onClick: () => navigate("/marketplace/new"),
+            }}
+            secondaryAction={{ label: "Refresh", onClick: retry }}
+          />
+        )}
 
-      {loading && (
-        <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
-          <CircularProgress />
-        </Box>
-      )}
-
-      {!loading && (
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(2, 1fr)", // mobile: always 2 columns
-              sm: "repeat(3, 1fr)", // tablet: 3
-              md: "repeat(3, 1fr)", // desktop: 3
-              lg: "repeat(3, 1fr)", // wide: 3
-            },
-            gap: { xs: 1, sm: 2 },
-          }}
-        >
-          {items.map((item) => (
-            <MarketListItem key={item.id} marketItem={item} />
-          ))}
-        </Box>
-      )}
-
-      {!loading && items.length === 0 && (
-        <Typography mt={3} color="text.secondary">
-          No items available.
-        </Typography>
-      )}
-
-      {!loading && hasMore && (
-        <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
-          <Button
-            variant="contained"
-            onClick={() => setPage((prev) => prev + 1)}
-            disabled={loadingMore}
+        {!loading && !error && items.length > 0 && (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(2, 1fr)",
+                sm: "repeat(3, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(3, 1fr)",
+              },
+              gap: { xs: 1, sm: 2 },
+            }}
           >
-            {loadingMore ? "Loading..." : "Load More"}
-          </Button>
-        </Box>
-      )}
+            {items.map((item) => (
+              <MarketListItem key={item.id} marketItem={item} />
+            ))}
+          </Box>
+        )}
+
+        {!loading && !error && page < lastPage && !loadMoreError && (
+          <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
+            <Button
+              variant="contained"
+              onClick={loadMore}
+              disabled={loadingMore}
+            >
+              {loadingMore ? "Loading..." : "Load More"}
+            </Button>
+          </Box>
+        )}
+
+        {loadMoreError && (
+          <FeedbackState
+            icon="cloud-offline-outline"
+            title="Couldn't load more"
+            description="Check your connection and try again."
+            primaryAction={{ label: "Retry", onClick: loadMore }}
+            sx={{ minHeight: "auto", py: 3 }}
+          />
+        )}
+      </PageWrapper>
     </>
   );
 }

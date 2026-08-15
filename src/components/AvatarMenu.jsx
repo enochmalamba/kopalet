@@ -15,7 +15,16 @@ import DialogTitle from "@mui/material/DialogTitle";
 function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
   const [logOutModalOpen, setLogOutModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { isAuthenticated, user, logout } = useSession();
+  // const { isAuthenticated, user, logout } = useSession();
+
+  // Testing
+  const isAuthenticated = true;
+  const user = {
+    username: "xenon Malamba",
+    email: "xenon@kopalet.com",
+    avatar_url:
+      "https://api.dicebear.com/10.x/adventurer-neutral/svg?seed=3z7m1k0y",
+  };
   const navigate = useNavigate();
   const handleThemeClick = (mode) => {
     setTheme(mode);
@@ -30,7 +39,7 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
   };
   const handleLogout = () => {
     handleLogOutModalClose();
-    logout();
+    // logout();
   };
   return (
     <>
@@ -74,15 +83,22 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
             <Button
               variant="contained"
               size="medium"
-              onClick={() => navigate(`/signup?redirect=${encodeURIComponent(location.pathname)}`)}
-              
+              onClick={() =>
+                navigate(
+                  `/signup?redirect=${encodeURIComponent(location.pathname)}`,
+                )
+              }
             >
               Create account
             </Button>
             <Button
               variant="outlined"
               size="medium"
-              onClick={() => navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`)}
+              onClick={() =>
+                navigate(
+                  `/login?redirect=${encodeURIComponent(location.pathname)}`,
+                )
+              }
             >
               Log in
             </Button>

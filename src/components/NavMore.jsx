@@ -46,14 +46,6 @@ function NavMore({ anchorMenu, menuOpen, setAnchorMenu, currentPath }) {
           <ListItemText>Resources</ListItemText>
         </MenuItem>
         <Divider />
-        <MenuItem sx={{ color: "#076c44" }}>
-          <ListItemIcon primaryTypographyProps={{ sx: { color: "#076c44" } }}>
-            <CampaignOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primaryTypographyProps={{ sx: { color: "#076c44" } }}>
-            Advertise
-          </ListItemText>
-        </MenuItem>
       </MenuList>
     </Menu>
   );

@@ -9,8 +9,9 @@ function PageWrapper({ children }) {
         minWidth: 0,
         border: "1px solid var(--border)",
         borderRadius: "var(--radius-lg)",
-        margin: "var(--space-md) auto",
-        padding: "var(--space-md) 0",
+        margin: "0 auto",
+        padding: "0",
+        overflowX: "hidden",
       }}
     >
       {children}
