@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useSession } from "../context/sessionContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeContext";
-import "./AvatarMenu.css";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
