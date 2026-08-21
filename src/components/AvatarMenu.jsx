@@ -3,33 +3,100 @@ import { useSession } from "../context/sessionContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeContext";
 import "./AvatarMenu.css";
-import Icon from "./Icon";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
+import Switch from "@mui/material/Switch";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { Divider } from "@mui/material";
+
+const ICON_STYLE = { fontSize: "25px" };
+
+const authedMenuItems = [
+  {
+    label: "My Posts/Listings",
+    icon: "briefcase-outline",
+    to: "/my-listings",
+  },
+  {
+    label: "Saved items",
+    icon: "bookmark-outline",
+    to: "/saved",
+  },
+  "divider",
+  {
+    label: "Settings",
+    icon: "settings-outline",
+    to: "/settings",
+  },
+  "divider",
+  {
+    label: "Help & Support",
+    icon: "help-circle-outline",
+    to: "/help",
+  },
+  {
+    label: "Report a problem",
+    icon: "alert-circle-outline",
+    to: "/report-a-problem",
+  },
+  "divider",
+  "theme_switcher",
+  "divider",
+  {
+    label: "Logout",
+    icon: "log-out-outline",
+    action: "logout",
+  },
+];
+
+const unAuthedMenuItems = [
+  {
+    label: "Browse Jobs",
+    icon: "briefcase-outline",
+    to: "/jobs",
+  },
+  {
+    label: "Browse Marketplace",
+    icon: "storefront-outline",
+    to: "/marketplace",
+  },
+  "divider",
+  {
+    label: "Help & Support",
+    icon: "help-circle-outline",
+    to: "/help",
+  },
+  {
+    label: "Report a problem",
+    icon: "alert-circle-outline",
+    to: "/report-a-problem",
+  },
+  "divider",
+  "theme_switcher",
+];
 
 function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
   const [logOutModalOpen, setLogOutModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  // const { isAuthenticated, user, logout } = useSession();
+  const { isAuthenticated, user, logout } = useSession();
 
   // Testing
-  const isAuthenticated = true;
-  const user = {
-    username: "xenon Malamba",
-    email: "xenon@kopalet.com",
-    avatar_url:
-      "https://api.dicebear.com/10.x/adventurer-neutral/svg?seed=3z7m1k0y",
-  };
+  // const isAuthenticated = true;
+  // const user = {
+  //   username: "Xenon Malamba",
+  //   email: "xenon@kopalet.com",
+
+  //   avatar_url:
+  //     "https://api.dicebear.com/10.x/adventurer-neutral/svg?backgroundColor=c9a883,b08e66,967458&inkColor=3a2a1c&eyesColor=3a2a1c&glassesColor=3a2a1c&scleraColor=f7ecd8&teethColor=f7ecd8&lipsColor=8a5a44&tongueColor=a87a5e&throatColor=6b4230&uvulaColor=6b4230&seed=ttjpvha",
+  // };
   const navigate = useNavigate();
-  const handleThemeClick = (mode) => {
-    setTheme(mode);
-    handleMenuClose();
-  };
 
   const handleMenuClose = () => setAnchorMenu(null);
   const handleLogOutModalClose = () => setLogOutModalOpen(false);
@@ -40,7 +107,21 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
   const handleLogout = () => {
     handleLogOutModalClose();
     // logout();
+    navigate("/");
   };
+
+  const handleThemeToggle = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+    // menu stays open intentionally — user may want to toggle back and forth
+  };
+
+  const handleNavigate = (path) => {
+    handleMenuClose();
+    navigate(path);
+  };
+
+  const menuItems = isAuthenticated ? authedMenuItems : unAuthedMenuItems;
+
   return (
     <>
       <Menu
@@ -49,126 +130,187 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
         onClose={handleMenuClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
-        className="profile-menu-dropdown visible"
+        className="profile-menu-dropdown"
         slotProps={{
           paper: {
             style: {
               maxHeight: "none",
-              width: "220px",
+              width: "250px",
               padding: "none",
+              borderRadius: "var(--radius-md)",
             },
           },
         }}
       >
         {isAuthenticated ? (
-          <ul>
-            <li onClick={handleMenuClose}>
-              <Link className="nav-link">
-                <Icon>person</Icon> {user.username}
-              </Link>
-            </li>
-            <li onClick={handleMenuClose}>
-              <Link className="nav-link">
-                <Icon>docs</Icon> My Office
-              </Link>
-            </li>
-            <li onClick={handleMenuClose}>
-              <Link className="nav-link">
-                <Icon>person_add</Icon> Invite others
-              </Link>
-            </li>
-          </ul>
-        ) : (
-          <div className="avatar-menu-btns">
-            <Button
-              variant="contained"
-              size="medium"
-              onClick={() =>
-                navigate(
-                  `/signup?redirect=${encodeURIComponent(location.pathname)}`,
-                )
-              }
-            >
-              Create account
-            </Button>
-            <Button
-              variant="outlined"
-              size="medium"
-              onClick={() =>
-                navigate(
-                  `/login?redirect=${encodeURIComponent(location.pathname)}`,
-                )
-              }
-            >
-              Log in
-            </Button>
-          </div>
-        )}
-
-        <div className="divider"></div>
-        <ul>
-          <li>
-            {/* <div className="nav-link">
-              <Icon>contrast</Icon>
-              UI Mode
-            </div> */}
-            <div className="ui-select">
-              <label htmlFor="device-ui-mode">
-                <Icon>devices</Icon> System mode
-                <input
-                  type="radio"
-                  name="ui-mode"
-                  value={"device-ui-mode"}
-                  id="device-ui-mode"
-                  checked={theme === "system"}
-                  onChange={() => handleThemeClick("system")}
-                />
-              </label>
-              <label htmlFor="light-ui-mode">
-                <Icon>wb_sunny</Icon> Light mode
-                <input
-                  type="radio"
-                  name="ui-mode"
-                  value={"light-ui-mode"}
-                  id="light-ui-mode"
-                  checked={theme === "light"}
-                  onChange={() => handleThemeClick("light")}
-                />
-              </label>
-              <label htmlFor="dark-ui-mode">
-                <Icon>dark_mode</Icon> Dark mode
-                <input
-                  type="radio"
-                  name="ui-mode"
-                  value={"dark-ui-mode"}
-                  id="dark-ui-mode"
-                  checked={theme === "dark"}
-                  onChange={() => handleThemeClick("dark")}
-                />
-              </label>
-            </div>
-          </li>
-        </ul>
-
-        {isAuthenticated && (
           <>
-            <div className="divider"></div>
             <ul>
-              <li onClick={handleMenuClose}>
-                <Link className="nav-link">
-                  <Icon>settings</Icon> Settings
+              <li>
+                <Link to="/profile" onClick={handleMenuClose}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "var(--space-sm)",
+                      padding: "var(--space-sm) var(--space-sm)",
+                    }}
+                  >
+                    <Avatar src={user.avatar_url} />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        minWidth: 0,
+                      }}
+                    >
+                      <Typography
+                        noWrap
+                        variant="subtitle2"
+                        sx={{ fontWeight: "var(--fw-semibold)" }}
+                      >
+                        {user.username}
+                      </Typography>
+                      <Typography variant="caption" noWrap>
+                        {user.email}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontWeight: "var(--fw-semibold)",
+                          color: "var(--info)",
+                          fontSize: "10px",
+                          letterSpacing: "0.03em",
+                        }}
+                      >
+                        View profile
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Link>
               </li>
-              <li onClick={handleLogOutModalOpen}>
-                <p className="nav-link">
-                  <Icon>logout</Icon> Logout
-                </p>
-              </li>
             </ul>
+            <Divider />
+          </>
+        ) : (
+          <>
+            <Box
+              sx={{
+                padding: "var(--space-sm) var(--space-sm)",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: "var(--fw-semibold)", mb: "2px" }}
+              >
+                You're not logged in
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{ display: "block", mb: "var(--space-sm)" }}
+              >
+                Log in to post jobs, save listings, and apply to opportunities
+                on Kopalet.
+              </Typography>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={() => handleNavigate("/signup")}
+                sx={{ mb: "8px" }}
+              >
+                Create Account
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => handleNavigate("/login")}
+              >
+                Log In
+              </Button>
+            </Box>
+            <Divider />
           </>
         )}
-      </Menu>{" "}
-      {/* logout confirmation modal  */}
+
+        <ul>
+          {menuItems.map((item, index) => {
+            if (item === "divider") {
+              return <Divider key={`divider-${index}`} />;
+            }
+
+            if (item === "theme_switcher") {
+              return (
+                <li key="theme_switcher">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "var(--space-sm)",
+                      padding: "var(--space-sm) var(--space-sm)",
+                      minWidth: 0,
+                    }}
+                  >
+                    <ion-icon
+                      name={theme === "dark" ? "moon" : "moon-outline"}
+                      style={ICON_STYLE}
+                    />
+                    <Typography sx={{ flex: 1 }}>
+                      Dark Mode: {theme === "dark" ? "On" : "Off"}
+                    </Typography>
+                    <Switch
+                      size="small"
+                      checked={theme === "dark"}
+                      onChange={handleThemeToggle}
+                      inputProps={{ "aria-label": "Toggle dark mode" }}
+                    />
+                  </Box>
+                </li>
+              );
+            }
+
+            if (item.action === "logout") {
+              return (
+                <li key={`item-${index}`}>
+                  <Box
+                    onClick={handleLogOutModalOpen}
+                    sx={{
+                      display: "flex",
+                      gap: "var(--space-sm)",
+                      padding: "var(--space-sm) var(--space-sm)",
+                      minWidth: 0,
+                      cursor: "pointer",
+                      color: "var(--color-danger, #CE1126)",
+                    }}
+                  >
+                    <ion-icon name={item.icon} style={ICON_STYLE} />
+                    <Typography sx={{ color: "inherit" }}>
+                      {item.label}
+                    </Typography>
+                  </Box>
+                </li>
+              );
+            }
+
+            return (
+              <li key={`item-${index}`}>
+                <Link to={item.to} onClick={handleMenuClose}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: "var(--space-sm)",
+                      padding: "var(--space-sm) var(--space-sm)",
+                      minWidth: 0,
+                    }}
+                  >
+                    <ion-icon name={item.icon} style={ICON_STYLE} />
+                    <Typography>{item.label}</Typography>
+                  </Box>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </Menu>
+
+      {/* logout confirmation modal */}
       <Dialog
         open={logOutModalOpen}
         onClose={handleLogOutModalClose}

@@ -49,6 +49,10 @@ const actionButtons = [
     icon: "search-outline",
     onClick: () => console.log("Search clicked"),
   },
+  {
+    icon: "mail-outline",
+    onClick: () => console.log("Messages clicked"),
+  },
 ];
 
 const MobileDrawer = ({ drawerOpen, toggleDrawer }) => {
@@ -186,7 +190,10 @@ function AppHeader() {
             alignItems: "center",
           }}
         >
-          <Box className="nav_actions">
+          <Box
+            sx={{ display: { xs: "none", sm: "none", md: "flex", lg: "flex" } }}
+            className="nav_actions"
+          >
             {actionButtons.map((button, index) => (
               <IconButton
                 key={index}
@@ -194,6 +201,12 @@ function AppHeader() {
                 onClick={button.onClick}
               />
             ))}
+          </Box>
+          <Box
+            className="nav_actions"
+            sx={{ display: { xs: "flex", sm: "flex", md: "none", lg: "none" } }}
+          >
+            <IconButton icon="mail-outline" />
           </Box>
 
           <div className="header-avatar">

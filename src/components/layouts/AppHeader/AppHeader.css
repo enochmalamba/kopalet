@@ -38,8 +38,11 @@
 .nav_actions {
   display: flex;
   align-items: center;
-
   gap: var(--space-sm);
+}
+
+.nav_actions ion-icon {
+  font-size: 30px !important;
 }
 
 @media (max-width: 1200px) {
