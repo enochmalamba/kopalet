@@ -16,14 +16,14 @@ import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 function JobCard({ job }) {
   const navigate = useNavigate();
   const { share } = useShare();
-  const handleNavigate = (id) => navigate(`/vacancy/${id}`);
+  const handleNavigate = (id) => navigate(`/job/${id}`);
 
   const handleShare = (e) => {
     e.stopPropagation();
     share({
       title: vacancy.title,
       text: `${vacancy.title} at ${employer.name}`,
-      url: `https://kopalet.com/vacancy/${job.id}`,
+      url: `https://kopalet.com/job/${job.id}`,
     });
   };
   const { author, listing: vacancy, id: jobId, employer } = job;

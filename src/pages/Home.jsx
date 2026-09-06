@@ -142,7 +142,7 @@ function Home() {
       <SEO
         title="Home - Kopalet"
         description="Discover jobs, market items, posts, and opportunities on Kopalet."
-        url="/home"
+        url="/"
       />
       <PageWrapper sx={{ paddingTop: 0 }}>
         {loadingFeed && (

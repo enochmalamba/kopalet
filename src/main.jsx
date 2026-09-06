@@ -7,6 +7,7 @@ import SessionProvider from "./context/sessionContext";
 import ThemeProvider from "./context/themeContext";
 import { HelmetProvider } from "react-helmet-async";
 import AuthPromptModal from "./components/AuthPromptModal.jsx";
+import InstallPrompt from "./components/ui/InstallPrompt/InstallPrompt.jsx";
 import Sonner from "./components/Sonner.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")).render(
         <SessionProvider>
           <HelmetProvider>
             <AuthPromptModal />
+            <InstallPrompt />
             <Sonner />
             <App />
           </HelmetProvider>

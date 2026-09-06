@@ -89,13 +89,11 @@ function BottomNav() {
         />
 
         <BottomNavigationAction
-          label="Vacancies"
-          value="vacancies"
+          label="Jobs"
+          value="jobs"
           icon={
             <ion-icon
-              name={
-                currentPath === "vacancies" ? "briefcase" : "briefcase-outline"
-              }
+              name={currentPath === "jobs" ? "briefcase" : "briefcase-outline"}
             ></ion-icon>
           }
         />
@@ -131,23 +129,7 @@ function BottomNav() {
             ></ion-icon>
           }
         />
-
-        {/* <BottomNavigationAction
-          label={isMoreOpen ? "Close" : "More"}
-          value="more"
-          icon={
-            <ion-icon
-              name={isMoreOpen ? "close-outline" : "menu-outline"}
-            ></ion-icon>
-          }
-        /> */}
       </BottomNavigation>
-      {/* this has ben replaced by the search link, if needed uncomment and remove the search with the menu (cant have both together) */}
-      {/* <NavMore
-        anchorMenu={anchorMenu}
-        menuOpen={menuOpen}
-        setAnchorMenu={handleMenuClose}
-      /> */}
     </Paper>
   );
 }

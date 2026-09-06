@@ -23,9 +23,9 @@ function Login() {
     useSession();
 
   if (isAuthenticated) {
-    navigate("/home");
+    navigate("/");
   }
-
+home
   const handleLogin = (e) => {
     e.preventDefault();
     login(email, password);

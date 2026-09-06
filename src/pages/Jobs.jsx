@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import SEO from "../components/SEO";
+import PageFilters from "../components/PageFilters";
 import axiosInstance from "../api/axios";
 import JobCard from "../components/JobCard";
 import LoadingStates from "../components/LoadingStates";
 import FeedbackState from "../components/FeedbackState";
 import Box from "@mui/material/Box";
 import PageWrapper from "../components/layouts/PageWrapper/PageWrapper";
+import { TextField, InputAdornment } from "@mui/material";
 
 function Jobs() {
   const [feed, setFeed] = useState([]);
@@ -88,12 +90,53 @@ function Jobs() {
   };
 
   return (
-    <>
+    <Box sx={{ padding: "0 var(--space-md)" }}>
       <SEO
-        title="Vacancies - Kopalet"
+        title="Job Vacancies for Malawians, for all - Kopalet"
         description="Browse the latest job vacancies on Kopalet and apply to opportunities that fit your skills."
-        url="/vacancies"
+        url="/jobs"
       />
+      <TextField
+        fullWidth
+        placeholder="Job title, company, or keyword"
+        variant="outlined"
+        size="medium"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <ion-icon
+                name="search-outline"
+                style={{ fontSize: "20px", color: "var(--text-secondary)" }}
+              />
+            </InputAdornment>
+          ),
+          sx: {
+            borderRadius: "var(--radius-lg)",
+            backgroundColor: "var(--surface-alt, #f5f5f5)",
+            "& fieldset": {
+              borderColor: "var(--border-color)",
+            },
+            "&:hover fieldset": {
+              borderColor: "var(--border-color-strong, var(--border-color))",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "var(--brand-color, var(--border-color))",
+              borderWidth: "1px",
+            },
+          },
+        }}
+        inputProps={{
+          "aria-label": "Search for jobs",
+        }}
+      />
+      <PageFilters
+        filters={[
+          { label: "All", id: 1 },
+          { label: "Last 24 hours", id: 2 },
+          { label: "MSCE only jobs", id: 3 },
+        ]}
+      />
+
       <PageWrapper>
         {loadingFeed && (
           <Box
@@ -155,7 +198,7 @@ function Jobs() {
           />
         )}
       </PageWrapper>
-    </>
+    </Box>
   );
 }
 

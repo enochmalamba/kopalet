@@ -1,13 +1,72 @@
 .left-panel-shortcut-link {
   display: flex;
+
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-xs) var(--space-sm);
-  border: 1px solid var(--border);
+
   border-radius: var(--radius-lg);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-medium);
 }
 
-.left-panel-shortcut-link:hover {
-  background: var(--interactive-hover);
+.left-panel-shortcut-link * {
+  color: var(--muted);
+}
+
+.left-panel-shortcut-link:hover * {
+  color: var(--text);
+}
+
+.left-panel-shortcut-link ion-icon {
+  font-size: 22px;
+}
+.add-something-new-wrapper {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.add-something-new-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 270deg,
+    rgba(34, 197, 94, 0.08) 300deg,
+    rgba(34, 197, 94, 0.4) 335deg,
+    #22c55e 352deg,
+    #86efac 360deg
+  );
+  animation: sweep 500s linear infinite;
+  z-index: -2;
+}
+
+.add-something-new-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: calc(var(--radius-lg) - 2px);
+  background: var(--bg);
+  z-index: -1;
+}
+
+@keyframes sweep {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  1.2% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+  1.4% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0;
+  }
 }

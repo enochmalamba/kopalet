@@ -8,9 +8,10 @@ export default function LandingGuard() {
   useEffect(() => {
     const hasVisited = localStorage.getItem("cab_visited");
     if (hasVisited) {
-      navigate("/home", { replace: true });
+      navigate("/", { replace: true });
     }
   }, []);
 
   return null;
 }
+home;

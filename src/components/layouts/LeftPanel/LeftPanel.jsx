@@ -16,7 +16,7 @@ const createPostOptions = [
   { label: "Share thoughts & tips       ", link: "/create#post" },
 ];
 
-const shortcutLinks = [
+export const shortcutLinks = [
   { label: "Saved items", link: "/saved", icon: "bookmarks-outline" },
   { label: "Resources", link: "/resources", icon: "folder-open-outline" },
   { label: "Communities", link: "/communities", icon: "people-outline" },
@@ -45,6 +45,7 @@ function LeftPanel() {
       }}
     >
       <Box
+        className="add-something-new-wrapper"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -98,9 +99,7 @@ function LeftPanel() {
           gap: "var(--space-sm)",
         }}
       >
-        <Typography color="var(--muted)" fontWeight={"bold"}>
-          Shortcuts
-        </Typography>
+        <Typography fontWeight={"bold"}>Shortcuts</Typography>
         <ul
           style={{
             display: "flex",
@@ -109,21 +108,31 @@ function LeftPanel() {
           }}
         >
           {shortcutLinks.map((s) => (
-            <Link to={s.link} className="left-panel-shortcut-link">
-              <ion-icon name={s.icon} style={{ fontSize: "20px" }} />
-              <Typography>{s.label}</Typography>
+            <Link to={s.link} className="left-panel-shortcut-link" key={s.link}>
+              <ion-icon name={s.icon} style={{ fontSize: "25px" }} />
+              <Typography
+                sx={{
+                  fontWeight: "inherit",
+                }}
+              >
+                {s.label}
+              </Typography>
             </Link>
           ))}
           <Divider sx={{ mt: "var(--space-md)" }} />
         </ul>
-        <ul>
+        <ul key="feedback-link">
           <Link to={"/feeback"} className="left-panel-shortcut-link">
-            <ion-icon
-              name="chatbox-ellipses-outline"
-              style={{ fontSize: "20px" }}
-            />
+            <ion-icon name="chatbox-ellipses-outline" />
 
-            <Typography> Feedback</Typography>
+            <Typography
+              sx={{
+                fontWeight: "inherit",
+              }}
+            >
+              {" "}
+              Feedback
+            </Typography>
           </Link>
         </ul>
       </Box>

@@ -103,7 +103,6 @@ const GeneralPost = React.memo(({ post }) => {
     scrollLeft: 0,
     moved: false,
   });
-
   const isPostView = location.pathname.startsWith("/post/");
 
   const {

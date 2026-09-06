@@ -86,15 +86,6 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
   const { theme, setTheme } = useTheme();
   const { isAuthenticated, user, logout } = useSession();
 
-  // Testing
-  // const isAuthenticated = true;
-  // const user = {
-  //   username: "Xenon Malamba",
-  //   email: "xenon@kopalet.com",
-
-  //   avatar_url:
-  //     "https://api.dicebear.com/10.x/adventurer-neutral/svg?backgroundColor=c9a883,b08e66,967458&inkColor=3a2a1c&eyesColor=3a2a1c&glassesColor=3a2a1c&scleraColor=f7ecd8&teethColor=f7ecd8&lipsColor=8a5a44&tongueColor=a87a5e&throatColor=6b4230&uvulaColor=6b4230&seed=ttjpvha",
-  // };
   const navigate = useNavigate();
 
   const handleMenuClose = () => setAnchorMenu(null);

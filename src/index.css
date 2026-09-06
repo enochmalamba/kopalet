@@ -131,6 +131,14 @@ body {
     color 0.3s;
 }
 
+main {
+  width: "100%";
+  padding: "0 var(--screen-padding)";
+  display: "flex";
+  gap: "var(--space-md)";
+  position: "relative";
+}
+
 .muted-text {
   font-size: var(--base-font-size);
   color: var(--muted);

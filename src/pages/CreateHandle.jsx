@@ -76,7 +76,7 @@ const CreateHandle = () => {
         onChange={handleTabChange}
         scrollButtons
         allowScrollButtonsMobile
-        aria-label="scrollable force tabs example"
+        aria-label="create listing tabs"
       >
         <Tab label="Vacancy" />
         <Tab label="Market item" />

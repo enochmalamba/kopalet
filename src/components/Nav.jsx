@@ -7,7 +7,7 @@ function Nav({ isNavOpen }) {
     <nav className={`nav ${isNavOpen ? "visible" : ""}`}>
       <ul>
         <li>
-          <NavLink to="/home" className="nav-link">
+          <NavLink to="/" className="nav-link">
             <Icon>home</Icon>
             Home
           </NavLink>

@@ -46,7 +46,7 @@ function JobPost() {
           gap: "var(--space-2xs)",
         }}
       >
-        <Link to={"/vacancy/34"}>
+        <Link to={"/job/34"}>
           <Button variant="contained" size="small" fullWidth>
             Details
           </Button>

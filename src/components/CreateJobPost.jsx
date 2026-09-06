@@ -111,7 +111,7 @@ const CreateJobPost = () => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
-        navigate(`/vacancy/${response.data.data.id}`);
+        navigate(`/job/${response.data.data.id}`);
       })
       .catch((error) => {
         if (!error.response) {

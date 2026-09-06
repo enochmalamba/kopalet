@@ -83,7 +83,7 @@ function GeneralPostView() {
         url={`/post/${postId}`}
         type="article"
       />
-      <GeneralPost post={post} />
+      <GeneralPost post={post} isPostView={true} />
 
       <TextField
         fullWidth

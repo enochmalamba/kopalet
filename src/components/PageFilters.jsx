@@ -41,7 +41,7 @@ function PageFilters({
         flexWrap: "nowrap",
         overflowX: "auto",
         gap: "var(--space-xs)",
-        borderBottom: "1px solid var(--border)",
+        // borderBottom: "1px solid var(--border)",
         flexShrink: 0,
         padding: "var(--space-xs) 0",
       }}

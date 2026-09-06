@@ -1,12 +1,12 @@
 import { Box } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import AppHeader from "../AppHeader/AppHeader";
-import LeftPanel from "../LeftPanel/LeftPanel";
-import RightPanel from "../RightPanel/RightPanel";
-import BottomNav from "../../BottomNav";
+import AppHeader from "./AppHeader/AppHeader";
+import LeftPanel from "./LeftPanel/LeftPanel";
+import RightPanel from "./RightPanel/RightPanel";
+import BottomNav from "./../BottomNav";
 
-function AppLayout() {
+function MainLayout() {
   return (
     <>
       <AppHeader />
@@ -40,4 +40,4 @@ function AppLayout() {
   );
 }
 
-export default AppLayout;
+export default MainLayout;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axios";
 import SEO from "../components/SEO";
 import { truncateText } from "../utils/seo";
@@ -13,16 +13,31 @@ import DetailPageHeader from "../components/DetailPageHeader";
 import { formatTimeAgo, formatTimeStamp, formatMoney } from "../utils/format";
 import { preserveLineBreaks } from "../utils/textFormat";
 import AdBanner from "../components/AdBanner";
+import FeedbackState from "../components/FeedbackState";
+
 function VacancyView() {
   const [jobData, setJobData] = useState(null);
+  const [errorStatus, setErrorStatus] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const isValidId = (value) => /^\d+$/.test(value);
 
   const fetchJobData = async () => {
+    setJobData(null);
+    setErrorStatus(null);
+
+    if (!isValidId(id)) {
+      setErrorStatus(404);
+      setJobData({ error: true });
+      return;
+    }
+
     try {
       const response = await axiosInstance.get(`/v1/jobs/${id}`);
       setJobData(response.data);
     } catch (error) {
       console.error("Error fetching job data:", error);
+      setErrorStatus(error.response?.status || null);
       setJobData({ error: true });
     }
   };
@@ -31,35 +46,71 @@ function VacancyView() {
     if (id) fetchJobData();
   }, [id]);
 
+  const goBackOrToJobs = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/jobs");
+    }
+  };
+
   if (!jobData)
     return (
       <>
         <SEO
           title="Loading vacancy... | Kopalet"
           description="Loading vacancy details on Kopalet."
-          url={`/vacancy/${id}`}
+          url={`/job/${id}`}
           type="article"
         />
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <Typography>Loading vacancy...</Typography>
+          <Typography>Loading job details...</Typography>
         </Box>
       </>
     );
 
-  if (jobData.error)
+  if (jobData.error) {
+    const isNotFound = errorStatus === 404;
+
     return (
       <>
         <SEO
-          title="Vacancy Not Found - Kopalet"
-          description="The requested vacancy could not be loaded."
-          url={`/vacancy/${id}`}
+          title={
+            isNotFound
+              ? "Vacancy Not Found - Kopalet"
+              : "Couldn't Load Vacancy - Kopalet"
+          }
+          description="The requested job vacancy could not be loaded."
+          url={`/job/${id}`}
           type="article"
         />
         <Box sx={{ p: 2 }}>
-          <Typography color="error">Could not load vacancy.</Typography>
+          {isNotFound ? (
+            <FeedbackState
+              title="Job vacancy not found"
+              icon="planet-outline"
+              description="This job posting may have been removed or the link is incorrect."
+              primaryAction={{
+                label: "Explore other jobs",
+                onClick: goBackOrToJobs,
+              }}
+            />
+          ) : (
+            <FeedbackState
+              icon="cloud-offline-outline"
+              title="Couldn't load vacancy"
+              description="Check your connection and try again."
+              primaryAction={{ label: "Retry", onClick: fetchJobData }}
+              secondaryAction={{
+                label: "Explore other jobs",
+                onClick: goBackOrToJobs,
+              }}
+            />
+          )}
         </Box>
       </>
     );
+  }
 
   const { author, employer, listing } = jobData.data;
   const vacancyDescription = truncateText(listing.body, 160);
@@ -70,10 +121,11 @@ function VacancyView() {
         title={`${listing.title} at ${employer.name}`}
         description={vacancyDescription}
         image={employer.logo_url || "/default-company-logo.png"}
-        url={`/vacancy/${id}`}
+        url={`/job/${id}`}
         type="article"
       />
-      <DetailPageHeader heading="Vacancy Details" />
+      <DetailPageHeader heading="Job Details" />
+
       <AdBanner />
       <Stack direction="column" gap="var(--space-sm)">
         <Typography variant="h5">{listing.title}</Typography>
@@ -218,7 +270,6 @@ function VacancyView() {
       <Box
         sx={{
           marginTop: "var(--space-lg)",
-
           display: "flex",
           flexDirection: "column",
         }}
