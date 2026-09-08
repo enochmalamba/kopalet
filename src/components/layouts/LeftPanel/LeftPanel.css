@@ -20,13 +20,13 @@
 .left-panel-shortcut-link ion-icon {
   font-size: 22px;
 }
-.add-something-new-wrapper {
+.animated-border-gradient {
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
 
-.add-something-new-wrapper::before {
+.animated-border-gradient::before {
   content: "";
   position: absolute;
   inset: -60%;
@@ -43,7 +43,7 @@
   z-index: -2;
 }
 
-.add-something-new-wrapper::after {
+.animated-border-gradient::after {
   content: "";
   position: absolute;
   inset: 2px;

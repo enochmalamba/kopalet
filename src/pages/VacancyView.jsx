@@ -13,7 +13,7 @@ import DetailPageHeader from "../components/DetailPageHeader";
 import { formatTimeAgo, formatTimeStamp, formatMoney } from "../utils/format";
 import { preserveLineBreaks } from "../utils/textFormat";
 import AdBanner from "../components/AdBanner";
-import FeedbackState from "../components/FeedbackState";
+import FeedbackState from "../components/ui/FeedbackState";
 
 function VacancyView() {
   const [jobData, setJobData] = useState(null);

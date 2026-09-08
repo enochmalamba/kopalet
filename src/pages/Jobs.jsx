@@ -4,7 +4,7 @@ import PageFilters from "../components/PageFilters";
 import axiosInstance from "../api/axios";
 import JobCard from "../components/JobCard";
 import LoadingStates from "../components/LoadingStates";
-import FeedbackState from "../components/FeedbackState";
+import FeedbackState from "../components/ui/FeedbackState";
 import Box from "@mui/material/Box";
 import PageWrapper from "../components/layouts/PageWrapper/PageWrapper";
 import { TextField, InputAdornment } from "@mui/material";

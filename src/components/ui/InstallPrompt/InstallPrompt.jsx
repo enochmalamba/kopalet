@@ -3,13 +3,11 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Button, Stack } from "@mui/material";
 import { getDevicePlatform } from "../../../utils/platform";
 import IosInstallGuide from "./IosInstallGuide";
-import InstallArrowOverlay from "./InstallArrowOverlay";
 
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [visible, setVisible] = useState(false);
   const [showIosGuide, setShowIosGuide] = useState(false);
-  const [showArrow, setShowArrow] = useState(false);
   const { isIOS, isStandalone } = getDevicePlatform();
 
   useEffect(() => {
@@ -37,10 +35,8 @@ export default function InstallPrompt() {
     }
     if (!deferredPrompt) return;
 
-    setShowArrow(true);
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
-    setShowArrow(false);
     setDeferredPrompt(null);
     setVisible(false);
   };
@@ -63,7 +59,7 @@ export default function InstallPrompt() {
           maxWidth: 420,
           mx: "auto",
           zIndex: 1300,
-          borderRadius: "var(--raius-lg)",
+          borderRadius: "var(--radius-lg)",
           boxShadow: 6,
           p: "var(--space-sm)",
         }}
@@ -95,9 +91,6 @@ export default function InstallPrompt() {
         </CardContent>
       </Card>
 
-      {showArrow && (
-        <InstallArrowOverlay onDismiss={() => setShowArrow(false)} />
-      )}
       <IosInstallGuide
         open={showIosGuide}
         onClose={() => {

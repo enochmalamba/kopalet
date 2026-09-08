@@ -1,27 +1,23 @@
-import { Save } from "@mui/icons-material";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Divider,
-} from "@mui/material";
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import "./LeftPanel.css";
-const createPostOptions = [
-  { label: "Sell an item", link: "/create#market-item" },
-  { label: "Post a job", link: "/create#vacancy" },
-  { label: "Share thoughts & tips       ", link: "/create#post" },
-];
+import Divider from "@mui/material/Divider";
+import Box from "@mui/material/Box";
+import { useSession } from "../../../context/sessionContext";
+import { useTheme } from "../../../context/themeContext";
 
-export const shortcutLinks = [
-  { label: "Saved items", link: "/saved", icon: "bookmarks-outline" },
-  { label: "Resources", link: "/resources", icon: "folder-open-outline" },
-  { label: "Communities", link: "/communities", icon: "people-outline" },
-];
+import "./LeftPanel.css";
+import AddMoreCard from "./AddMoreCard";
+import JoinKopaletCard from "./JoinKopaletCard";
+import IconMenuList from "../IconMenuList";
+import { authedMenuItems, unAuthedMenuItems } from "../sideMenuItems";
+
 function LeftPanel() {
+  const { isAuthenticated } = useSession();
+
+  const { theme, setTheme } = useTheme();
+  const handleThemeToggle = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+  const menuItems = isAuthenticated ? authedMenuItems : unAuthedMenuItems;
+
   return (
     <Box
       component={"aside"}
@@ -42,100 +38,25 @@ function LeftPanel() {
         top: "var(--header-height)",
         height: "calc(100vh - var(--header-height))",
         overflowY: "auto",
+        //thin scroll
+        "&::-webkit-scrollbar": {
+          width: "4px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "var(--surface-alt)",
+          borderRadius: "4px",
+        },
       }}
     >
-      <Box
-        className="add-something-new-wrapper"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "var(--space-md)",
-          alignItems: "center",
-          justifyContent: "center",
+      {isAuthenticated ? <AddMoreCard /> : <JoinKopaletCard />}
 
-          padding: "var(--space-sm)",
-          borderRadius: "var(--radius-lg)",
-          border: "1px solid var(--border)",
-        }}
-      >
-        <Typography variant="h6" component="h2">
-          Add something new
-        </Typography>
-        {createPostOptions.map((option, index) => (
-          <Link
-            to={option.link}
-            key={index}
-            style={{ display: "block", width: "100%" }}
-          >
-            {" "}
-            <Button
-              variant="outlined"
-              key={index}
-              sx={{
-                borderRadius: "var(--radius-full)",
-                borderBottom: "3px solid var(--text)",
-                borderRight: "3px solid var(--text)",
-                transition: "all 0.3s ease",
-                ":hover": {
-                  background: "var(--text)",
-                  color: "var(--bg)",
-                  borderColor: "var(--bg)",
-                  opacity: 1,
-                },
-              }}
-              fullWidth
-            >
-              {option.label}
-            </Button>{" "}
-          </Link>
-        ))}
-      </Box>
       <Divider />
-      <Box
-        component={"nav"}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "var(--space-sm)",
-        }}
-      >
-        <Typography fontWeight={"bold"}>Shortcuts</Typography>
-        <ul
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-md)",
-          }}
-        >
-          {shortcutLinks.map((s) => (
-            <Link to={s.link} className="left-panel-shortcut-link" key={s.link}>
-              <ion-icon name={s.icon} style={{ fontSize: "25px" }} />
-              <Typography
-                sx={{
-                  fontWeight: "inherit",
-                }}
-              >
-                {s.label}
-              </Typography>
-            </Link>
-          ))}
-          <Divider sx={{ mt: "var(--space-md)" }} />
-        </ul>
-        <ul key="feedback-link">
-          <Link to={"/feeback"} className="left-panel-shortcut-link">
-            <ion-icon name="chatbox-ellipses-outline" />
 
-            <Typography
-              sx={{
-                fontWeight: "inherit",
-              }}
-            >
-              {" "}
-              Feedback
-            </Typography>
-          </Link>
-        </ul>
-      </Box>
+      <IconMenuList
+        items={menuItems}
+        theme={theme}
+        onThemeToggle={handleThemeToggle}
+      />
     </Box>
   );
 }

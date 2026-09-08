@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import MarketListItem from "../components/MarketListItem";
 import SEO from "../components/SEO";
-import FeedbackState from "../components/FeedbackState";
+import FeedbackState from "../components/ui/FeedbackState";
 
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";

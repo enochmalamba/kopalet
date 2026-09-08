@@ -16,6 +16,7 @@ import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 function JobCard({ job }) {
   const navigate = useNavigate();
   const { share } = useShare();
+  const { author, listing: vacancy, id: jobId, employer } = job;
   const handleNavigate = (id) => navigate(`/job/${id}`);
 
   const handleShare = (e) => {
@@ -23,10 +24,10 @@ function JobCard({ job }) {
     share({
       title: vacancy.title,
       text: `${vacancy.title} at ${employer.name}`,
-      url: `https://kopalet.com/job/${job.id}`,
+      url: `https://kopalet.com/job/${jobId}`,
     });
   };
-  const { author, listing: vacancy, id: jobId, employer } = job;
+
   return (
     <Box
       sx={{
@@ -100,6 +101,7 @@ function JobCard({ job }) {
       <Box
         sx={{
           display: "flex",
+          flexWrap: "wrap",
           gap: "var(--space-2xs)",
           alignItems: "center",
         }}
@@ -108,11 +110,13 @@ function JobCard({ job }) {
           icon={<UpdateOutlinedIcon />}
           label={vacancy.job_type}
           variant="outlined"
+          sx={{ textTransform: "capitalize" }}
         />
         <Chip
           icon={<HomeWorkOutlinedIcon />}
           label={vacancy.work_mode}
           variant="outlined"
+          sx={{ textTransform: "capitalize" }}
         />
         <Chip
           icon={<FmdGoodOutlinedIcon />}
@@ -138,7 +142,7 @@ function JobCard({ job }) {
           <IconButton variant="secondary" size="small" onClick={handleShare}>
             <Share />
           </IconButton>
-          <Button variant="outlined" onClick={() => handleNavigate(job.id)}>
+          <Button variant="outlined" onClick={() => handleNavigate(jobId)}>
             Details
           </Button>
         </Box>

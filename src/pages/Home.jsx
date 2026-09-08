@@ -8,7 +8,7 @@ import MarketplaceBanner from "../components/MarketplaceBanner";
 import AdBanner from "../components/AdBanner";
 import SEO from "../components/SEO";
 import Button from "@mui/material/Button";
-import FeedbackState from "../components/FeedbackState";
+import FeedbackState from "../components/ui/FeedbackState";
 
 import PageWrapper from "../components/layouts/PageWrapper/PageWrapper";
 import { Box } from "@mui/material";

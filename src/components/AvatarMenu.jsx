@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/themeContext";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
-import Switch from "@mui/material/Switch";
+
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -14,72 +14,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
-
-const ICON_STYLE = { fontSize: "25px" };
-
-const authedMenuItems = [
-  {
-    label: "My Posts/Listings",
-    icon: "briefcase-outline",
-    to: "/my-listings",
-  },
-  {
-    label: "Saved items",
-    icon: "bookmark-outline",
-    to: "/saved",
-  },
-  "divider",
-  {
-    label: "Settings",
-    icon: "settings-outline",
-    to: "/settings",
-  },
-  "divider",
-  {
-    label: "Help & Support",
-    icon: "help-circle-outline",
-    to: "/help",
-  },
-  {
-    label: "Report a problem",
-    icon: "alert-circle-outline",
-    to: "/report-a-problem",
-  },
-  "divider",
-  "theme_switcher",
-  "divider",
-  {
-    label: "Logout",
-    icon: "log-out-outline",
-    action: "logout",
-  },
-];
-
-const unAuthedMenuItems = [
-  {
-    label: "Browse Jobs",
-    icon: "briefcase-outline",
-    to: "/jobs",
-  },
-  {
-    label: "Browse Marketplace",
-    icon: "storefront-outline",
-    to: "/marketplace",
-  },
-  "divider",
-  {
-    label: "Help & Support",
-    icon: "help-circle-outline",
-    to: "/help",
-  },
-  {
-    label: "Report a problem",
-    icon: "alert-circle-outline",
-    to: "/report-a-problem",
-  },
-  "divider",
-  "theme_switcher",
-];
+import IconMenuList from "./layouts/IconMenuList";
 
 function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
   const [logOutModalOpen, setLogOutModalOpen] = useState(false);
@@ -109,6 +44,70 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
     handleMenuClose();
     navigate(path);
   };
+  const authedMenuItems = [
+    {
+      label: "My Posts/Listings",
+      icon: "briefcase-outline",
+      to: "/my-listings",
+    },
+    {
+      label: "Saved items",
+      icon: "bookmark-outline",
+      to: "/saved",
+    },
+    "divider",
+    {
+      label: "Settings",
+      icon: "settings-outline",
+      to: "/settings",
+    },
+    "divider",
+    {
+      label: "Help & Support",
+      icon: "help-circle-outline",
+      to: "/help",
+    },
+    {
+      label: "Report a problem",
+      icon: "alert-circle-outline",
+      to: "/report-a-problem",
+    },
+    "divider",
+    "theme_switcher",
+    "divider",
+    {
+      label: "Logout",
+      icon: "log-out-outline",
+      action: "logout",
+      onClick: handleLogOutModalOpen,
+    },
+  ];
+
+  const unAuthedMenuItems = [
+    {
+      label: "Browse Jobs",
+      icon: "briefcase-outline",
+      to: "/jobs",
+    },
+    {
+      label: "Browse Marketplace",
+      icon: "storefront-outline",
+      to: "/marketplace",
+    },
+    "divider",
+    {
+      label: "Help & Support",
+      icon: "help-circle-outline",
+      to: "/help",
+    },
+    {
+      label: "Report a problem",
+      icon: "alert-circle-outline",
+      to: "/report-a-problem",
+    },
+    "divider",
+    "theme_switcher",
+  ];
 
   const menuItems = isAuthenticated ? authedMenuItems : unAuthedMenuItems;
 
@@ -220,98 +219,25 @@ function AvatarMenu({ anchorMenu, menuOpen, setAnchorMenu }) {
           </>
         )}
 
-        <ul>
-          {menuItems.map((item, index) => {
-            if (item === "divider") {
-              return <Divider key={`divider-${index}`} />;
-            }
-
-            if (item === "theme_switcher") {
-              return (
-                <li key="theme_switcher">
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "var(--space-sm)",
-                      padding: "var(--space-sm) var(--space-sm)",
-                      minWidth: 0,
-                    }}
-                  >
-                    <ion-icon
-                      name={theme === "dark" ? "moon" : "moon-outline"}
-                      style={ICON_STYLE}
-                    />
-                    <Typography sx={{ flex: 1 }}>
-                      Dark Mode: {theme === "dark" ? "On" : "Off"}
-                    </Typography>
-                    <Switch
-                      size="small"
-                      checked={theme === "dark"}
-                      onChange={handleThemeToggle}
-                      inputProps={{ "aria-label": "Toggle dark mode" }}
-                    />
-                  </Box>
-                </li>
-              );
-            }
-
-            if (item.action === "logout") {
-              return (
-                <li key={`item-${index}`}>
-                  <Box
-                    onClick={handleLogOutModalOpen}
-                    sx={{
-                      display: "flex",
-                      gap: "var(--space-sm)",
-                      padding: "var(--space-sm) var(--space-sm)",
-                      minWidth: 0,
-                      cursor: "pointer",
-                      color: "var(--color-danger, #CE1126)",
-                    }}
-                  >
-                    <ion-icon name={item.icon} style={ICON_STYLE} />
-                    <Typography sx={{ color: "inherit" }}>
-                      {item.label}
-                    </Typography>
-                  </Box>
-                </li>
-              );
-            }
-
-            return (
-              <li key={`item-${index}`}>
-                <Link to={item.to} onClick={handleMenuClose}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: "var(--space-sm)",
-                      padding: "var(--space-sm) var(--space-sm)",
-                      minWidth: 0,
-                    }}
-                  >
-                    <ion-icon name={item.icon} style={ICON_STYLE} />
-                    <Typography>{item.label}</Typography>
-                  </Box>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <IconMenuList
+          items={menuItems}
+          theme={theme}
+          onThemeToggle={handleThemeToggle}
+        />
       </Menu>
 
       {/* logout confirmation modal */}
       <Dialog
         open={logOutModalOpen}
         onClose={handleLogOutModalClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="logout-confirmation-dialog"
+        aria-describedby="logout-confirmation-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="logout-confirmation-dialog">
           {"Logout of your account?"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="logout-confirmation-dialog-description">
             You can always log back in at any time
           </DialogContentText>
         </DialogContent>

@@ -5,7 +5,7 @@ import "./AppHeader.css";
 import { NavLink, Link } from "react-router-dom";
 import IconButton from "../../ui/IconButton/IconButton";
 import AvatarMenu from "../../AvatarMenu";
-import { shortcutLinks } from "../LeftPanel/LeftPanel";
+import MobileDrawer from "./MobileDrawer";
 const navLinks = [
   {
     label: "Home",
@@ -38,75 +38,6 @@ const actionButtons = [
   },
 ];
 
-const MobileDrawer = ({ drawerOpen, toggleDrawer }) => {
-  return (
-    <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-      <Box
-        sx={{
-          width: 280,
-          padding: "var(--space-lg)",
-        }}
-        role="presentation"
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-xs)",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-            }}
-          >
-            <Link to="/">
-              <Box className="logo">Kopalet</Box>
-            </Link>
-            {/* close button */}
-            <Box
-              component="button"
-              sx={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                fontSize: "8px",
-                alignItems: "center",
-                background: "none",
-                border: "none",
-                outline: "none",
-                mb: "var(--space-lg)",
-              }}
-              onClick={toggleDrawer(false)}
-            >
-              <ion-icon name="close-outline" style={{ fontSize: "30px" }} />
-              Close
-            </Box>
-          </Box>
-
-          {shortcutLinks.map((s) => (
-            <Link
-              key={s.link}
-              to={s.link}
-              className="left-panel-shortcut-link"
-              onClick={toggleDrawer(false)}
-            >
-              <ion-icon
-                name={s.icon}
-                style={{ fontSize: "25px", color: "var(--text)" }}
-              />
-              <Typography color="var(--text)">{s.label}</Typography>
-            </Link>
-          ))}
-        </Box>
-      </Box>
-    </Drawer>
-  );
-};
-
 function AppHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(null);
@@ -124,7 +55,11 @@ function AppHeader() {
 
   return (
     <header className="app_header">
-      <MobileDrawer drawerOpen={drawerOpen} toggleDrawer={toggleDrawer} />
+      <MobileDrawer
+        drawerOpen={drawerOpen}
+        toggleDrawer={toggleDrawer}
+        isAuthenticated={isAuthenticated}
+      />
 
       <Box
         sx={{
@@ -168,9 +103,9 @@ function AppHeader() {
             Menu
           </Box>
 
-          <Link to="/">
-            <Box className="logo">Kopalet</Box>
-          </Link>
+          <Box className="logo" component={Link} to={"/"}>
+            Kopalet
+          </Box>
         </Box>
 
         {/* Desktop navigation */}
@@ -216,16 +151,25 @@ function AppHeader() {
               gap: "var(--space-sm)",
             }}
           >
-            <Link to="/login">
-              <Button size="small" variant="outlined">
-                Log in
-              </Button>
-            </Link>
-            <Link to={"/signup"}>
-              <Button size="small" variant="contained">
-                Create account
-              </Button>
-            </Link>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ display: { xs: "none", sm: "flex" } }}
+              component={Link}
+              to="/login"
+            >
+              Log in
+            </Button>
+
+            <Button
+              size="small"
+              variant="contained"
+              component={Link}
+              to="/signup"
+            >
+              {" "}
+              Create account{" "}
+            </Button>
           </Box>
         ) : (
           <Box
