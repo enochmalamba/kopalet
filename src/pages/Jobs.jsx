@@ -8,6 +8,7 @@ import FeedbackState from "../components/ui/FeedbackState";
 import Box from "@mui/material/Box";
 import PageWrapper from "../components/layouts/PageWrapper/PageWrapper";
 import { TextField, InputAdornment } from "@mui/material";
+import IonIcon from "@reacticons/ionicons";
 
 function Jobs() {
   const [feed, setFeed] = useState([]);
@@ -104,7 +105,7 @@ function Jobs() {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <ion-icon
+              <IonIcon
                 name="search-outline"
                 style={{ fontSize: "20px", color: "var(--text-secondary)" }}
               />

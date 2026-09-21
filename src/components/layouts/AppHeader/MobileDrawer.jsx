@@ -1,13 +1,19 @@
 import { useSession } from "../../../context/sessionContext";
 import { useTheme } from "../../../context/themeContext";
-import { Drawer, Box, Typography } from "@mui/material";
+import { Drawer, Box, Typography, Button } from "@mui/material";
+import IonIcon from "@reacticons/ionicons";
 import { Link } from "react-router-dom";
 import { authedMenuItems, unAuthedMenuItems } from "../sideMenuItems";
 import IconMenuList from "../IconMenuList";
-const MobileDrawer = ({ drawerOpen, toggleDrawer, isAuthenticated }) => {
 
-    const {isAuthenticated} = useSession()
-    const menuItems  = isAuthenticated ? authedMenuItems : unAuthedMenuItems
+const MobileDrawer = ({ drawerOpen, toggleDrawer }) => {
+  const { isAuthenticated } = useSession();
+  const { theme, setTheme } = useTheme();
+
+  const handleThemeToggle = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+  const menuItems = isAuthenticated ? authedMenuItems : unAuthedMenuItems;
   return (
     <Drawer
       anchor="left"
@@ -19,6 +25,8 @@ const MobileDrawer = ({ drawerOpen, toggleDrawer, isAuthenticated }) => {
         sx={{
           width: 280,
           padding: "var(--space-lg)",
+          height: "100%",
+          boxSizing: "border-box",
         }}
         role="presentation"
       >
@@ -27,6 +35,7 @@ const MobileDrawer = ({ drawerOpen, toggleDrawer, isAuthenticated }) => {
             display: "flex",
             flexDirection: "column",
             gap: "var(--space-xs)",
+            height: "100%",
           }}
         >
           <Box
@@ -37,30 +46,54 @@ const MobileDrawer = ({ drawerOpen, toggleDrawer, isAuthenticated }) => {
               cursor: "pointer",
             }}
           >
-            <Link to="/">
-              <Box className="logo">Kopalet</Box>
-            </Link>
+            <Box className="logo">Kopalet</Box>
+
             {/* close button */}
             <Box
               component="button"
               sx={{
-                height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                fontSize: "8px",
                 alignItems: "center",
                 background: "none",
                 border: "none",
                 outline: "none",
-                mb: "var(--space-lg)",
+                cursor: "pointer",
               }}
               onClick={toggleDrawer(false)}
             >
-              <ion-icon name="close-outline" style={{ fontSize: "30px" }} />
-              Close
+              <IonIcon name="close-outline" size="large" />
+              <span style={{ fontSize: "8px" }}>Close</span>
             </Box>
           </Box>
-         <IconMenuList items={menuItems} 
+          <IconMenuList
+            items={menuItems}
+            theme={theme}
+            onThemeToggle={handleThemeToggle}
+          />
+
+          {!isAuthenticated && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-md)",
+                marginTop: "auto",
+              }}
+            >
+              <Button
+                fullWidth
+                variant="contained"
+                component={Link}
+                to="/signup"
+              >
+                Create account
+              </Button>
+              <Button fullWidth variant="outlined" component={Link} to="/login">
+                Log in
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
     </Drawer>

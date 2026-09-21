@@ -1,53 +1,121 @@
-import ProfileHeader from "./ProfileHeader";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Typography } from "@mui/material";
 import PageWrapper from "../../components/layouts/PageWrapper/PageWrapper";
-import { Tab, Tabs, Typography, Box } from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import LoadingStates from "../../components/LoadingStates";
+import FeedbackState from "../../components/ui/FeedbackState";
+import axiosInstance from "../../api/axios";
+import { useSession } from "../../context/sessionContext";
+import ProfileHeader from "./ProfileHeader";
 
-const user = {
-  name: "Xenon Malamba",
-  username: "xml",
-  bio: "Yo its yo boy XML, the one and only. I am a software engineer and a tech enthusiast. I love to code and build things that make a difference in people's lives. I am also a gamer and a music lover. Follow me for more updates on my projects and adventures.",
-  avatar_url:
-    "https://i.pinimg.com/736x/6f/8f/fb/6f8ffb3bc39e9ccc2c50cc55d61db0d3.jpg",
-  followers: 8947934,
-  listings_count: 48590,
-};
+const getDisplayName = (u) =>
+  [u.first_name, u.last_name].filter(Boolean).join(" ") || u.username;
+
 function Profile() {
-  return (
-    <>
+  const { userId } = useParams();
+  const { user: authUser } = useSession();
+
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // { status }
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        setProfile(null);
+
+        const { data } = await axiosInstance.get(`/v1/users/${userId}`, {
+          signal: controller.signal,
+        });
+
+        if (controller.signal.aborted) return;
+        setProfile(data.data);
+      } catch (err) {
+        if (controller.signal.aborted || err.code === "ERR_CANCELED") return;
+        console.error(err);
+        setError({ status: err.response?.status ?? 0 });
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    };
+
+    fetchProfile();
+    return () => controller.abort();
+  }, [userId, reloadKey]);
+
+  if (error) {
+    const { status } = error;
+    return (
       <PageWrapper>
-        <ProfileHeader
-          display_name={user.name}
-          bio={user.bio}
-          avatar_url={user.avatar_url}
-          followers={user.followers}
-          listings_count={user.listings_count}
-          isFollowing={false}
-          isOwnProfile={false}
-          username={user.username}
-        />
-        <Typography
-          variant="body1"
-          component={"h6"}
-          sx={{
-            padding: "var(--space-md)",
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
-          Posts & Listings by {user.name}
-        </Typography>
-        <Box p={2}>
-          <LoadingStates component="post" />
-          <LoadingStates component="post" />
-          <LoadingStates component="post" />
-        </Box>
+        {status === 404 ? (
+          <FeedbackState
+            icon="planet-outline"
+            code={404}
+            title="Profile not found"
+            description="This user doesn't exist or has been removed."
+            fullPage
+          />
+        ) : status === 403 ? (
+          <FeedbackState
+            icon="lock-closed-outline"
+            title="This profile is private"
+            fullPage
+          />
+        ) : (
+          <FeedbackState
+            icon="cloud-offline-outline"
+            title="Couldn't load this profile"
+            description="Check your connection and try again."
+            primaryAction={{
+              label: "Retry",
+              onClick: () => setReloadKey((k) => k + 1),
+            }}
+            fullPage
+          />
+        )}
       </PageWrapper>
-    </>
+    );
+  }
+
+  const displayName = profile ? getDisplayName(profile) : "";
+  const isOwnProfile = !!profile && authUser?.id === profile.id;
+
+  return (
+    <PageWrapper>
+      <ProfileHeader
+        isLoading={loading}
+        display_name={displayName}
+        username={profile?.username}
+        bio={profile?.bio}
+        avatar_url={profile?.avatar_url}
+        followers={profile?.followers_count}
+        listings_count={profile?.listings_count}
+        isOwnProfile={isOwnProfile}
+        isFollowing={false}
+      />
+
+      {!loading && profile && (
+        <>
+          <Typography
+            variant="body1"
+            component="h6"
+            sx={{ p: "var(--space-md)" }}
+          >
+            Posts & Listings by {displayName}
+          </Typography>
+
+          <FeedbackState
+            icon="construct-outline"
+            title="Posts and listings are unavailable"
+            description="This service is currently unavailable. Please check back later."
+          />
+        </>
+      )}
+    </PageWrapper>
   );
 }
 

@@ -1,5 +1,6 @@
 import { Box, Typography, Divider, Switch } from "@mui/material";
 import { Link } from "react-router-dom";
+import IonIcon from "@reacticons/ionicons";
 
 const ICON_STYLE = { fontSize: "25px" };
 
@@ -38,7 +39,7 @@ function IconMenuList({ items, theme, onThemeToggle }) {
                   minWidth: 0,
                 }}
               >
-                <ion-icon
+                <IonIcon
                   name={theme === "dark" ? "moon" : "moon-outline"}
                   style={ICON_STYLE}
                 />
@@ -71,7 +72,7 @@ function IconMenuList({ items, theme, onThemeToggle }) {
                   minWidth: 0,
                 }}
               >
-                <ion-icon name={item.icon} style={ICON_STYLE} />
+                <IonIcon name={item.icon} style={ICON_STYLE} />
                 <Typography>{item.label}</Typography>
               </Box>
             </Link>

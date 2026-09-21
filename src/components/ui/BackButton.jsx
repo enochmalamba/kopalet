@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import IonIcon from "@reacticons/ionicons";
 
 function BackButton({ fallback = "/" }) {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function BackButton({ fallback = "/" }) {
         gap: "var(--space-xs)",
       }}
     >
-      <ion-icon name="arrow-back" style={{ fontSize: "20px" }} />
+      <IonIcon name="arrow-back" style={{ fontSize: "20px" }} />
       {hasHistory ? "Back" : "Go to home"}
     </Button>
   );

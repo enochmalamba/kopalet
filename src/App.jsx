@@ -25,6 +25,7 @@ import Profile from "./pages/profile/Profile.jsx";
 import AccountSettings from "./pages/settings/AccountSettings.jsx";
 import SecuritySettings from "./pages/settings/SecuritySettings.jsx";
 import NotificationSettings from "./pages/settings/NotificationSettings.jsx";
+import ProfileRedirect from "./pages/profile/ProfileRedirect.jsx";
 import PrivacySettings from "./pages/settings/PrivacySettings.jsx";
 
 import "./App.css";
@@ -57,7 +58,8 @@ function App() {
           <Route path="job/:id" element={<VacancyView />} />
           <Route path="marketplace/:id" element={<ProductView />} />
           {/* profile : saved, profile edit, listings*/}
-          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/profile" element={<ProfileRedirect />} />
+          <Route path="/profile/:userId" element={<Profile />} />
         </Route>
 
         {/* narrow layout for pages that need the full width even on desktop */}

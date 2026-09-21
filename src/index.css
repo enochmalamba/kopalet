@@ -155,6 +155,12 @@ main {
   font-weight: 900;
   user-select: none;
 }
+
+@media (max-width: 740px) {
+  .logo {
+    font-size: var(--fs-xl);
+  }
+}
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -212,9 +218,3 @@ main {
 .app-toast-info {
   border-color: var(--info);
 } */
-
-/* for the /components/BottomNav  */
-
-.bottom_nav ion-icon {
-  font-size: 22px;
-}

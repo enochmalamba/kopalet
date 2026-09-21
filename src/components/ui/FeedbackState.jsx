@@ -1,5 +1,6 @@
 // components/FeedbackState.jsx
 import { Box, Typography, Button, Stack } from "@mui/material";
+import IonIcon from "@reacticons/ionicons";
 
 /**
  * Reusable empty/error/feedback state.
@@ -39,19 +40,7 @@ export default function FeedbackState({
         ...sx,
       }}
     >
-      {code ? (
-        <Typography
-          sx={{
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: "0.08em",
-            color: "text.secondary",
-            mb: 1,
-          }}
-        >
-          {code}
-        </Typography>
-      ) : icon ? (
+      {icon && (
         <Box
           sx={{
             width: 58,
@@ -68,10 +57,22 @@ export default function FeedbackState({
             },
           }}
         >
-          <ion-icon name={icon}></ion-icon>
+          <IonIcon size="large" name={icon}></IonIcon>
         </Box>
-      ) : null}
-
+      )}
+      {code && (
+        <Typography
+          sx={{
+            fontSize: 13,
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            color: "text.secondary",
+            mb: 1,
+          }}
+        >
+          {code}
+        </Typography>
+      )}
       <Typography
         component="h2"
         sx={{
@@ -84,7 +85,6 @@ export default function FeedbackState({
       >
         {title}
       </Typography>
-
       {description && (
         <Typography
           sx={{
@@ -98,7 +98,6 @@ export default function FeedbackState({
           {description}
         </Typography>
       )}
-
       {(primaryAction || secondaryAction) && (
         <Stack
           direction="row"

@@ -1,5 +1,5 @@
 import { Box, Avatar, Typography, Divider } from "@mui/material";
-
+import IonIcon from "@reacticons/ionicons";
 function CreatePostPrompt({ user, onOpenComposer }) {
   const openComposer = (initialTab = "text") => {
     onOpenComposer?.(initialTab);
@@ -81,7 +81,7 @@ function CreatePostPrompt({ user, onOpenComposer }) {
             "&:hover": { backgroundColor: "var(--bg-hover, rgba(0,0,0,0.04))" },
           }}
         >
-          <ion-icon
+          <IonIcon
             name="images-outline"
             style={{ fontSize: "20px" }}
             color="var(--text-secondary)"
@@ -114,7 +114,7 @@ function CreatePostPrompt({ user, onOpenComposer }) {
             "&:hover": { backgroundColor: "var(--bg-hover, rgba(0,0,0,0.04))" },
           }}
         >
-          <ion-icon
+          <IonIcon
             name="document-text-outline"
             style={{ fontSize: "20px" }}
             color="var(--text-secondary)"

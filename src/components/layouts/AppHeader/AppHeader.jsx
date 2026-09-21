@@ -2,10 +2,11 @@ import { useSession } from "../../../context/sessionContext";
 import { Avatar, Box, Button, Drawer, Typography } from "@mui/material";
 import { useState } from "react";
 import "./AppHeader.css";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import IconButton from "../../ui/IconButton/IconButton";
 import AvatarMenu from "../../AvatarMenu";
 import MobileDrawer from "./MobileDrawer";
+import IonIcon from "@reacticons/ionicons";
 const navLinks = [
   {
     label: "Home",
@@ -27,21 +28,14 @@ const navLinks = [
   },
 ];
 
-const actionButtons = [
-  {
-    icon: "search-outline",
-    onClick: () => console.log("Search clicked"),
-  },
-  {
-    icon: "mail-outline",
-    onClick: () => console.log("Messages clicked"),
-  },
-];
-
 function AppHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(null);
   const { isAuthenticated, user } = useSession();
+
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => navigate(path);
 
   const menuOpen = Boolean(anchorMenu);
 
@@ -53,6 +47,16 @@ function AppHeader() {
     setAnchorMenu(e.currentTarget);
   };
 
+  const actionButtons = [
+    {
+      icon: "search-outline",
+      onClick: () => console.log("Search clicked"),
+    },
+    {
+      icon: "mail-outline",
+      onClick: () => handleNavigate("mailbox"),
+    },
+  ];
   return (
     <header className="app_header">
       <MobileDrawer
@@ -99,7 +103,7 @@ function AppHeader() {
             }}
             onClick={toggleDrawer(true)}
           >
-            <ion-icon name="menu-outline" style={{ fontSize: "30px" }} />
+            <IonIcon name="menu-outline" style={{ fontSize: "30px" }} />
             Menu
           </Box>
 
@@ -199,7 +203,10 @@ function AppHeader() {
                 display: { xs: "flex", sm: "flex", md: "none", lg: "none" },
               }}
             >
-              <IconButton icon="mail-outline" />
+              <IconButton
+                icon="mail-outline"
+                onClick={() => handleNavigate("mailbox")}
+              />
             </Box>
 
             <div className="header-avatar">

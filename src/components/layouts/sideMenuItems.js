@@ -13,6 +13,11 @@ export const authedMenuItems = [
     icon: "help-circle-outline",
     to: "/help",
   },
+  {
+    label: "Report a problem",
+    icon: "alert-circle-outline",
+    to: "/report-a-problem",
+  },
   "divider",
 ];
 
@@ -35,3 +40,5 @@ export const unAuthedMenuItems = [
   "divider",
   "theme_switcher",
 ];
+
+export const footerItems = [];

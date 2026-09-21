@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Typography,
-  Stack,
   Button,
   IconButton,
   Tooltip,
@@ -10,11 +9,67 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
-  Chip,
+  Skeleton,
 } from "@mui/material";
+import IonIcon from "@reacticons/ionicons";
 import { useState } from "react";
 import { formatCount } from "../../utils/format";
 
+const headerWrapperSx = {
+  width: "100%",
+  overflowX: "hidden",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 2,
+  p: 2,
+  borderBottom: "1px solid",
+  borderColor: "divider",
+};
+
+function ProfileHeaderSkeleton() {
+  return (
+    <Box sx={headerWrapperSx}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+          width: "100%",
+        }}
+      >
+        <Skeleton
+          variant="circular"
+          sx={{ width: { xs: 72, sm: 96 }, height: { xs: 72, sm: 96 } }}
+        />
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 0.75,
+          }}
+        >
+          <Skeleton width={160} height={28} />
+          <Skeleton width="70%" height={16} />
+          <Skeleton width="55%" height={16} />
+          <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
+            <Skeleton variant="rounded" width={72} height={40} />
+            <Skeleton variant="rounded" width={72} height={40} />
+          </Box>
+        </Box>
+      </Box>
+      <Box sx={{ display: "flex", gap: 1 }}>
+        <Skeleton variant="rounded" width={88} height={30} />
+        <Skeleton variant="rounded" width={110} height={30} />
+        <Skeleton variant="circular" width={40} height={40} />
+        <Skeleton variant="circular" width={40} height={40} />
+      </Box>
+    </Box>
+  );
+}
 function ProfileHeader({
   display_name,
   username,
@@ -30,6 +85,7 @@ function ProfileHeader({
   onShareClick,
   onReportClick,
   onBlockClick,
+  isLoading,
 }) {
   const [menuAnchor, setMenuAnchor] = useState(null);
   const menuOpen = Boolean(menuAnchor);
@@ -41,6 +97,7 @@ function ProfileHeader({
     borderRadius: "var(--radius-lg)",
     textTransform: "capitalize",
   };
+  if (isLoading) return <ProfileHeaderSkeleton />;
   return (
     <Box
       sx={{
@@ -96,12 +153,16 @@ function ProfileHeader({
               flexWrap: "wrap",
             }}
           >
-            <Typography variant="body2" sx={chipStyles}>
-              <strong>{formatCount(followers) ?? 0}</strong> followers
-            </Typography>
-            <Typography variant="body2" sx={chipStyles}>
-              <strong>{formatCount(listings_count) ?? 0}</strong> listings
-            </Typography>
+            {followers !== undefined && (
+              <Typography variant="body2" sx={chipStyles}>
+                <strong>{formatCount(followers)}</strong> followers
+              </Typography>
+            )}
+            {listings_count !== undefined && (
+              <Typography variant="body2" sx={chipStyles}>
+                <strong>{formatCount(listings_count)}</strong> listings
+              </Typography>
+            )}
           </Box>
         </Box>
       </Box>
@@ -117,7 +178,7 @@ function ProfileHeader({
         {isOwnProfile ? (
           <Tooltip title="Edit profile">
             <IconButton onClick={onEditClick} vari aria-label="edit profile">
-              <ion-icon name="pencil-outline" style={{ fontSize: "20px" }} />
+              <IonIcon name="pencil-outline" style={{ fontSize: "20px" }} />
             </IconButton>
           </Tooltip>
         ) : (
@@ -136,7 +197,7 @@ function ProfileHeader({
               size="small"
               sx={{ display: "flex", alignItems: "center", gap: "6px" }}
             >
-              <ion-icon name="mail-outline" style={{ fontSize: "18px" }} />
+              <IonIcon name="mail-outline" style={{ fontSize: "18px" }} />
               Send Mail
             </Button>
           </>
@@ -144,10 +205,10 @@ function ProfileHeader({
 
         <Tooltip title="Share">
           <IconButton onClick={onShareClick} aria-label="share profile">
-            <ion-icon
-              name="share-outline"
+            <IonIcon
+              name="share-social-outline"
               style={{ fontSize: "24px" }}
-            ></ion-icon>
+            ></IonIcon>
           </IconButton>
         </Tooltip>
 
@@ -157,7 +218,7 @@ function ProfileHeader({
           aria-controls={menuOpen ? "profile-more-menu" : undefined}
           aria-haspopup="true"
         >
-          <ion-icon name="ellipsis-horizontal" style={{ fontSize: "24px" }} />
+          <IonIcon name="ellipsis-horizontal" style={{ fontSize: "24px" }} />
         </IconButton>
 
         <Menu
@@ -175,7 +236,7 @@ function ProfileHeader({
               }}
             >
               <ListItemIcon>
-                <ion-icon name="flag-outline" style={{ fontSize: "18px" }} />
+                <IonIcon name="flag-outline" style={{ fontSize: "18px" }} />
               </ListItemIcon>
               <ListItemText>Report profile</ListItemText>
             </MenuItem>,
@@ -187,7 +248,7 @@ function ProfileHeader({
               }}
             >
               <ListItemIcon>
-                <ion-icon name="ban-outline" style={{ fontSize: "18px" }} />
+                <IonIcon name="ban-outline" style={{ fontSize: "18px" }} />
               </ListItemIcon>
               <ListItemText>Block user</ListItemText>
             </MenuItem>,
@@ -200,7 +261,7 @@ function ProfileHeader({
               }}
             >
               <ListItemIcon>
-                <ion-icon name="link-outline" style={{ fontSize: "18px" }} />
+                <IonIcon name="link-outline" style={{ fontSize: "18px" }} />
               </ListItemIcon>
               <ListItemText>Copy profile link</ListItemText>
             </MenuItem>

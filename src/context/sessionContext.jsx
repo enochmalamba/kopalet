@@ -142,7 +142,30 @@ const SessionProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkSession();
+    // checkSession();
+    setIsAuthenticated(true);
+    setUser({
+      id: 2,
+      username: "Bot",
+      email: "mvungi@kopalet.com",
+      phone_number: null,
+      email_verified: false,
+      phone_verified: false,
+      status: "active",
+      has_google: false,
+      first_name: null,
+      last_name: null,
+      date_of_birth: null,
+      headline: null,
+      bio: "Hello there, I have been a member of the Kopalet community since June 2026.",
+      location: null,
+      avatar_url:
+        "https://api.dicebear.com/9.x/initials/svg?seed=Bot&backgroundType=gradientLinear&backgroundColor=f4a261,e76f51&backgroundRotation=45",
+      cover_photo_url: null,
+      is_public: 1,
+      created_at: "2026-06-19T11:41:17.000000Z",
+    });
+    setIsInitialized(true);
   }, []);
 
   const contextValues = {

@@ -1,37 +1,26 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import NavMore from "./NavMore";
 import Paper from "@mui/material/Paper";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-
-// Outlined Icons
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import CasesOutlinedIcon from "@mui/icons-material/CasesOutlined";
-import StoreMallDirectoryOutlinedIcon from "@mui/icons-material/StoreMallDirectoryOutlined";
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-
-// Filled Icons
-import HomeIcon from "@mui/icons-material/Home";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import CasesIcon from "@mui/icons-material/Work";
-import StoreMallDirectoryIcon from "@mui/icons-material/StoreMallDirectory";
+import IonIcon from "@reacticons/ionicons";
 
 function BottomNav() {
   const [page, setPage] = useState("home");
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const [anchorMenu, setAnchorMenu] = useState(null);
-  const menuOpen = Boolean(anchorMenu);
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const currentPath = location.pathname.slice(1);
-  const handleMenuOpen = (event) => {
-    setAnchorMenu(event.currentTarget);
+  const iconStyles = (pathToCheck) => {
+    return {
+      background: currentPath === pathToCheck ? "var(--primary-bg) " : "none",
+      padding: "2px 8px",
+      borderRadius: "var(--radius-md)",
+    };
   };
+  const handleMenuOpen = (event) => {};
   const handleNavigation = (event, newPage) => {
     setIsMoreOpen(false);
     if (newPage === "more") {
@@ -44,11 +33,6 @@ function BottomNav() {
     navigate(`/${newPage}`);
   };
 
-  const handleMenuClose = () => {
-    setAnchorMenu(null);
-    setIsMoreOpen(false);
-  };
-
   return (
     <Paper
       sx={{
@@ -58,6 +42,7 @@ function BottomNav() {
           md: "none", // desktop
           lg: "none", // wide
         },
+
         position: "fixed",
         bottom: 0,
         left: 0,
@@ -74,7 +59,6 @@ function BottomNav() {
         }}
         sx={{
           borderTop: "1px solid var(--border)",
-          // height: "60px",
         }}
         className="bottom_nav" //styled in index.css
       >
@@ -82,9 +66,11 @@ function BottomNav() {
           label="Home"
           value="home"
           icon={
-            <ion-icon
-              name={currentPath === "home" ? "home" : "home-outline"}
-            ></ion-icon>
+            <IonIcon
+              style={iconStyles("home")}
+              size="large"
+              name="home-outline"
+            ></IonIcon>
           }
         />
 
@@ -92,41 +78,44 @@ function BottomNav() {
           label="Jobs"
           value="jobs"
           icon={
-            <ion-icon
-              name={currentPath === "jobs" ? "briefcase" : "briefcase-outline"}
-            ></ion-icon>
+            <IonIcon
+              style={iconStyles("jobs")}
+              size="large"
+              name="briefcase-outline"
+            ></IonIcon>
           }
         />
-
         <BottomNavigationAction
           label="Create"
           value="create"
           icon={
-            currentPath === "create" ? <AddBoxIcon /> : <AddBoxOutlinedIcon />
+            <IonIcon
+              style={iconStyles("create")}
+              size="large"
+              name="add-circle-outline"
+            ></IonIcon>
           }
         />
-
         <BottomNavigationAction
           label="Marketplace"
           value="marketplace"
           icon={
-            <ion-icon
-              name={
-                currentPath === "marketplace"
-                  ? "storefront"
-                  : "storefront-outline"
-              }
-            ></ion-icon>
+            <IonIcon
+              style={iconStyles("marketplace")}
+              size="large"
+              name="storefront-outline"
+            ></IonIcon>
           }
         />
-
         <BottomNavigationAction
           label="Search"
           value="search"
           icon={
-            <ion-icon
-              name={currentPath === "search" ? "search" : "search-outline"}
-            ></ion-icon>
+            <IonIcon
+              style={iconStyles("search")}
+              size="large"
+              name="search-outline"
+            ></IonIcon>
           }
         />
       </BottomNavigation>
